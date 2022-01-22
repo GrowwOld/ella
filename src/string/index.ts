@@ -14,6 +14,7 @@ export function isValidEmail(emailId:string) {
  * ```
  * toTitleCase('Enter investment amount'); // 'Enter Investment Amount'
  * toTitleCase('"Enter SIP amount"'); // 'Enter Sip Amount'
+ * toTitleCase('My NAME Is kHan'); // My Name Is Khan
  * ```
  *
  * @category String Based Method
