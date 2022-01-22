@@ -14,6 +14,10 @@
  * @category Date Based Method
  */
 export function getMonthAbbrByIndex(monthNumber:number):string {
+  if (monthNumber < 1 || monthNumber > 12) {
+    return '';
+  }
+
   const monthNames = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'

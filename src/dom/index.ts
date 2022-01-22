@@ -80,3 +80,20 @@ export function unlistenToCustomEvent(eventName:string, methodToUnlisten:Functio
     console.error(` Error in unListening to ${eventName} custom event: `, error);
   }
 }
+
+
+/**
+ * This method can be used to scroll your html page to top.
+ *
+ * @example
+ * ```
+ * scrollPageToTop();
+ * ```
+ *
+ * @category DOM Based Method
+ */
+export function scrollPageToTop() {
+  if (!isEmpty(window)) {
+    window.scrollTo(0, 0);
+  }
+}
