@@ -1,0 +1,16 @@
+# OSX
+.DS_Store
+
+# IDE
+.idea
+.vscode
+
+# npm
+node_modules
+package-lock.json
+npm-debug.log*
+
+# build
+dist
+.yalc
+yalc.lock
