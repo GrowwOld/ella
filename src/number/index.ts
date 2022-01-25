@@ -58,3 +58,114 @@ export function addingCommasToNumber(x: number | string):string {
     return res;
   }
 }
+
+
+/**
+ * This method can be used to validate 10 digit mobile number.
+ *
+ * @param {number | string} mobNumber - Mobile number that you want to validate
+ *
+ * @remarks
+ * It's strongly recommended to pass number only but method can also handle valid string.
+ *
+ * @example
+ * ```
+ * isValidMobileNumber(1234567890) // true
+ * isValidMobileNumber(-1234567890) // false
+ * isValidMobileNumber(123) // false
+ * isValidMobileNumber("123") // false
+ * isValidMobileNumber("1234567890") // true
+ * isValidMobileNumber("-1234567890") // false
+ * ```
+ *
+ * @category Number Based Method
+ */
+export function isValidMobileNumber(mobNumber:number | string) {
+  if (isNaN(mobNumber as number)) {
+    return false;
+  }
+
+  const numberFormat = /^\d{10}$/;
+
+  return numberFormat.test(mobNumber as any as string);
+}
+
+
+export function convertPaisaToRupee(value:number) {
+  /**
+   * This function converts paise to rupee
+   * Example: for convertPaisaToRupee(10000), we get result 100.
+   */
+  return parseFloat(value as any as string) / 100;
+}
+
+export function convertRupeeToPaisa(value:number) {
+  /**
+   * This function converts rupee to paisa
+   * Example: for convertRupeeToPaisa(100), we get result 10000.
+   */
+  return parseFloat(value as any as string) * 100;
+}
+
+
+/**
+ * This method can be used to find ordinal suffix of any number.
+ *
+ * @param {number} num - Number that you want to find ordinal suffix of
+ *
+ * @example
+ * ```
+ * listenToCustomEvent(CUSTOM_EVENTS.file_loaded, this.xyz)
+ * ```
+ *
+ * @category Number Based Method
+ */
+export function ordinalSuffixOfNumber(num:number):string {
+  const j = (num % 10),
+    k = (num % 100);
+
+  if (j === 1 && k !== 11) {
+    return num + 'st';
+  }
+
+  if (j === 2 && k !== 12) {
+    return num + 'nd';
+  }
+
+  if (j === 3 && k !== 13) {
+    return num + 'rd';
+  }
+
+  return num + 'th';
+}
+
+
+export function millionWithCommas(num:number) {
+  /**
+   * This function returns a string with commas and in millions international format
+   */
+  try {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  } catch (err) {
+    console.error('Error in adding commas in millions: ', err);
+  }
+}
+
+
+/**
+ * This method can be used to get a random integer number between 2 number both inclusive.
+ *
+ * @param {number} min - Starting number
+ * @param {number} max - Ending number
+ *
+ * @example
+ * ```
+ * getIntegerRandomNoBetweenTwoNo(0,500)); // will return anything between 0 to 500
+ * ```
+ *
+ * @category Number Based Method
+ */
+export function getIntegerRandomNoBetweenTwoNo(min:number, max:number) { // min, max inclusive
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}

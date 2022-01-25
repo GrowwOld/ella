@@ -55,3 +55,36 @@ export function isEmpty(data:any) {
     return true;
   }
 }
+
+
+/**
+ * This method returns an array of given size filled with provided value
+ *
+ * @param {number} arraySize - Size of the array i.e number of elements in the array
+ * @param {string | number} value - Value that you want to fill in the array
+ *
+ * @example
+ * ```
+ * getFilledArray(4,'hello') // ['hello', 'hello', 'hello', 'hello']
+ * ```
+ *
+ * @category General Method
+ */
+export function getFilledArray(arraySize:number, value:string|number) {
+  return new Array(arraySize).fill(value);
+}
+
+
+// export const getSelectedTabIndex = (tabs:object[], searchId:string):number => {
+//   let defaultIndex = 0;
+
+//   if (searchId) {
+//     tabs.map((tab, index) => {
+//       if (tab.searchId === searchId) {
+//         defaultIndex = index;
+//       }
+//     });
+//   }
+
+//   return defaultIndex;
+// };
