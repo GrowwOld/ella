@@ -55,3 +55,58 @@ export function isEmpty(data:any) {
     return true;
   }
 }
+
+
+/**
+ * This method returns an array of given size filled with provided value
+ *
+ * @param {number} arraySize - Size of the array i.e number of elements in the array
+ * @param {string | number} value - Value that you want to fill in the array
+ *
+ * @example
+ * ```
+ * getFilledArray(4,'hello') // ['hello', 'hello', 'hello', 'hello']
+ * ```
+ *
+ * @category General Method
+ */
+export function getFilledArray(arraySize:number, value:string|number) {
+  return new Array(arraySize).fill(value);
+}
+
+
+/**
+ * This method returns the index of the selected tab
+ *
+ * @param {any} tabs - Array of tabs object
+ * @param {string} selectedTabName - Selected tab name
+ *
+ * @remarks
+ * Please esnure that tab object has searchId key to facilitate matching process
+ *
+ * @example
+ * ```
+ * getSelectedTabIndex(tabsArrayOfObject,'mutual-funds') // 1
+ * ```
+ *
+ * @category General Method
+ */
+export const getSelectedTabIndex = (tabs:any[], selectedTabName:string):number => {
+  let defaultIndex = 0;
+
+  try {
+    if (selectedTabName) {
+      tabs.map((tab, index) => {
+        if (tab.searchId === selectedTabName) {
+          defaultIndex = index;
+        }
+      });
+    }
+
+    return defaultIndex;
+
+  } catch (e) {
+    console.error('Unable to return the selected tab index');
+    return defaultIndex;
+  }
+};
