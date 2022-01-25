@@ -75,16 +75,38 @@ export function getFilledArray(arraySize:number, value:string|number) {
 }
 
 
-// export const getSelectedTabIndex = (tabs:object[], searchId:string):number => {
-//   let defaultIndex = 0;
+/**
+ * This method returns the index of the selected tab
+ *
+ * @param {any} tabs - Array of tabs object
+ * @param {string} selectedTabName - Selected tab name
+ *
+ * @remarks
+ * Please esnure that tab object has searchId key to facilitate matching process
+ *
+ * @example
+ * ```
+ * getSelectedTabIndex(tabsArrayOfObject,'mutual-funds') // 1
+ * ```
+ *
+ * @category General Method
+ */
+export const getSelectedTabIndex = (tabs:any[], selectedTabName:string):number => {
+  let defaultIndex = 0;
 
-//   if (searchId) {
-//     tabs.map((tab, index) => {
-//       if (tab.searchId === searchId) {
-//         defaultIndex = index;
-//       }
-//     });
-//   }
+  try {
+    if (selectedTabName) {
+      tabs.map((tab, index) => {
+        if (tab.searchId === selectedTabName) {
+          defaultIndex = index;
+        }
+      });
+    }
 
-//   return defaultIndex;
-// };
+    return defaultIndex;
+
+  } catch (e) {
+    console.error('Unable to return the selected tab index');
+    return defaultIndex;
+  }
+};

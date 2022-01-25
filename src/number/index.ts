@@ -91,19 +91,44 @@ export function isValidMobileNumber(mobNumber:number | string) {
 }
 
 
+/**
+ * This method can be used to convert paisa to rupees
+ *
+ * @param {number} value - Number that you want to be converted to rupee
+ *
+ * @remarks
+ * Paise cannot be in decimal, so make sure you pass integer else it will return argument only without any change
+ *
+ * @example
+ * ```
+ * convertPaisaToRupee(100)); // 1
+ * ```
+ *
+ * @category Number Based Method
+ */
 export function convertPaisaToRupee(value:number) {
-  /**
-   * This function converts paise to rupee
-   * Example: for convertPaisaToRupee(10000), we get result 100.
-   */
-  return parseFloat(value as any as string) / 100;
+  if (Number.isInteger(value)) { // Paisa cannot be in decimal
+    return parseFloat(value as any as string) / 100;
+
+  } else {
+    console.error('Paisa cannot be in decimal');
+    return value;
+  }
 }
 
+/**
+ * This method can be used to convert rupees to paisa
+ *
+ * @param {number} value - Number that you want to be converted to paise
+ *
+ * @example
+ * ```
+ * convertRupeeToPaisa(1)); // 100
+ * ```
+ *
+ * @category Number Based Method
+ */
 export function convertRupeeToPaisa(value:number) {
-  /**
-   * This function converts rupee to paisa
-   * Example: for convertRupeeToPaisa(100), we get result 10000.
-   */
   return parseFloat(value as any as string) * 100;
 }
 
@@ -115,7 +140,10 @@ export function convertRupeeToPaisa(value:number) {
  *
  * @example
  * ```
- * listenToCustomEvent(CUSTOM_EVENTS.file_loaded, this.xyz)
+ * ordinalSuffixOfNumber(1); // 1st
+ * ordinalSuffixOfNumber(11); // 11th
+ * ordinalSuffixOfNumber(21); // 21st
+ * ordinalSuffixOfNumber(101); // 103rd
  * ```
  *
  * @category Number Based Method
@@ -140,15 +168,34 @@ export function ordinalSuffixOfNumber(num:number):string {
 }
 
 
+/**
+ * This method can be used to add commas as per million format (thousands separator).
+ *
+ * @param {number} num - Number that you want to be formatted with commas
+ *
+ * @remarks
+ * It returns the number as it is on error
+ *
+ * @example
+ *
+ * ```
+ * millionWithCommas(1030120313); // 1,030,120,313
+ * millionWithCommas(1000001); // 1,000,001
+ * millionWithCommas(1000001.12432432); // 1,000,001.12432432
+ * ```
+ *
+ * @category Number Based Method
+ */
 export function millionWithCommas(num:number) {
-  /**
-   * This function returns a string with commas and in millions international format
-   */
   try {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    // return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const parts = num.toString().split('.');
+
+    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (parts[1] ? '.' + parts[1] : '');
 
   } catch (err) {
     console.error('Error in adding commas in millions: ', err);
+    return num;
   }
 }
 

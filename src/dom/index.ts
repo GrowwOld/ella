@@ -115,22 +115,17 @@ export function scrollPageToTop() {
  *
  * @category DOM Based Method
  */
-export function blockSpecialChars(eventObject:KeyboardEvent, allowedArr:string[]) {
-  // This function blocks any kind of special characters during search input
-  // Ignores & and - since some AMCs and Stocks include them
-  // Just send the event object here in the onKeyPress callback of input
+export function blockSpecialChars(eventObject:React.KeyboardEvent<HTMLInputElement>, allowedArr:string[]) {
+  const k = eventObject.key;
 
-  const k = (eventObject.keyCode) ? eventObject.keyCode : eventObject.which;
-
-  if ((k > 64 && k < 91) || (k > 96 && k < 123) || k === 8 || k === 32 || (k >= 48 && k <= 57) || k === 190 || k === 188) {
-    // do nothing
-  } else {
-    if (allowedArr.includes(eventObject.key)) {
+  if ((k >= 'a' && k <= 'z') || (k >= 'A' && k <= 'Z') || k === 'Backspace' || k === ' ' || (k >= '0' && k <= '9') || k === '.' || k === ',') {
       // do nothing
+  } else {
+    if (allowedArr.includes(k)) {
+        // do nothing
     } else {
-      (eventObject.preventDefault) ? eventObject.preventDefault() : (eventObject.returnValue = false);
+      eventObject.preventDefault();
     }
-    // do nothing
   }
 }
 
