@@ -6,30 +6,6 @@ export function isValidEmail(emailId:string) {
 
 
 /**
- * This method can be used to convert any string to title case.
- *
- * @param {string} str - String that you want to convert to title case
- *
- * @example
- * ```
- * toTitleCase('Enter investment amount'); // 'Enter Investment Amount'
- * toTitleCase('"Enter SIP amount"'); // 'Enter Sip Amount'
- * toTitleCase('My NAME Is kHan'); // My Name Is Khan
- * ```
- *
- * @category String Based Method
- */
-export function toTitleCase(str:string) {
-  try {
-    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
-
-  } catch (e) {
-    console.error('title case error', e);
-  }
-}
-
-
-/**
  * This method can be used to convert any html string to normal string.
  *
  * @param {string} htmlString - HTML String that you want to convert to normal text
@@ -124,12 +100,26 @@ export function isValidName(name:string):boolean {
 }
 
 
+/**
+ * This method can be used to convert any string to sentence case.
+ *
+ * @param {string} str - String that you want to convert to sentence case
+ *
+ * @example
+ * ```
+ * convertToSentenceCase('Enter investment amount'); // Enter investment amount
+ * convertToSentenceCase('Enter SIP amount'); // Enter sip amount
+ * convertToSentenceCase('My NAME Is kHan'); // My name is khan
+ * convertToSentenceCase('My NAME Is kHan. i am not a terrorist. Understood?'); // My name is khan. I am not a terrorist. Understood?
+ * ```
+ *
+ * @category String Based Method
+ */
 export function convertToSentenceCase(str:string) {
   try {
-    const result = str.replace(/([A-Z])/g, ' $1');
-    const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) { return c.toUpperCase(); });
 
-    return finalResult;
+    return newString;
 
   } catch (e) {
     console.error('Error in converting string, original string returned ', e);
@@ -138,12 +128,52 @@ export function convertToSentenceCase(str:string) {
 }
 
 
+/**
+ * This method can be used to capitalize first letter of each work and touch nothing else.
+ *
+ * @param {string} str - String that you want to transform
+ *
+ * @example
+ * ```
+ * capitalizeFirstLetter('Enter investment amount'); // Enter Investment Amount
+ * capitalizeFirstLetter('Enter SIP amount'); // Enter SIP Amount
+ * capitalizeFirstLetter('My NAME Is kHan'); // My NAME Is KHan
+ * capitalizeFirstLetter('My NAME Is kHan. i am not a terrorist. Understood?'); // My NAME Is KHan. I Am Not A Terrorist. Understood?
+ * ```
+ *
+ * @category String Based Method
+ */
 export function capitalizeFirstLetter(str:string) {
   try {
     return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
-    // return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
 
   } catch (e) {
     console.error('capitalize letter', e);
+    return str;
+  }
+}
+
+
+/**
+ * This method can be used to convert any string to title case.
+ *
+ * @param {string} str - String that you want to convert to title case
+ *
+ * @example
+ * ```
+ * toTitleCase('Enter investment amount'); // Enter Investment Amount
+ * toTitleCase('Enter SIP amount'); // Enter Sip Amount
+ * toTitleCase('My NAME Is kHan'); // My Name Is Khan
+ * toTitleCase('My NAME Is kHan. i am not a terrorist. Understood?'); // My Name Is Khan. I Am Not A Terrorist. Understood?
+ * ```
+ *
+ * @category String Based Method
+ */
+export function toTitleCase(str:string) {
+  try {
+    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
+
+  } catch (e) {
+    console.error('title case error', e);
   }
 }
