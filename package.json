@@ -14,7 +14,7 @@
     "generate-doc": "node_modules/.bin/typedoc src/index.ts",
     "prebuild": "npm run clean",
     "build": "tsup --env.NODE_ENV production",
-    "postbuild":"npm run generate-doc",
+    "postbuild": "npm run generate-doc",
     "pushTags": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag -a v$PACKAGE_VERSION -m \"@groww-tech/icon-store-v$PACKAGE_VERSION\" && git push --tags"
   },
   "keywords": [
@@ -45,6 +45,7 @@
     "@groww-tech/eslint-config": "^1.0.4",
     "@groww-tech/eslint-plugin-internal": "1.0.2",
     "@groww-tech/tsconfig": "^1.0.0",
+    "@types/react": "^17.0.38",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "eslint": "^7.22.0",
