@@ -91,7 +91,7 @@ export function getFilledArray(arraySize: number, value: string | number) {
  *
  * @category General Method
  */
-export const getSelectedTabIndex = (tabs: any[], selectedTabName: string): number => {
+export function getSelectedTabIndex(tabs: any[], selectedTabName: string): number {
   let defaultIndex = 0;
 
   try {
@@ -109,4 +109,6 @@ export const getSelectedTabIndex = (tabs: any[], selectedTabName: string): numbe
     console.error('Unable to return the selected tab index');
     return defaultIndex;
   }
-};
+}
+
+;
