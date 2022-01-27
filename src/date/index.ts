@@ -13,7 +13,7 @@
  *
  * @category Date Based Method
  */
-export function getMonthAbbrByIndex(monthNumber:number):string {
+export function getMonthAbbrByIndex(monthNumber: number): string {
   if (monthNumber < 1 || monthNumber > 12) {
     return '';
   }
@@ -23,5 +23,5 @@ export function getMonthAbbrByIndex(monthNumber:number):string {
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ];
 
-  return monthNames[ monthNumber - 1 ];
+  return monthNames[monthNumber - 1];
 }

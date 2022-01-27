@@ -1,4 +1,4 @@
-import { isEmpty } from "../general";
+import { isEmpty } from '../general';
 
 /**
  * This method can be used to listen any custom event.
@@ -16,7 +16,7 @@ import { isEmpty } from "../general";
  *
  * @category DOM Based Method
  */
-export function listenToCustomEvent(eventName:string, callback:Function) {
+export function listenToCustomEvent(eventName: string, callback: Function) {
   try {
     if (!isEmpty(document)) {
       document.documentElement.addEventListener(eventName, callback as EventListener);
@@ -45,7 +45,7 @@ export function listenToCustomEvent(eventName:string, callback:Function) {
  *
  * @category DOM Based Method
  */
-export function dispatchCustomEvent(eventName: string, eventDetails:object = {}) {
+export function dispatchCustomEvent(eventName: string, eventDetails: object = {}) {
   if (!isEmpty(document)) {
     const temp = document.documentElement;
 
@@ -70,7 +70,7 @@ export function dispatchCustomEvent(eventName: string, eventDetails:object = {})
  *
  * @category DOM Based Method
  */
-export function unlistenToCustomEvent(eventName:string, methodToUnlisten:Function) {
+export function unlistenToCustomEvent(eventName: string, methodToUnlisten: Function) {
   try {
     if (!isEmpty(document)) {
       document.documentElement.removeEventListener(eventName, methodToUnlisten as EventListener);
@@ -115,14 +115,14 @@ export function scrollPageToTop() {
  *
  * @category DOM Based Method
  */
-export function blockSpecialChars(eventObject:React.KeyboardEvent<HTMLInputElement>, allowedArr:string[]) {
+export function blockSpecialChars(eventObject: React.KeyboardEvent<HTMLInputElement>, allowedArr: string[]) {
   const k = eventObject.key;
 
   if ((k >= 'a' && k <= 'z') || (k >= 'A' && k <= 'Z') || k === 'Backspace' || k === ' ' || (k >= '0' && k <= '9') || k === '.' || k === ',') {
-      // do nothing
+    // do nothing
   } else {
     if (allowedArr.includes(k)) {
-        // do nothing
+      // do nothing
     } else {
       eventObject.preventDefault();
     }
@@ -142,7 +142,7 @@ export function blockSpecialChars(eventObject:React.KeyboardEvent<HTMLInputEleme
  *
  * @category DOM Based Method
  */
-export function copyToClipboard(str:string) {
+export function copyToClipboard(str: string) {
   /**
    * This function is used to copy anything to the clipboard
    */
@@ -170,7 +170,7 @@ export function copyToClipboard(str:string) {
  *
  * @category DOM Based Method
  */
-export function performanceMark(name:string) {
+export function performanceMark(name: string) {
   if (window?.performance?.mark) {
     window.performance.mark(name);
   }
@@ -192,7 +192,7 @@ export function performanceMark(name:string) {
  *
  * @category DOM Based Method
  */
-export function performanceMeasure(markStart:string, markEnd:string) {
+export function performanceMeasure(markStart: string, markEnd: string) {
   if (window?.performance?.measure) {
     return window.performance.measure('', markStart, markEnd).duration;
   }
@@ -214,7 +214,7 @@ export function performanceMeasure(markStart:string, markEnd:string) {
  *
  * @category DOM Based Method
  */
-export function encodeURLParams(queryParam:string) {
+export function encodeURLParams(queryParam: string) {
   let decodedURL = '';
 
   try {
@@ -241,7 +241,7 @@ export function encodeURLParams(queryParam:string) {
  *
  * @category DOM Based Method
  */
-export function getBrowserName():string {
+export function getBrowserName(): string {
   if (!isEmpty(window) && !isEmpty(navigator)) {
     if ((navigator.userAgent.indexOf('Opera') || navigator.userAgent.indexOf('OPR')) !== -1) {
       return 'Opera';
@@ -258,7 +258,7 @@ export function getBrowserName():string {
     } else if (navigator.userAgent.indexOf('Firefox') !== -1) {
       return 'Firefox';
 
-  // Double exclaimation is used to cast a value to boolean
+      // Double exclaimation is used to cast a value to boolean
     } else if ((navigator.userAgent.indexOf('MSIE') !== -1) || (!!document.DOCUMENT_NODE)) { //IF IE > 10
       return 'IE';
 
@@ -289,9 +289,9 @@ export function getOSName() {
   if (!isEmpty(window) && !isEmpty(navigator)) {
     const userAgent = window.navigator.userAgent,
       platform = window.navigator.platform,
-      macosPlatforms = [ 'Macintosh', 'MacIntel', 'MacPPC', 'Mac68K' ],
-      windowsPlatforms = [ 'Win32', 'Win64', 'Windows', 'WinCE' ],
-      iosPlatforms = [ 'iPhone', 'iPad', 'iPod' ];
+      macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+      windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+      iosPlatforms = ['iPhone', 'iPad', 'iPod'];
 
     let os = '';
 
