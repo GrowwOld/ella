@@ -177,3 +177,49 @@ export function toTitleCase(str: string) {
     console.error('title case error', e);
   }
 }
+
+
+/**
+ * This method is used to check if the given string check for characters from a-z, A-Z, 0-9.
+ *
+ * @param str - String that you want to check for the above characters
+ *
+ * @example
+ * ```
+ * isAlphanumericString('aaAa123')  // true
+ * isAlphanumericString('aaAa_98-') // false
+ * ```
+ *
+ * @category String Based Method
+ */
+export function isAlphanumericString(str: string) {
+  const regexForAlphaNumericString = /^[a-z0-9]+$/i;
+
+  return regexForAlphaNumericString.test(str);
+};
+
+
+/**
+ * This method checks for all characters to be number between 0-9 and pincode length to be 6
+ *
+ * @param {string | number} pincode - string or number entered in input element
+ *
+ * @example
+ *```
+ * isValidPincode('123456')  // true
+ * isValidPincode('1234aa')  // false
+ * isValidPincode(110018)    // true
+ * isValidPincode('12345')   // false
+ * ```
+ *
+ * @category String Based Method
+ */
+export function isValidPincode(pincode: string | number) {
+  //This regex checks for all characters to be number between 0-9
+  const regexForOnlyNumbers = /^\d+$/;
+
+  //converting number to string to support handling in case input is number
+  const convertPincodeToString = pincode.toString();
+
+  return regexForOnlyNumbers.test(convertPincodeToString) && convertPincodeToString.length === 6;
+};
