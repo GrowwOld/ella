@@ -71,6 +71,7 @@ export function isEmpty(data: any) {
  * if(isAlphanumericString('aaAa_98-')) {
  *  return false
  * }
+ * ```
  *
  */
 export const isAlphanumericString = (str: string) => {
@@ -100,7 +101,6 @@ export const isAlphanumericString = (str: string) => {
  *  return false
  * }
  * ```
- *
  */
 export const isValidPincode = (pincode: string) => {
   //This regex checks for all characters to be number between 0-9
