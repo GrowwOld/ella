@@ -186,13 +186,8 @@ export function toTitleCase(str: string) {
  *
  * @example
  * ```
- * if(isAlphanumericString('aaAa123')) {
- *  return true
- * }
- *
- * if(isAlphanumericString('aaAa_98-')) {
- *  return false
- * }
+ * isAlphanumericString('aaAa123')  // true
+ * isAlphanumericString('aaAa_98-') // false
  * ```
  *
  * @category String Based Method
@@ -211,21 +206,10 @@ export function isAlphanumericString(str: string) {
  *
  * @example
  *```
- * if(isValidPincode('123456')) {
- *  return true
- * }
- *
- * if(isValidPincode('1234aa')) {
- *  return false
- * }
- *
- * if(isValidPincode(110018)) {
- *  return true
- * }
- *
- * if(isValidPincode('12345')) {
- *  return false
- * }
+ * isValidPincode('123456')  // true
+ * isValidPincode('1234aa')  // false
+ * isValidPincode(110018)    // true
+ * isValidPincode('12345')   // false
  * ```
  *
  * @category String Based Method
