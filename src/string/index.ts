@@ -1,4 +1,4 @@
-export function isValidEmail(emailId:string) {
+export function isValidEmail(emailId: string) {
   const mailformat = /^\w+([\+\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
 
   return emailId.match(mailformat);
@@ -17,7 +17,7 @@ export function isValidEmail(emailId:string) {
  *
  * @category String Based Method
  */
-export function convertHtmlToText(htmlString:string) {
+export function convertHtmlToText(htmlString: string) {
   if (htmlString != null) {
     //-- remove BR tags and replace them with empty string
     htmlString = htmlString.replace(/<br>/gi, ' ');
@@ -84,7 +84,7 @@ export function convertHtmlToText(htmlString:string) {
  *
  * @category String Based Method
  */
-export function isValidName(name:string):boolean {
+export function isValidName(name: string): boolean {
   /*
     This method check name string should contain only alphabets with space, no special
     character and numbers are allowed and minimum length should be 2 character.
@@ -115,9 +115,9 @@ export function isValidName(name:string):boolean {
  *
  * @category String Based Method
  */
-export function convertToSentenceCase(str:string) {
+export function convertToSentenceCase(str: string) {
   try {
-    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) { return c.toUpperCase(); });
+    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function (c) { return c.toUpperCase(); });
 
     return newString;
 
@@ -143,9 +143,9 @@ export function convertToSentenceCase(str:string) {
  *
  * @category String Based Method
  */
-export function capitalizeFirstLetter(str:string) {
+export function capitalizeFirstLetter(str: string) {
   try {
-    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
+    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
 
   } catch (e) {
     console.error('capitalize letter', e);
@@ -169,9 +169,9 @@ export function capitalizeFirstLetter(str:string) {
  *
  * @category String Based Method
  */
-export function toTitleCase(str:string) {
+export function toTitleCase(str: string) {
   try {
-    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
+    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
 
   } catch (e) {
     console.error('title case error', e);
