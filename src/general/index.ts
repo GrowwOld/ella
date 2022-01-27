@@ -110,5 +110,3 @@ export function getSelectedTabIndex(tabs: any[], selectedTabName: string): numbe
     return defaultIndex;
   }
 }
-
-;
