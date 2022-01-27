@@ -1,4 +1,4 @@
-import { isEmpty } from "../general";
+import { isEmpty } from '../general';
 
 /**
  * This method can be used to add commas as per Indian system to any valid number of type string or number.
@@ -20,7 +20,7 @@ import { isEmpty } from "../general";
  *
  * @category Number Based Method
  */
-export function addingCommasToNumber(x: number | string):string {
+export function addingCommasToNumber(x: number | string): string {
   // ensuring that x is a valid number be in a string type or number
   if (isEmpty(x) || isNaN(x as number)) {
     console.error('Unable to insert commas to the number -', x);
@@ -80,7 +80,7 @@ export function addingCommasToNumber(x: number | string):string {
  *
  * @category Number Based Method
  */
-export function isValidMobileNumber(mobNumber:number | string) {
+export function isValidMobileNumber(mobNumber: number | string) {
   if (isNaN(mobNumber as number)) {
     return false;
   }
@@ -106,7 +106,7 @@ export function isValidMobileNumber(mobNumber:number | string) {
  *
  * @category Number Based Method
  */
-export function convertPaisaToRupee(value:number) {
+export function convertPaisaToRupee(value: number) {
   if (Number.isInteger(value)) { // Paisa cannot be in decimal
     return parseFloat(value as any as string) / 100;
 
@@ -128,7 +128,7 @@ export function convertPaisaToRupee(value:number) {
  *
  * @category Number Based Method
  */
-export function convertRupeeToPaisa(value:number) {
+export function convertRupeeToPaisa(value: number) {
   return parseFloat(value as any as string) * 100;
 }
 
@@ -148,7 +148,7 @@ export function convertRupeeToPaisa(value:number) {
  *
  * @category Number Based Method
  */
-export function ordinalSuffixOfNumber(num:number):string {
+export function ordinalSuffixOfNumber(num: number): string {
   const j = (num % 10),
     k = (num % 100);
 
@@ -186,7 +186,7 @@ export function ordinalSuffixOfNumber(num:number):string {
  *
  * @category Number Based Method
  */
-export function millionWithCommas(num:number) {
+export function millionWithCommas(num: number) {
   try {
     // return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     const parts = num.toString().split('.');
@@ -213,6 +213,6 @@ export function millionWithCommas(num:number) {
  *
  * @category Number Based Method
  */
-export function getIntegerRandomNoBetweenTwoNo(min:number, max:number) { // min, max inclusive
+export function getIntegerRandomNoBetweenTwoNo(min: number, max: number) { // min, max inclusive
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
