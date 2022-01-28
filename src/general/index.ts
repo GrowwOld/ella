@@ -118,18 +118,20 @@ export const getSelectedTabIndex = (tabs:any[], selectedTabName:string):number =
  * @param { file:File | null; type:string; fileName:string; downloadMethod:string; fileExtension:string; fileUrl:string | null } downloadConfig - Config Object to download a file
  *
  * @remarks
+ *
  * Please ensure you are passing the appropriate downloadMethod type -
- * url method expects the fileUrl argument
- * blob expects the file argument
+ *
+ * <p>'url' method expects the fileUrl argument</p>
+ * <p>'blob' expects the file argument</p>
  *
  * downloadConfig properties
  * <ul>
- *  <li style="font-weight: bold;"> file => BlobObject or null. Required if downloadMethod is 'blob' </li>
- *  <li style="font-weight: bold;"> type => MIME-TYPE of the file. 'application/pdf', 'application/gzip', 'image/png' </li>
- *  <li style="font-weight: bold;"> fileName => Expected name of the downloaded file </li>
- *  <li style="font-weight: bold;"> downloadMethod => 'blob' or 'url' </li>
- *  <li style="font-weight: bold;"> fileExtension => Expected extension of the downloaded file </li>
- *  <li style="font-weight: bold;"> fileUrl => downloadable file's url. Required if downloadMethod is 'url' </li>
+ *  <li> <span style="font-weight: bold;">file</span> => BlobObject or null. Required if downloadMethod is 'blob' </li>
+ *  <li> <span style="font-weight: bold;">type</span> => MIME-TYPE of the file. 'application/pdf', 'application/gzip', 'image/png' </li>
+ *  <li> <span style="font-weight: bold;">fileName</span> => Expected name of the downloaded file </li>
+ *  <li> <span style="font-weight: bold;">downloadMethod</span> => 'blob' or 'url' </li>
+ *  <li> <span style="font-weight: bold;">fileExtension</span> => Expected extension of the downloaded file </li>
+ *  <li> <span style="font-weight: bold;">fileUrl</span> => downloadable file's url. Required if downloadMethod is 'url' </li>
  * </ul>
  *
  * @example
