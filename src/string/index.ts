@@ -1,4 +1,26 @@
-export function isValidEmail(emailId: string) {
+import { isEmpty } from '../general';
+
+/**
+ * This method can be used to validate email id given in string.
+ * Special characters allowed before @ are -+._
+ *
+ * @param {emailId} str - String that you want to validate as email
+ *
+ * @example
+ * ```
+ * isValidEmail('johndoe@gmail.com'); // Output is an array
+ * isValidEmail('johndoe@gmail'); // Output is null
+ * isValidEmail('john-doe@gmail.com'); // Output is an array
+ * isValidEmail('john+doe@gmail.com'); // Output is an array
+ * isValidEmail('john.doe@gmail.com'); // Output is an array
+ * isValidEmail('john.doe@mail.in'); // Output is an array
+ * isValidEmail('john_doe@mail.in'); // Output is an array
+ *
+ * @returns boolean if input string matches the email vaildation regex
+ *
+ * @category String Based Method
+ */
+export function isValidEmail(emailId:string) {
   const mailformat = /^\w+([\+\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
 
   return emailId.match(mailformat);
@@ -117,7 +139,7 @@ export function isValidName(name: string): boolean {
  */
 export function convertToSentenceCase(str: string) {
   try {
-    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function (c) { return c.toUpperCase(); });
+    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) { return c.toUpperCase(); });
 
     return newString;
 
@@ -145,7 +167,7 @@ export function convertToSentenceCase(str: string) {
  */
 export function capitalizeFirstLetter(str: string) {
   try {
-    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
+    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
 
   } catch (e) {
     console.error('capitalize letter', e);
@@ -171,9 +193,75 @@ export function capitalizeFirstLetter(str: string) {
  */
 export function toTitleCase(str: string) {
   try {
-    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
+    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
 
   } catch (e) {
     console.error('title case error', e);
   }
+}
+
+
+/**
+ * This function keeps last specified number of characters from a string.
+ * Used while displaying Account Number where it is too long, to reduce the length by specified number of characters.
+ *
+ * @param {string} inputString - Input string to be truncated
+ * @param {number} truncatedCharactersCount - Number of characters which should be kept from the ending of inputString
+ *
+ * @example
+ * ```
+ * truncateStringByCharacters('XXXXXXXX0900', 8); // Output will be 'XXXX0900'
+ * truncateStringByCharacters('XXXXXXXX0900', 12); // Output will be 'XXXXXXXX0900'
+ * truncateStringByCharacters('XXXXXXXX0900', 13); // Output will be '-'
+ * ```
+ *
+ * @category String Based Method
+ */
+export function truncateStringByCharacters(inputString: string = '', truncatedCharactersCount: number = 8) {
+  if (!isEmpty(inputString) && inputString.length >= truncatedCharactersCount) {
+    return inputString.substr(inputString.length - truncatedCharactersCount);
+
+  } else {
+    return '-';
+  }
+}
+
+
+/**
+ * This method replaces everything apart from last 4 characters in a string with X.
+ * We can give an option to truncate the string as well with truncate boolean paramter.
+ *
+ * @param {string} inputString - Input string to be masked and/or truncated
+ * @param {boolean} truncate - Boolean to enable truncation of inputString
+ * @param {number} truncatedCharactersCount - Number of characters which should be kept from the ending of inputString
+ *
+ * @example
+ * ```
+ * maskInputStringAndTruncate('301634570900'); // Output will be 'XXXXXXXX0900'
+ * maskInputStringAndTruncate('301634570900', true); // Output will be 'XXXX0900'
+ * maskInputStringAndTruncate('301634570900', true, 8); // Output will be 'XXXX0900'
+ * maskInputStringAndTruncate('301634570900', true, 5); // Output will be 'XXXX0900'
+ * maskInputStringAndTruncate('301634570900', true, 3); // Output will be '-'
+ * maskInputStringAndTruncate('301634570900', true, 13); // Output will be '-'
+ * ```
+ *
+ * @category String Based Method
+ */
+export function maskInputStringAndTruncate(inputString: string = '', truncate: boolean = false, truncatedCharactersCount: number = 8) {
+  if (!isEmpty(inputString)) {
+    if (truncate) {
+      const truncateAcc = truncateStringByCharacters(inputString, truncatedCharactersCount);
+
+      if (truncateAcc.length >= 4) {
+        return 'XXXX' + truncateAcc.substr(truncateAcc.length - 4);
+
+      } else {
+        return '-';
+      }
+    }
+
+    return new Array(inputString.length - 3).join('X') + inputString.substr(inputString.length - 4);
+  }
+
+  return inputString;
 }
