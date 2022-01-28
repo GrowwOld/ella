@@ -82,7 +82,7 @@ export function getFilledArray(arraySize: number, value: string | number) {
  * @param {string} selectedTabName - Selected tab name
  *
  * @remarks
- * Please esnure that tab object has searchId key to facilitate matching process
+ * Please ensure that tab object has searchId key to facilitate matching process
  *
  * @example
  * ```
@@ -110,5 +110,3 @@ export function getSelectedTabIndex(tabs: any[], selectedTabName: string): numbe
     return defaultIndex;
   }
 }
-
-;
