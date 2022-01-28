@@ -200,7 +200,7 @@ export function downloadFile(downloadConfig:{ file:File | null; type:string; fil
       throw new Error('window is undefined');
     }
 
-    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    if (window?.navigator && window?.navigator?.msSaveOrOpenBlob) {
       // IE doesn't allow using a blob object directly as link href
       // instead it is necessary to use msSaveOrOpenBlob
       window.navigator.msSaveOrOpenBlob(file);
