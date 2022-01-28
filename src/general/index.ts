@@ -123,13 +123,14 @@ export const getSelectedTabIndex = (tabs:any[], selectedTabName:string):number =
  * blob expects the file argument
  *
  * downloadConfig properties
- *
- * file => BlobObject or null. Required if downloadMethod is 'blob'
- * type => MIME-TYPE of the file. 'application/pdf', 'application/gzip', 'image/png'
- * fileName => Expected name of the downloaded file
- * downloadMethod => 'blob' or 'url'
- * fileExtension => Expected extension of the downloaded file
- * fileUrl => downloadable file's url. Required if downloadMethod is 'url'
+ * <ul style="list-style: none;">
+ *  <li> 'file => BlobObject or null. Required if downloadMethod is 'blob' </li>
+ *  <li> type => MIME-TYPE of the file. 'application/pdf', 'application/gzip', 'image/png' </li>
+ *  <li> fileName => Expected name of the downloaded file </li>
+ *  <li> downloadMethod => 'blob' or 'url' </li>
+ *  <li> fileExtension => Expected extension of the downloaded file </li>
+ *  <li> fileUrl => downloadable file's url. Required if downloadMethod is 'url' </li>
+ * </ul>
  *
  * @example
  * ```
