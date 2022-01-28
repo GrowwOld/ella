@@ -1,5 +1,5 @@
 /**
- * This method can be used to check if the variable is empty or not. Returns true if it is empty else false.
+ * This downloadMethod can be used to check if the variable is empty or not. Returns true if it is empty else false.
  *
  * @param {any} data - Any variable that you want to check if it is empty or not
  *
@@ -58,7 +58,7 @@ export function isEmpty(data:any) {
 
 
 /**
- * This method returns an array of given size filled with provided value
+ * This downloadMethod returns an array of given size filled with provided value
  *
  * @param {number} arraySize - Size of the array i.e number of elements in the array
  * @param {string | number} value - Value that you want to fill in the array
@@ -76,7 +76,7 @@ export function getFilledArray(arraySize:number, value:string|number) {
 
 
 /**
- * This method returns the index of the selected tab
+ * This downloadMethod returns the index of the selected tab
  *
  * @param {any} tabs - Array of tabs object
  * @param {string} selectedTabName - Selected tab name
@@ -110,3 +110,117 @@ export const getSelectedTabIndex = (tabs:any[], selectedTabName:string):number =
     return defaultIndex;
   }
 };
+
+
+/**
+ * This function can download a file on user's machine either directly by a url or a blob object.
+ *
+ * @param { file:File | null; type:string; fileName:string; downloadMethod:string; fileExtension:string; fileUrl:string | null } downloadConfig - Config Object to download a file
+ *
+ * @remarks
+ * Please ensure you are passing the appropriate downloadMethod type -
+ * url method expects the fileUrl argument
+ * blob expects the file argument
+ *
+ * downloadConfig properties
+ *
+ * file => BlobObject or null. Required if downloadMethod is 'blob'
+ * type => MIME-TYPE of the file. 'application/pdf', 'application/gzip', 'image/png'
+ * fileName => Expected name of the downloaded file
+ * downloadMethod => 'blob' or 'url'
+ * fileExtension => Expected extension of the downloaded file
+ * fileUrl => downloadable file's url. Required if downloadMethod is 'url'
+ *
+ * @example
+ * ```
+ * downloadFile({
+ *  file: fileBlobObject,
+ *  type: 'application/pdf',
+ *  fileName: 'MyFile',
+ *  fileExtension: 'pdf',
+ *  downloadMethod: 'blob',
+ *  fileUrl: null
+ * }) // *Downloads file of type PDF on the client's machine named MyFile.pdf*
+ * ```
+ *
+ * @category General Method
+ */
+export function downloadFile(downloadConfig:{ file:File | null; type:string; fileName:string; downloadMethod:string; fileExtension:string; fileUrl:string | null }) {
+
+  const DOWNLOAD_FILE_METHOD = {
+    BLOB: 'blob',
+    URL: 'url'
+  };
+
+  const { file = null, type, fileName, downloadMethod = DOWNLOAD_FILE_METHOD.URL, fileExtension, fileUrl } = downloadConfig;
+
+
+  const createFileUrlFromBlob = (file: File | null, type:string) => {
+    if (file) {
+      // It is necessary to create a new blob object with mime-type explicitly set
+      // otherwise only Chrome works like it should
+      const newBlob = new Blob([ file ], { type });
+
+      // For other browsers:
+      // Create a link pointing to the ObjectURL containing the blob.
+      const fileURL = (window.URL || window.webkitURL).createObjectURL(newBlob);
+
+      return fileURL;
+
+    } else {
+      throw new Error('file/blob is null');
+    }
+  };
+
+
+  const downloadFileFromUrl = (fileUrl:string | null, fileName:string, extension:string) => {
+    if (fileUrl) {
+      const link = document.createElement('a');
+
+      link.href = fileUrl;
+      link.download = `${fileName}.${extension}`;
+      link.target = '_blank';
+
+      document.body.appendChild(link);
+      link.click();
+
+      setTimeout(function() {
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(fileUrl);
+      }, 10);
+
+    } else {
+      throw new Error('fileUrl is empty');
+    }
+  };
+
+
+  try {
+    if (typeof window === 'undefined') {
+      throw new Error('window is undefined');
+    }
+
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      // IE doesn't allow using a blob object directly as link href
+      // instead it is necessary to use msSaveOrOpenBlob
+      window.navigator.msSaveOrOpenBlob(file);
+      return;
+    }
+
+    switch (downloadMethod) {
+      case DOWNLOAD_FILE_METHOD.BLOB:
+        const fileUrlFromBlob = createFileUrlFromBlob(file, type);
+
+        downloadFileFromUrl(fileUrlFromBlob, fileName, fileExtension);
+        break;
+
+      case DOWNLOAD_FILE_METHOD.URL:
+        downloadFileFromUrl(fileUrl, fileName, fileExtension);
+
+        break;
+    }
+
+  } catch (err) {
+    console.error('File download failed - ', err);
+  }
+}
