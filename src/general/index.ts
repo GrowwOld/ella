@@ -115,16 +115,24 @@ export const getSelectedTabIndex = (tabs:any[], selectedTabName:string):number =
 /**
  * This function can download a file on user's machine either directly by a url or a blob object.
  *
- * @param { file:File | null; type:string; fileName:string; downloadMethod:string; fileExtension:string; fileUrl:string | null } downloadConfig - Config Object to download a file
+ * @param {
+ *  file:File | null;
+ *  type:string; fileName:string;
+ *  downloadMethod:string;
+ *  fileExtension:string;
+ *  fileUrl:string | null
+ * } downloadConfig
  *
  * @remarks
  *
  * Please ensure you are passing the appropriate downloadMethod type -
- *
+ * <br />
+ * <br />
  * <p>'url' method expects the fileUrl argument</p>
  * <p>'blob' expects the file argument</p>
  *
- * downloadConfig properties
+ * <br />
+ * <h4>downloadConfig properties</h4>
  * <ul>
  *  <li> <span style="font-weight: bold;">file</span> => BlobObject or null. Required if downloadMethod is 'blob' </li>
  *  <li> <span style="font-weight: bold;">type</span> => MIME-TYPE of the file. 'application/pdf', 'application/gzip', 'image/png' </li>
