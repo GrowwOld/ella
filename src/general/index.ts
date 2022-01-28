@@ -12,7 +12,7 @@
  *
  * @category General Method
  */
-export function isEmpty(data:any) {
+export function isEmpty(data: any) {
   try {
     if (data === null || data === undefined) {
       return true;
@@ -43,7 +43,7 @@ export function isEmpty(data:any) {
         return false;
 
       default:
-          // for array
+        // for array
         if (Array.isArray(data) && data.length <= 0) {
           return true;
         }
@@ -70,7 +70,7 @@ export function isEmpty(data:any) {
  *
  * @category General Method
  */
-export function getFilledArray(arraySize:number, value:string|number) {
+export function getFilledArray(arraySize: number, value: string | number) {
   return new Array(arraySize).fill(value);
 }
 
@@ -82,7 +82,7 @@ export function getFilledArray(arraySize:number, value:string|number) {
  * @param {string} selectedTabName - Selected tab name
  *
  * @remarks
- * Please esnure that tab object has searchId key to facilitate matching process
+ * Please ensure that tab object has searchId key to facilitate matching process
  *
  * @example
  * ```
@@ -91,7 +91,7 @@ export function getFilledArray(arraySize:number, value:string|number) {
  *
  * @category General Method
  */
-export const getSelectedTabIndex = (tabs:any[], selectedTabName:string):number => {
+export function getSelectedTabIndex(tabs: any[], selectedTabName: string): number {
   let defaultIndex = 0;
 
   try {
@@ -109,4 +109,4 @@ export const getSelectedTabIndex = (tabs:any[], selectedTabName:string):number =
     console.error('Unable to return the selected tab index');
     return defaultIndex;
   }
-};
+}
