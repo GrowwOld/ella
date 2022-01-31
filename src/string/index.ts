@@ -223,3 +223,35 @@ export function isValidPincode(pincode: string | number) {
 
   return regexForOnlyNumbers.test(convertPincodeToString) && convertPincodeToString.length === 6;
 };
+
+
+/**
+ * The sequential number would always be a subset to "0123456789".
+ * For instance, 1234, 4567, 2345, etc are all subset of "0123456789".
+ * To validate, this function uses 'indexOf' method present on String Object.
+ *
+ * @param {string | number} digitsPattern - string or number entered in input element
+ *
+ * @example
+ *```
+ * isSequentialDigitsPattern('1234')   //true
+ * isSequentialDigitsPattern('1235')   //false
+ * isSequentialDigitsPattern('9876')   //true
+ * ```
+ *
+ * @category String Based Method
+ */
+export function isSequentialDigitsPattern(digitsPattern: string | number) {
+  try {
+    const sequentialNumbers = '01234567890';
+    //If reverse sequence is also needed to be checked
+    const reverseSequentialNumbers = '09876543210';
+
+    //Returns false, if the number is in sequence
+    return !((sequentialNumbers.indexOf(digitsPattern.toString()) === -1) &&
+      (reverseSequentialNumbers.indexOf(digitsPattern.toString()) === -1));
+
+  } catch (error) {
+    console.log('Error in isSequentialDigitsPattern: ', error);
+  }
+}
