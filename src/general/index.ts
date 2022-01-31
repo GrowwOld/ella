@@ -1,4 +1,8 @@
 /**
+ * @module General
+ */
+
+/**
  * This method can be used to check if the variable is empty or not. Returns true if it is empty else false.
  *
  * @param {any} data - Any variable that you want to check if it is empty or not
@@ -9,8 +13,6 @@
  *   return;
  * }
  * ```
- *
- * @category General Method
  */
 export function isEmpty(data: any) {
   try {
@@ -67,8 +69,6 @@ export function isEmpty(data: any) {
  * ```
  * getFilledArray(4,'hello') // ['hello', 'hello', 'hello', 'hello']
  * ```
- *
- * @category General Method
  */
 export function getFilledArray(arraySize: number, value: string | number) {
   return new Array(arraySize).fill(value);
@@ -88,8 +88,6 @@ export function getFilledArray(arraySize: number, value: string | number) {
  * ```
  * getSelectedTabIndex(tabsArrayOfObject,'mutual-funds') // 1
  * ```
- *
- * @category General Method
  */
 export function getSelectedTabIndex(tabs: any[], selectedTabName: string): number {
   let defaultIndex = 0;

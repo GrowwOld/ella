@@ -1,3 +1,7 @@
+/**
+ * @module String
+ */
+
 export function isValidEmail(emailId: string) {
   const mailformat = /^\w+([\+\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
 
@@ -14,8 +18,6 @@ export function isValidEmail(emailId: string) {
  * ```
  * convertHtmlToText('<p>Hello <b>World</b></p>') // Hello World
  * ```
- *
- * @category String Based Method
  */
 export function convertHtmlToText(htmlString: string) {
   if (htmlString != null) {
@@ -81,14 +83,8 @@ export function convertHtmlToText(htmlString: string) {
  *
  * @remarks
  * Valid name - Only alphanumeric with space allowed (no other special chars) and min char should be 2
- *
- * @category String Based Method
  */
 export function isValidName(name: string): boolean {
-  /*
-    This method check name string should contain only alphabets with space, no special
-    character and numbers are allowed and minimum length should be 2 character.
-  */
   if (name) {
     name = name.trim();
     const nameFormat = /^[a-zA-Z ]*$/;
@@ -112,8 +108,6 @@ export function isValidName(name: string): boolean {
  * convertToSentenceCase('My NAME Is kHan'); // My name is khan
  * convertToSentenceCase('My NAME Is kHan. i am not a terrorist. Understood?'); // My name is khan. I am not a terrorist. Understood?
  * ```
- *
- * @category String Based Method
  */
 export function convertToSentenceCase(str: string) {
   try {
@@ -140,8 +134,6 @@ export function convertToSentenceCase(str: string) {
  * capitalizeFirstLetter('My NAME Is kHan'); // My NAME Is KHan
  * capitalizeFirstLetter('My NAME Is kHan. i am not a terrorist. Understood?'); // My NAME Is KHan. I Am Not A Terrorist. Understood?
  * ```
- *
- * @category String Based Method
  */
 export function capitalizeFirstLetter(str: string) {
   try {
@@ -166,8 +158,6 @@ export function capitalizeFirstLetter(str: string) {
  * toTitleCase('My NAME Is kHan'); // My Name Is Khan
  * toTitleCase('My NAME Is kHan. i am not a terrorist. Understood?'); // My Name Is Khan. I Am Not A Terrorist. Understood?
  * ```
- *
- * @category String Based Method
  */
 export function toTitleCase(str: string) {
   try {
@@ -189,14 +179,14 @@ export function toTitleCase(str: string) {
  * isAlphanumericString('aaAa123')  // true
  * isAlphanumericString('aaAa_98-') // false
  * ```
- *
- * @category String Based Method
  */
 export function isAlphanumericString(str: string) {
   const regexForAlphaNumericString = /^[a-z0-9]+$/i;
 
   return regexForAlphaNumericString.test(str);
-};
+}
+
+;
 
 
 /**
@@ -211,8 +201,6 @@ export function isAlphanumericString(str: string) {
  * isValidPincode(110018)    // true
  * isValidPincode('12345')   // false
  * ```
- *
- * @category String Based Method
  */
 export function isValidPincode(pincode: string | number) {
   //This regex checks for all characters to be number between 0-9
@@ -222,7 +210,9 @@ export function isValidPincode(pincode: string | number) {
   const convertPincodeToString = pincode.toString();
 
   return regexForOnlyNumbers.test(convertPincodeToString) && convertPincodeToString.length === 6;
-};
+}
+
+;
 
 
 /**
@@ -238,8 +228,6 @@ export function isValidPincode(pincode: string | number) {
  * isSequentialDigitsPattern('1235')   //false
  * isSequentialDigitsPattern('9876')   //true
  * ```
- *
- * @category String Based Method
  */
 export function isSequentialDigitsPattern(digitsPattern: string | number) {
   try {
