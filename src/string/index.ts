@@ -212,7 +212,7 @@ export function toTitleCase(str: string) {
  * ```
  * truncateStringByCharacters('XXXXXXXX0900', 8); // Output will be 'XXXX0900'
  * truncateStringByCharacters('XXXXXXXX0900', 12); // Output will be 'XXXXXXXX0900'
- * truncateStringByCharacters('XXXXXXXX0900', 13); // Output will be '-'
+ * truncateStringByCharacters('XXXXXXXX0900', 13); // Output will be ''
  * ```
  *
  * @category String Based Method
@@ -222,7 +222,7 @@ export function truncateStringByCharacters(inputString: string = '', truncatedCh
     return inputString.substr(inputString.length - truncatedCharactersCount);
 
   } else {
-    return '-';
+    return '';
   }
 }
 
@@ -243,8 +243,8 @@ export function truncateStringByCharacters(inputString: string = '', truncatedCh
  * maskInputStringAndTruncate('301634570900', true); // Output will be 'XXXX0900'
  * maskInputStringAndTruncate('301634570900', true, 8); // Output will be 'XXXX0900'
  * maskInputStringAndTruncate('301634570900', true, 5); // Output will be 'XXXX0900'
- * maskInputStringAndTruncate('301634570900', true, 3); // Output will be '-'
- * maskInputStringAndTruncate('301634570900', true, 13); // Output will be '-'
+ * maskInputStringAndTruncate('301634570900', true, 3); // Output will be ''
+ * maskInputStringAndTruncate('301634570900', true, 13); // Output will be ''
  * ```
  *
  * @category String Based Method
@@ -258,7 +258,7 @@ export function maskInputStringAndTruncate(inputString: string = '', truncate: b
         return 'XXXX' + truncateAcc.substr(truncateAcc.length - 4);
 
       } else {
-        return '-';
+        return '';
       }
     }
 

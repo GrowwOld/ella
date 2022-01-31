@@ -322,10 +322,18 @@ export function getOSName() {
  * This function scrolls the page to the top.
  * If window.scroll is available and works perfectly, this function uses the smooth scroll behaviour of window
  * and scrolls with ease in animation. Else, It directly scrolls to top without animation in case of error with
- * window.scroll
+ * window.scroll.
+ *
+ * @example
+ * ```
+ * smoothScrollToTop();  // The page is scrolled to the top. With animation if window object is present,
+ * without animation if window object is not present.
+ * ```
+ *
+ * @category DOM Based Method
  */
 export function smoothScrollToTop() {
-  if (typeof window !== 'undefined') {
+  if (!isEmpty(window)) {
     try {
       window.scroll({
         top: 0,
