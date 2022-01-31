@@ -252,6 +252,8 @@ export function isSequentialDigitsPattern(digitsPattern: string | number) {
       (reverseSequentialNumbers.indexOf(digitsPattern.toString()) === -1));
 
   } catch (error) {
-    console.log('Error in isSequentialDigitsPattern: ', error);
+    console.error('Error in isSequentialDigitsPattern: ', error);
+
+    return false;
   }
 }
