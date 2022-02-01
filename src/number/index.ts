@@ -1,3 +1,7 @@
+/**
+ * @module Number
+ */
+
 import { isEmpty } from '../general';
 
 /**
@@ -17,8 +21,6 @@ import { isEmpty } from '../general';
  * addingCommasToNumber('11111')); // 11,111
  * addingCommasToNumber(-111111)); // -1,11,111
  * ```
- *
- * @category Number Based Method
  */
 export function addingCommasToNumber(x: number | string): string {
   // ensuring that x is a valid number be in a string type or number
@@ -77,8 +79,6 @@ export function addingCommasToNumber(x: number | string): string {
  * isValidMobileNumber("1234567890") // true
  * isValidMobileNumber("-1234567890") // false
  * ```
- *
- * @category Number Based Method
  */
 export function isValidMobileNumber(mobNumber: number | string) {
   if (isNaN(mobNumber as number)) {
@@ -103,8 +103,6 @@ export function isValidMobileNumber(mobNumber: number | string) {
  * ```
  * convertPaisaToRupee(100)); // 1
  * ```
- *
- * @category Number Based Method
  */
 export function convertPaisaToRupee(value: number) {
   if (Number.isInteger(value)) { // Paisa cannot be in decimal
@@ -125,8 +123,6 @@ export function convertPaisaToRupee(value: number) {
  * ```
  * convertRupeeToPaisa(1)); // 100
  * ```
- *
- * @category Number Based Method
  */
 export function convertRupeeToPaisa(value: number) {
   return parseFloat(value as any as string) * 100;
@@ -145,8 +141,6 @@ export function convertRupeeToPaisa(value: number) {
  * ordinalSuffixOfNumber(21); // 21st
  * ordinalSuffixOfNumber(101); // 103rd
  * ```
- *
- * @category Number Based Method
  */
 export function ordinalSuffixOfNumber(num: number): string {
   const j = (num % 10),
@@ -183,15 +177,13 @@ export function ordinalSuffixOfNumber(num: number): string {
  * millionWithCommas(1000001); // 1,000,001
  * millionWithCommas(1000001.12432432); // 1,000,001.12432432
  * ```
- *
- * @category Number Based Method
  */
 export function millionWithCommas(num: number) {
   try {
     // return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     const parts = num.toString().split('.');
 
-    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (parts[1] ? '.' + parts[1] : '');
+    return parts[ 0 ].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (parts[ 1 ] ? '.' + parts[ 1 ] : '');
 
   } catch (err) {
     console.error('Error in adding commas in millions: ', err);
@@ -210,8 +202,6 @@ export function millionWithCommas(num: number) {
  * ```
  * getIntegerRandomNoBetweenTwoNo(0,500)); // will return anything between 0 to 500
  * ```
- *
- * @category Number Based Method
  */
 export function getIntegerRandomNoBetweenTwoNo(min: number, max: number) { // min, max inclusive
   return Math.floor(Math.random() * (max - min + 1)) + min;

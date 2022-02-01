@@ -1,3 +1,7 @@
+/**
+ * @module DOM
+ */
+
 import { isEmpty } from '../general';
 
 /**
@@ -13,8 +17,6 @@ import { isEmpty } from '../general';
  * ```
  * listenToCustomEvent(CUSTOM_EVENTS.file_loaded, this.xyz)
  * ```
- *
- * @category DOM Based Method
  */
 export function listenToCustomEvent(eventName: string, callback: Function) {
   try {
@@ -42,8 +44,6 @@ export function listenToCustomEvent(eventName: string, callback: Function) {
  * dispatchCustomEvent(CUSTOM_EVENTS.file_loaded)
  * dispatchCustomEvent(CUSTOM_EVENTS.file_loaded, {user: 'Ella'})
  * ```
- *
- * @category DOM Based Method
  */
 export function dispatchCustomEvent(eventName: string, eventDetails: object = {}) {
   if (!isEmpty(document)) {
@@ -67,8 +67,6 @@ export function dispatchCustomEvent(eventName: string, eventDetails: object = {}
  * ```
  * unlistenToCustomEvent(CUSTOM_EVENTS.file_loaded, this.xyz)
  * ```
- *
- * @category DOM Based Method
  */
 export function unlistenToCustomEvent(eventName: string, methodToUnlisten: Function) {
   try {
@@ -89,8 +87,6 @@ export function unlistenToCustomEvent(eventName: string, methodToUnlisten: Funct
  * ```
  * scrollPageToTop();
  * ```
- *
- * @category DOM Based Method
  */
 export function scrollPageToTop() {
   if (!isEmpty(window)) {
@@ -112,8 +108,6 @@ export function scrollPageToTop() {
  * ```
  * blockSpecialChars(event, ['@', '%'])
  * ```
- *
- * @category DOM Based Method
  */
 export function blockSpecialChars(eventObject: React.KeyboardEvent<HTMLInputElement>, allowedArr: string[]) {
   const k = eventObject.key;
@@ -139,8 +133,6 @@ export function blockSpecialChars(eventObject: React.KeyboardEvent<HTMLInputElem
  * ```
  * copyToClipboard("URN: 2303232923");
  * ```
- *
- * @category DOM Based Method
  */
 export function copyToClipboard(str: string) {
   /**
@@ -167,8 +159,6 @@ export function copyToClipboard(str: string) {
  * performanceMark('ComponentMounted');
  * performanceMeasure('ComponentWillMount','ComponentMounted')
  * ```
- *
- * @category DOM Based Method
  */
 export function performanceMark(name: string) {
   if (window?.performance?.mark) {
@@ -189,8 +179,6 @@ export function performanceMark(name: string) {
  * performanceMark('ComponentMounted');
  * console.log("Component mounted in ms - "performanceMeasure('ComponentWillMount','ComponentMounted'));
  * ```
- *
- * @category DOM Based Method
  */
 export function performanceMeasure(markStart: string, markEnd: string) {
   if (window?.performance?.measure) {
@@ -211,8 +199,6 @@ export function performanceMeasure(markStart: string, markEnd: string) {
  * ```
  * const url = `/abc/xyz/${encodeURL(searchId)}`;
  * ```
- *
- * @category DOM Based Method
  */
 export function encodeURLParams(queryParam: string) {
   let decodedURL = '';
@@ -238,8 +224,6 @@ export function encodeURLParams(queryParam: string) {
  * ```
  * console.log('Browser Name - ',getBrowserName());
  * ```
- *
- * @category DOM Based Method
  */
 export function getBrowserName(): string {
   if (!isEmpty(window) && !isEmpty(navigator)) {
@@ -282,8 +266,6 @@ export function getBrowserName(): string {
  * ```
  * console.log('Browser Name - ',getOSName());
  * ```
- *
- * @category DOM Based Method
  */
 export function getOSName() {
   if (!isEmpty(window) && !isEmpty(navigator)) {
