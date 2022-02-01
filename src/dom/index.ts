@@ -327,3 +327,35 @@ export function smoothScrollToTop() {
     }
   }
 }
+
+
+/**
+ * In safari browser, you can input multiple decimals. This method can be used to prevent that.
+ *
+ * @param {React.KeyboardEvent<HTMLInputElement>} eventObject - onKeyDown event object
+ * @param {number | string} currentValue - Current value of input field
+ *
+ * @remarks
+ * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
+ *
+ * @example
+ * ```
+ * <input
+ *   type="number"
+ *   onInput={this.handleInput}
+ *   value={this.state.value}
+ *   onKeyDown={(eventObject) => ignoreSecondDecimalInInput(eventObject, this.state.value)}
+ * />
+ * ```
+ */
+export function ignoreSecondDecimalInInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string) {
+  const k = eventObject.key;
+
+  // Convert to string if argument currentValue is in number
+  const str = currentValue.toString();
+
+  // One decimal is already present and this key pressed is also decimal
+  if (str.indexOf('.') !== -1 && k === '.') {
+    eventObject.preventDefault();
+  }
+}
