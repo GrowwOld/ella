@@ -133,7 +133,7 @@ export function isValidName(name: string): boolean {
  */
 export function convertToSentenceCase(str: string) {
   try {
-    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) { return c.toUpperCase(); });
+    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function (c) { return c.toUpperCase(); });
 
     return newString;
 
@@ -159,7 +159,7 @@ export function convertToSentenceCase(str: string) {
  */
 export function capitalizeFirstLetter(str: string) {
   try {
-    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
+    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
 
   } catch (e) {
     console.error('capitalize letter', e);
@@ -183,7 +183,7 @@ export function capitalizeFirstLetter(str: string) {
  */
 export function toTitleCase(str: string) {
   try {
-    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
+    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
 
   } catch (e) {
     console.error('title case error', e);
@@ -333,6 +333,38 @@ export function isSequentialDigitsPattern(digitsPattern: string | number) {
 
   } catch (error) {
     console.error('Error in isSequentialDigitsPattern: ', error);
+
+    return false;
+  }
+}
+
+
+/**
+ * This function checks if a string has all digits as the same digit
+ *
+ * @param {string} str - string entered in input element
+ *
+ * @example
+ * ```
+ * isSameDigitsString('1111')  //true
+ * isSameDigitsString('2222')  //true
+ * isSameDigitsString('1212')  //false
+ * ```
+ *
+ * @category String Based Method
+ */
+export function isSameDigitsString(str: string) {
+  try {
+
+    if (isEmpty(str)) {
+      return false;
+    }
+
+    // checks if every digit in string is same as first character
+    return str.split('').every(char => char === str[0]);
+
+  } catch (error) {
+    console.error('Error in isSameDigitsString: ', error);
 
     return false;
   }
