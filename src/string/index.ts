@@ -1,6 +1,3 @@
-import { isEmpty } from '../general';
-
-=======
 /**
  * @module String
  */
@@ -27,7 +24,6 @@ import { isEmpty } from '../general';
  *
  * @category String Based Method
  */
->>>>>>> aa92a6c351aba7e67d2bf7638b09fd1737f967e7
 export function isValidEmail(emailId: string) {
   const mailformat = /^\w+([\+\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
 
@@ -364,7 +360,7 @@ export function isSameDigitsString(str: string) {
       return false;
     }
 
-    //checks if every digit in string is same as first character
+    // checks if every digit in string is same as first character
     return str.split('').every(char => char === str[0]);
 
   } catch (error) {
