@@ -207,7 +207,7 @@ export function downloadFile(downloadConfig:{ file:File | null; type:string; fil
 
 
   try {
-    if (typeof window === 'undefined') {
+    if (isEmpty(window)) {
       throw new Error('window is undefined');
     }
 
@@ -225,6 +225,7 @@ export function downloadFile(downloadConfig:{ file:File | null; type:string; fil
     }
 
   } catch (err) {
-    console.error('File download failed - ', err);
+    console.error('File Download Error');
+    throw new Error(err);
   }
 }
