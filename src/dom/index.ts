@@ -289,9 +289,9 @@ export function getOSName() {
   if (!isEmpty(window) && !isEmpty(navigator)) {
     const userAgent = window.navigator.userAgent,
       platform = window.navigator.platform,
-      macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
-      windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-      iosPlatforms = ['iPhone', 'iPad', 'iPod'];
+      macosPlatforms = [ 'Macintosh', 'MacIntel', 'MacPPC', 'Mac68K' ],
+      windowsPlatforms = [ 'Win32', 'Win64', 'Windows', 'WinCE' ],
+      iosPlatforms = [ 'iPhone', 'iPad', 'iPod' ];
 
     let os = '';
 
@@ -315,4 +315,71 @@ export function getOSName() {
   }
 
   return '';
+}
+
+
+/**
+ * This method is used to push a message along with some data to a window instance. Useful in scenarios like iFrames, Webviews or Window Modals.
+ *
+ * @param {Window} targetWindow - Target window that needs to listen to the message. Defaults to current window.
+ * @param {string} action - Action type
+ * @param {Object} params - POJO - Any payload to be passed along with the action
+ * @param {string} targetOrigin - Target origin identifier. This is to verify at the receiver end, if origin is as expected or not. Usually defaults to the host.
+ *
+ * @remarks
+ * <br />
+ * <br />
+ * <p>
+ * It is advisable by MDN to always send targetOrigin (usually your host) to avoid security breach.<br/>
+ * When writing the listener of this message, ensure event.origin is verified and acknowledged before further processing.
+ * </p>
+ *
+ * @example
+ * ```
+ * const newWindow = window.open("https://groww.in/random-route", "_blank");
+ *
+ * postWindowMessage(newWindow, 'CHANGE_THEME', { theme: 'dark' }, "https://groww.in");
+ * ```
+ *
+ * @category DOM Based Method
+ */
+export function postWindowMessage(targetWindow:Window = window, action:string = 'WINDOW_ACTION', params:Object = {}, targetOrigin:string = '') {
+  try {
+
+    if (typeof targetWindow === 'undefined') {
+      throw new Error('window is undefined');
+    }
+
+    if (!targetOrigin) {
+      throw new Error('targetOrigin not defined. Security is at risk');
+    }
+
+    const message:string = JSON.stringify({
+      action,
+      params
+    });
+
+    targetWindow.postMessage(message, origin);
+
+  } catch (error) {
+    console.error('Error while window.postMessage', error);
+  }
+}
+
+
+export function listenWindowMessage(expectedOrigin: string, eventCallback: Function) {
+  try {
+    window.addEventListener('message', (event) => {
+
+      if (event.origin !== expectedOrigin) {
+        throw new Error('Origin breach');
+      }
+
+      eventCallback(JSON.parse(event.data));
+
+    });
+
+  } catch (error) {
+
+  }
 }
