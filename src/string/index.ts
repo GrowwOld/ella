@@ -1,3 +1,5 @@
+import { isEmpty } from '../general';
+
 export function isValidEmail(emailId: string) {
   const mailformat = /^\w+([\+\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
 
@@ -223,3 +225,35 @@ export function isValidPincode(pincode: string | number) {
 
   return regexForOnlyNumbers.test(convertPincodeToString) && convertPincodeToString.length === 6;
 };
+
+
+/**
+ * This function checks if a string has all digits as the same digit
+ * Checks if every digit in string is same as first character
+ *
+ * @param {string} str - string entered in input element
+ *
+ * @example
+ * ```
+ * isSameDigitsString('1111')  //true
+ * isSameDigitsString('2222')  //true
+ * isSameDigitsString('1212')  //false
+ * ```
+ *
+ * @category String Based Method
+ */
+export function isSameDigitsString(str: string) {
+  try {
+
+    if (isEmpty(str)) {
+      return false;
+    }
+
+    return str.split('').every(char => char === str[0]);
+
+  } catch (error) {
+    console.error('Error in isSameDigitsString: ', error);
+
+    return false;
+  }
+}
