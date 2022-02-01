@@ -289,9 +289,9 @@ export function getOSName() {
   if (!isEmpty(window) && !isEmpty(navigator)) {
     const userAgent = window.navigator.userAgent,
       platform = window.navigator.platform,
-      macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
-      windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-      iosPlatforms = ['iPhone', 'iPad', 'iPod'];
+      macosPlatforms = [ 'Macintosh', 'MacIntel', 'MacPPC', 'Mac68K' ],
+      windowsPlatforms = [ 'Win32', 'Win64', 'Windows', 'WinCE' ],
+      iosPlatforms = [ 'iPhone', 'iPad', 'iPod' ];
 
     let os = '';
 
@@ -315,4 +315,33 @@ export function getOSName() {
   }
 
   return '';
+}
+
+
+/**
+ * This function scrolls the page to the top.
+ * If window.scroll is available and works perfectly, this function uses the smooth scroll behaviour of window
+ * and scrolls with ease in animation. Else, It directly scrolls to top without animation in case of error with
+ * window.scroll.
+ *
+ * @example
+ * ```
+ * smoothScrollToTop();  // The page is scrolled to the top. With animation if window object is present,
+ * without animation if window object is not present.
+ * ```
+ *
+ * @category DOM Based Method
+ */
+export function smoothScrollToTop() {
+  if (!isEmpty(window)) {
+    try {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth'
+      });
+
+    } catch (err) {
+      window.scrollTo(0, 0);
+    }
+  }
 }
