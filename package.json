@@ -11,7 +11,7 @@
   "sideEffects": false,
   "scripts": {
     "clean": "rimraf dist && rimraf docs",
-    "generate-doc": "node_modules/.bin/typedoc src/index.ts",
+    "generate-doc": "node_modules/.bin/typedoc",
     "prebuild": "npm run clean",
     "build": "tsup --env.NODE_ENV production",
     "postbuild": "npm run generate-doc",
