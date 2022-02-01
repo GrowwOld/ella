@@ -14,7 +14,7 @@
  */
 export function isEmpty(data: any) {
   try {
-    if (data === null || data === undefined) {
+    if (data === null || data === undefined || typeof data === 'undefined') {
       return true;
     }
 
@@ -156,7 +156,7 @@ export function getSelectedTabIndex(tabs: any[], selectedTabName: string): numbe
  *
  * @category General Method
  */
-export function downloadFile(downloadConfig:{ file:File | null; type:string; fileName:string; downloadMethod:string; fileExtension:string; fileUrl:string | null }) {
+export function downloadFile(downloadConfig: { file: File | null; type: string; fileName: string; downloadMethod: string; fileExtension: string; fileUrl: string | null }) {
 
   const DOWNLOAD_FILE_METHOD = {
     BLOB: 'blob',
@@ -166,7 +166,7 @@ export function downloadFile(downloadConfig:{ file:File | null; type:string; fil
   const { file = null, type, fileName, downloadMethod = DOWNLOAD_FILE_METHOD.URL, fileExtension, fileUrl } = downloadConfig;
 
 
-  const createFileUrlFromBlob = (file: File | null, type:string) => {
+  const createFileUrlFromBlob = (file: File | null, type: string) => {
     if (file) {
       // It is necessary to create a new blob object with mime-type explicitly set
       // otherwise only Chrome works like it should
@@ -184,7 +184,7 @@ export function downloadFile(downloadConfig:{ file:File | null; type:string; fil
   };
 
 
-  const downloadFileFromUrl = (fileUrl:string | null, fileName:string, extension:string) => {
+  const downloadFileFromUrl = (fileUrl: string | null, fileName: string, extension: string) => {
     if (fileUrl) {
       const link = document.createElement('a');
 
