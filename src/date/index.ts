@@ -25,5 +25,5 @@ export function getMonthAbbrByIndex(monthNumber: number): string {
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ];
 
-  return monthNames[monthNumber - 1];
+  return monthNames[ monthNumber - 1 ];
 }

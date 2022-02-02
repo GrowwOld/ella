@@ -337,3 +337,35 @@ export function isSequentialDigitsPattern(digitsPattern: string | number) {
     return false;
   }
 }
+
+
+/**
+ * This function checks if a string has all digits as the same digit
+ *
+ * @param {string} str - string entered in input element
+ *
+ * @example
+ * ```
+ * isSameDigitsString('1111')  //true
+ * isSameDigitsString('2222')  //true
+ * isSameDigitsString('1212')  //false
+ * ```
+ *
+ * @category String Based Method
+ */
+export function isSameDigitsString(str: string) {
+  try {
+
+    if (isEmpty(str)) {
+      return false;
+    }
+
+    // checks if every digit in string is same as first character
+    return str.split('').every(char => char === str[ 0 ]);
+
+  } catch (error) {
+    console.error('Error in isSameDigitsString: ', error);
+
+    return false;
+  }
+}
