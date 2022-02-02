@@ -370,15 +370,6 @@ export function ignoreSecondDecimalInInput(eventObject: React.KeyboardEvent<HTML
  * @param {Object} params - POJO - Any payload to be passed along with the action
  * @param {string} eventIdentifier - Unique identifier for your event. Defaults to CUSTOM_MESSAGE
  *
- * @remarks
- * <br />
- * <br />
- * <p>
- * It is advisable by MDN to always send targetOrigin to avoid security breach.<br/>
- * targetOrigin should always be equal to your host
- * When writing the listener of this message, ensure event.origin is verified and acknowledged before further processing.
- * </p>
- *
  * @example
  * ```
  * const newWindow = window.open("https://groww.in/random-route", "_blank");
