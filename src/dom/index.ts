@@ -311,8 +311,6 @@ export function getOSName() {
  * smoothScrollToTop();  // The page is scrolled to the top. With animation if window object is present,
  * without animation if window object is not present.
  * ```
- *
- * @category DOM Based Method
  */
 export function smoothScrollToTop() {
   if (!isEmpty(window)) {
