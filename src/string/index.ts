@@ -396,7 +396,7 @@ export function isSameDigitsString(str: string) {
     }
 
     // checks if every digit in string is same as first character
-    return str.split('').every(char => char === str[0]);
+    return str.split('').every(char => char === str[ 0 ]);
 
   } catch (error) {
     console.error('Error in isSameDigitsString: ', error);

@@ -311,8 +311,6 @@ export function getOSName() {
  * smoothScrollToTop();  // The page is scrolled to the top. With animation if window object is present,
  * without animation if window object is not present.
  * ```
- *
- * @category DOM Based Method
  */
 export function smoothScrollToTop() {
   if (!isEmpty(window)) {
@@ -345,7 +343,7 @@ export function smoothScrollToTop() {
  * smoothScrollToElementWithId('enterAmountDiv');  // scroll the div with id 'enterAmountDiv' to top of the window
  * smoothScrollToElementWithId('enterAmountDiv', 0);  // scroll the div with id 'enterAmountDiv' to top of the window
  * smoothScrollToElementWithId('enterAmountDiv', 100);  // scroll the div with id 'enterAmountDiv' to 100px below the top of the window
- * ```
+ * * ```
  *
  * @category DOM Based Method
  */
@@ -367,5 +365,129 @@ export function smoothScrollToElementWithId(elementId: string, offset: number = 
 
   } catch (error) {
     console.error('Error in scrollToElementWithId: ', error);
+  }
+}
+
+
+/**
+ * In safari browser, you can input multiple decimals. This method can be used to prevent that.
+ *
+ * @param {React.KeyboardEvent<HTMLInputElement>} eventObject - onKeyDown event object
+ * @param {number | string} currentValue - Current value of input field
+ *
+ * @remarks
+ * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
+ *
+ * @example
+ * ```
+ * <input
+ *   type="number"
+ *   onInput={this.handleInput}
+ *   value={this.state.value}
+ *   onKeyDown={(eventObject) => ignoreSecondDecimalInInput(eventObject, this.state.value)}
+ * />
+ * ```
+ */
+export function ignoreSecondDecimalInInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string) {
+  const k = eventObject.key;
+
+  // Convert to string if argument currentValue is in number
+  const str = currentValue.toString();
+
+  // One decimal is already present and this key pressed is also decimal
+  if (str.indexOf('.') !== -1 && k === '.') {
+    eventObject.preventDefault();
+  }
+}
+
+
+/**
+ * This method is used to push a message along with some data to a window instance. Useful in scenarios like iFrames, Webviews or Window Modals.
+ * Must be used in conjuction with listenToWindowMessage method above.
+ *
+ * @param {Window} targetWindow - Target window that needs to listen to the message. Defaults to current window.
+ * @param {string} action - Action type
+ * @param {Object} params - POJO - Any payload to be passed along with the action
+ * @param {string} eventIdentifier - Unique identifier for your event. Defaults to CUSTOM_MESSAGE
+ *
+ * @example
+ * ```
+ * const newWindow = window.open("https://groww.in/random-route", "_blank");
+ *
+ * postWindowMessage(newWindow, 'CHANGE_THEME', { theme: 'dark' }, 'MY_EVENT');
+ * ```
+ *
+ * @category DOM Based Method
+ */
+export function postWindowMessage(targetWindow: Window = window, action: string = 'WINDOW_ACTION', params: Object = {}, eventIdentifier: string = 'CUSTOM_MESSAGE') {
+  try {
+
+    if (isEmpty(window)) {
+      throw new Error('window is undefined');
+    }
+
+    const message: {
+      action: string;
+      params: Object;
+      identifier: string;
+    } = {
+      action,
+      params,
+      identifier: eventIdentifier
+    };
+
+    targetWindow.postMessage(message, window?.location?.origin ?? '*');
+
+  } catch (error) {
+    console.error('Error while window.postMessage', error);
+    throw error;
+  }
+}
+
+/**
+ * This method is used to listen to the message event and receive data across windows. Must be used in conjuction with postWindowMessage method above.
+ *
+ * @param {Function} eventCallback - Method to execute when message is received.
+ * @param {string} eventIdentifier - Unique event identifier which is used while posting message using postWindowMessage method
+ *
+ *
+ * @example
+ * ```
+ * listenToWindowMessage((messageData) => {
+ *    console.log(messageData);
+ * }, 'MY_EVENT')
+ * ```
+ *
+ * @category DOM Based Method
+ */
+export function listenToWindowMessage(eventCallback: Function, eventIdentifier: string = 'CUSTOM_MESSAGE') {
+  try {
+
+    if (isEmpty(window)) {
+      throw new Error('window is undefined');
+    }
+
+    window.addEventListener('message', (event) => {
+
+      const isOriginBreach = event.origin !== window.location.origin;
+
+      if (isOriginBreach) {
+        throw new Error('Origin breach');
+      }
+
+      const isEventIdentified = event.data?.identifier === eventIdentifier;
+
+      if (isEventIdentified) {
+        // debouncing if type field doesn't exist or is unequal to CUSTOM_MESSAGE.
+        // Other libraries leverage message listener as well.
+        // If we don't add this condition, the listener will call every time a new message is received
+        eventCallback(event.data);
+      }
+
+    });
+
+  } catch (error) {
+    console.error('Error while setting up message listener', error);
+    throw error;
   }
 }
