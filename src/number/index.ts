@@ -268,7 +268,7 @@ export function changeFormatToLakhCrore(num: string | number, toFixedDecimals: n
 
 
 /**
- * This method can be used to convert the number in lakhs and crore format.
+ * This method can be used to convert the number in thousand,million,billion and trillion format.
  *
  * @param {number | string} number - Number that you want to format for in billion trillon Intl format.
  * @param {number} toFixed - how much decimal places you need after decimal, default is set as 2.
