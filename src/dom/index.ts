@@ -320,17 +320,19 @@ export function getOSName() {
 
 /**
  * This method is used to push a message along with some data to a window instance. Useful in scenarios like iFrames, Webviews or Window Modals.
+ * Must be used in conjuction with listenToWindowMessage method above.
  *
  * @param {Window} targetWindow - Target window that needs to listen to the message. Defaults to current window.
  * @param {string} action - Action type
  * @param {Object} params - POJO - Any payload to be passed along with the action
- * @param {string} targetOrigin - Target origin identifier. This is to verify at the receiver end, if origin is as expected or not. Usually defaults to the host.
+ * @param {string} eventIdentifier - Unique identifier for your event. Defaults to CUSTOM_MESSAGE
  *
  * @remarks
  * <br />
  * <br />
  * <p>
- * It is advisable by MDN to always send targetOrigin (usually your host) to avoid security breach.<br/>
+ * It is advisable by MDN to always send targetOrigin to avoid security breach.<br/>
+ * targetOrigin should always be equal to your host
  * When writing the listener of this message, ensure event.origin is verified and acknowledged before further processing.
  * </p>
  *
@@ -338,48 +340,80 @@ export function getOSName() {
  * ```
  * const newWindow = window.open("https://groww.in/random-route", "_blank");
  *
- * postWindowMessage(newWindow, 'CHANGE_THEME', { theme: 'dark' }, "https://groww.in");
+ * postWindowMessage(newWindow, 'CHANGE_THEME', { theme: 'dark' }, config.host);
  * ```
  *
  * @category DOM Based Method
  */
-export function postWindowMessage(targetWindow:Window = window, action:string = 'WINDOW_ACTION', params:Object = {}, targetOrigin:string = '') {
+export function postWindowMessage(targetWindow:Window = window, action:string = 'WINDOW_ACTION', params:Object = {}, eventIdentifier:string = 'CUSTOM_MESSAGE') {
   try {
 
-    if (typeof targetWindow === 'undefined') {
+    if (isEmpty(window)) {
       throw new Error('window is undefined');
     }
 
-    if (!targetOrigin) {
-      throw new Error('targetOrigin not defined. Security is at risk');
-    }
-
-    const message:string = JSON.stringify({
+    const message:{
+      action:string;
+      params:Object;
+      identifier:string;
+    } = {
       action,
-      params
-    });
+      params,
+      identifier: eventIdentifier
+    };
 
-    targetWindow.postMessage(message, origin);
+    targetWindow.postMessage(message, window?.location?.origin ?? '*');
 
   } catch (error) {
     console.error('Error while window.postMessage', error);
+    throw error;
   }
 }
 
-
-export function listenWindowMessage(expectedOrigin: string, eventCallback: Function) {
+/**
+ * This method is used to listen to the message event and receive data across windows. Must be used in conjuction with postWindowMessage method above.
+ *
+ * @param {string} eventIdentifier - Unique event identifier which is used while posting message using postWindowMessage method
+ * @param {Function} eventCallback - Method to execute when message is received.
+ *
+ *
+ * @example
+ * ```
+ * listenToWindowMessage("https://groww.in", (messageData) => {
+ *    console.log(messageData);
+ * })
+ * ```
+ *
+ * @category DOM Based Method
+ */
+export function listenToWindowMessage(eventCallback: Function, eventIdentifier: string = 'CUSTOM_MESSAGE') {
   try {
+
+    if (isEmpty(window)) {
+      throw new Error('window is undefined');
+    }
+
     window.addEventListener('message', (event) => {
 
-      if (event.origin !== expectedOrigin) {
+      const isOriginBreach = event.origin !== window.location.origin;
+
+      if (isOriginBreach) {
         throw new Error('Origin breach');
       }
 
-      eventCallback(JSON.parse(event.data));
+      const isEventIdentified = event.data?.identifier === eventIdentifier;
+
+      if (isEventIdentified) {
+        // debouncing if type field doesn't exist or is unequal to CUSTOM_MESSAGE.
+        // Other libraries leverage message listener as well.
+        // If we don't add this condition, the listener will call every time a new message is received
+        eventCallback(event.data);
+      }
 
     });
 
   } catch (error) {
-
+    console.error('Error while setting up message listener', error);
+    throw error;
   }
 }
