@@ -344,8 +344,6 @@ export function smoothScrollToTop() {
  * smoothScrollToElementWithId('enterAmountDiv', 0);  // scroll the div with id 'enterAmountDiv' to top of the window
  * smoothScrollToElementWithId('enterAmountDiv', 100);  // scroll the div with id 'enterAmountDiv' to 100px below the top of the window
  * * ```
- *
- * @category DOM Based Method
  */
 export function smoothScrollToElementWithId(elementId: string, offset: number = 0) {
   try {

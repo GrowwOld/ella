@@ -217,10 +217,8 @@ export function toTitleCase(str: string) {
  * maskInputString("maskInputString", -1, 2);  // Output is ''
  * maskInputString("maskInputString", 1, -2);  // Output is ''
  * ```
- *
- * @category String Based Method
  */
-export function maskInputString(inputString: string = '', maskStartIndex: number, maskCharactersCount: number) {
+export function maskInputString(inputString: string, maskStartIndex: number, maskCharactersCount: number) {
   if (!isEmpty(inputString)) {
     const inputLength = inputString.length;
 
@@ -266,10 +264,8 @@ export function maskInputString(inputString: string = '', maskStartIndex: number
  * truncateInputString('truncateInputString', -1, 10)  // Output will be ''
  * truncateInputString('truncateInputString', -1, -1)  // Output will be ''
  * ```
- *
- * @category String Based Method
  */
-export function truncateInputString(inputString: string = '', truncateStartIndex: number = 0, truncateCharactersCount: number = 8) {
+export function truncateInputString(inputString: string, truncateStartIndex: number = 0, truncateCharactersCount: number = 8) {
   if (!isEmpty(inputString)) {
     const inputLength = inputString.length;
 
