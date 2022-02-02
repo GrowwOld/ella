@@ -279,20 +279,21 @@ export function changeFormatToLakhCrore(num: string | number, toFixedDecimals: n
  * @example
  *
  * ```
- * convertToIntlFormat(103213456); // 10.32Cr
- * convertToIntlFormat('1034564'); // 10.35L
- * convertToIntlFormat('1027654',3); // 10.277L
+ * convertToBillionTrillionFormat(3098100000); // 3.09B
+ * convertToBillionTrillionFormat(2849537600000); // 2.84T
+ * convertToBillionTrillionFormat(12200000); // 12.20M
+ * convertToBillionTrillionFormat(100232332,3); // 100.232M
+ * convertToBillionTrillionFormat('100232332'); // 100.23M
  * ```
  *
  */
-export function convertToIntlFormat(num : string | number, toFixedDecimals : number = 2) {
+export function convertToBillionTrillionFormat(num : string | number, toFixedDecimals : number = 2) {
   try {
     if (isEmpty(num) || isNaN(num as number)) {
       console.error('Unable to convert number in billion trillon Intl format');
 
       return num;
     }
-
 
     const toNumber = Number(num);
     const abbrev = [ 'K', 'M', 'B', 'T' ];
@@ -313,11 +314,15 @@ export function convertToIntlFormat(num : string | number, toFixedDecimals : num
       return finalNumber;
 
     } else {
+      const numberBeforeDecimal = Number(splitNumberByCommaArr[0]);
+      const numberAfterDecimal = splitNumberByCommaArr[1];
+
       if (toFixedDecimals <= 0) {
-        return Number(splitNumberByCommaArr[0]) + unitPlace;
+        return numberBeforeDecimal + unitPlace;
       }
 
-      const result = `${Number(splitNumberByCommaArr[0])}.${Number(splitNumberByCommaArr[1]).toFixed(toFixedDecimals)}${unitPlace}`;
+      const sliceNumberAfterDecimal = numberAfterDecimal.slice(0, toFixedDecimals);
+      const result = `${numberBeforeDecimal}.${sliceNumberAfterDecimal}${unitPlace}`;
 
       return result;
     }
@@ -328,5 +333,3 @@ export function convertToIntlFormat(num : string | number, toFixedDecimals : num
     return num;
   }
 }
-
-convertToIntlFormat(2849537600000);
