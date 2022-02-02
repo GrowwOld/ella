@@ -133,7 +133,7 @@ export function isValidName(name: string): boolean {
  */
 export function convertToSentenceCase(str: string) {
   try {
-    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function (c) { return c.toUpperCase(); });
+    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) { return c.toUpperCase(); });
 
     return newString;
 
@@ -159,7 +159,7 @@ export function convertToSentenceCase(str: string) {
  */
 export function capitalizeFirstLetter(str: string) {
   try {
-    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
+    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
 
   } catch (e) {
     console.error('capitalize letter', e);
@@ -183,7 +183,7 @@ export function capitalizeFirstLetter(str: string) {
  */
 export function toTitleCase(str: string) {
   try {
-    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
+    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
 
   } catch (e) {
     console.error('title case error', e);
@@ -192,73 +192,108 @@ export function toTitleCase(str: string) {
 
 
 /**
- * This function keeps last specified number of characters from a string.
- * Used while displaying Account Number where it is too long, to reduce the length by specified number of characters.
+ * This function masks an input string from the index specified to the number of characters specified to be masked
  *
- * @param {string} inputString - Input string to be truncated
- * @param {number} truncatedCharactersCount - Number of characters which should be kept from the ending of inputString
+ * @param {string} inputString - Input string to be masked
+ * @param {number} maskStartIndex - Index in the input string from which masking needs to be started
+ * @param {number} maskCharactersCount - Count of number of charaters to be masked in input string
  *
  * @example
  * ```
- * truncateStringByCharacters('XXXXXXXX0900', 8); // Output will be 'XXXX0900'
- * truncateStringByCharacters('XXXXXXXX0900', 12); // Output will be 'XXXXXXXX0900'
- * truncateStringByCharacters('XXXXXXXX0900', 13); // Output will be ''
+ * maskInputString("maskInputString", 7, 12);  // Output is 'maskInpXXXXXXXX'
+ * maskInputString("maskInputString", 0, 12);  // Output is 'XXXXXXXXXXXXing'
+ * maskInputString("maskInputString", 0, 10);  // Output is 'XXXXXXXXXXtring'
+ * maskInputString("maskInputString", 0, 9);  // Output is 'XXXXXXXXXString'
+ * maskInputString("maskInputString", 2, 9);  // Output is 'maXXXXXXXXXring'
+ * maskInputString("maskInputString", 6, 8);  // Output is 'maskInXXXXXXXXg'
+ * maskInputString("maskInputString", 6, 13);  // Output is 'maskInXXXXXXXXX'
+ * maskInputString("maskInputString", 6, 16);  // Output is 'XXXXXXXXXXXXXXX' as maskCharactersCount is greater than length of inputString
+ * maskInputString("maskInputString", 13, 1);  // Output is 'maskInputStriXg'
+ * maskInputString("maskInputString", 16, 13);  // Output is 'maskInputString' as maskStartIndex is greater than length of inputString
+ * maskInputString("maskInputString", 16);  // Output is ''
+ * maskInputString("maskInputString", 2);  // Output is ''
+ * maskInputString("maskInputString", undefined, 3);  // Output is ''
+ * maskInputString();  // Output is ''
+ * maskInputString("maskInputString", -1, 2);  // Output is ''
+ * maskInputString("maskInputString", 1, -2);  // Output is ''
  * ```
  *
  * @category String Based Method
  */
-export function truncateStringByCharacters(inputString: string = '', truncatedCharactersCount: number = 8) {
-  if (!isEmpty(inputString) && inputString.length >= truncatedCharactersCount) {
-    return inputString.substr(inputString.length - truncatedCharactersCount);
-
-  } else {
-    return '';
-  }
-}
-
-;
-
-
-/**
- * This method replaces everything apart from last 4 characters in a string with X.
- * We can give an option to truncate the string as well with truncate boolean paramter.
- *
- * @param {string} inputString - Input string to be masked and/or truncated
- * @param {boolean} truncate - Boolean to enable truncation of inputString
- * @param {number} truncatedCharactersCount - Number of characters which should be kept from the ending of inputString
- *
- * @example
- * ```
- * maskInputStringAndTruncate('301634570900'); // Output will be 'XXXXXXXX0900'
- * maskInputStringAndTruncate('301634570900', true); // Output will be 'XXXX0900'
- * maskInputStringAndTruncate('301634570900', true, 8); // Output will be 'XXXX0900'
- * maskInputStringAndTruncate('301634570900', true, 5); // Output will be 'XXXX0900'
- * maskInputStringAndTruncate('301634570900', true, 3); // Output will be ''
- * maskInputStringAndTruncate('301634570900', true, 13); // Output will be ''
- * ```
- *
- * @category String Based Method
- */
-export function maskInputStringAndTruncate(inputString: string = '', truncate: boolean = false, truncatedCharactersCount: number = 8) {
+export function maskInputString(inputString: string = '', maskStartIndex: number, maskCharactersCount: number) {
   if (!isEmpty(inputString)) {
-    if (truncate) {
-      const truncateAcc = truncateStringByCharacters(inputString, truncatedCharactersCount);
+    const inputLength = inputString.length;
 
-      if (truncateAcc.length >= 4) {
-        return 'XXXX' + truncateAcc.substr(truncateAcc.length - 4);
+    if ((maskStartIndex >= 0) && (maskCharactersCount >= 0) && (maskCharactersCount <= inputLength)) {
+      const stringBeforeMask = inputString.slice(0, maskStartIndex);
+      const maskedString = new Array(maskCharactersCount + 1).join('X');
+      const stringAfterMask = inputString.slice(stringBeforeMask.length + maskedString.length, inputLength);
 
-      } else {
-        return '';
+      return (stringBeforeMask + maskedString + stringAfterMask).substr(0, inputLength);
+
+    } else {
+      if (maskStartIndex > inputLength && (maskCharactersCount >= 0)) {
+        return inputString;
+
+      } else if ((maskCharactersCount > inputLength) && !isEmpty(maskStartIndex)) {
+        return new Array(inputLength + 1).join('X');
       }
-    }
 
-    return new Array(inputString.length - 3).join('X') + inputString.substr(inputString.length - 4);
+      return '';
+    }
   }
 
   return inputString;
 }
 
-;
+
+/**
+ * This function truncates an input string from the index specified to the number of characters specified to be truncated
+ *
+ * @param {string} inputString - Input string to be truncated
+ * @param {string} truncateStartIndex - Index from which truncation of the string to be started
+ * @param {number} truncateCharactersCount - Number of characters which should be trucated from the truncateStartIndex
+ *
+ * @example
+ * ```
+ * truncateInputString('truncateInputString') // Output will be 'InputString'
+ * truncateInputString('truncateInputString', 0, 8) // Output will be 'InputString'
+ * truncateInputString('truncateInputString', 4, 9) // Output will be 'trunString'
+ * truncateInputString('truncateInputString', 20, 9) // Output will be 'truncateInputString', as start index is larger than length of inputString
+ * truncateInputString('truncateInputString', 10, 20) // Output will be '', aslength of characters to be truncated is large than length of inputString
+ * truncateInputString('truncateInputString', 0, 0) // Output will be 'truncateInputString'
+ * truncateInputString('truncateInputString', 10, -1)  // Output will be ''
+ * truncateInputString('truncateInputString', -1, 10)  // Output will be ''
+ * truncateInputString('truncateInputString', -1, -1)  // Output will be ''
+ * ```
+ *
+ * @category String Based Method
+ */
+export function truncateInputString(inputString: string = '', truncateStartIndex: number = 0, truncateCharactersCount: number = 8) {
+  if (!isEmpty(inputString)) {
+    const inputLength = inputString.length;
+
+    if ((truncateStartIndex >= 0) && (truncateCharactersCount >= 0) && (truncateCharactersCount <= inputLength)) {
+      const stringBeforeTruncate = inputString.slice(0, truncateStartIndex);
+      const truncatedString = '';
+      const stringAfterTruncate = inputString.slice(stringBeforeTruncate.length + truncateCharactersCount, inputLength);
+
+      return (stringBeforeTruncate + truncatedString + stringAfterTruncate).substr(0, inputLength);
+
+    } else {
+      if (truncateStartIndex > inputLength && (truncateCharactersCount >= 0)) {
+        return inputString;
+
+      } else if ((truncateCharactersCount > inputLength) && !isEmpty(truncateStartIndex)) {
+        return '';
+      }
+
+      return '';
+    }
+  }
+
+  return '';
+}
 
 
 /**
