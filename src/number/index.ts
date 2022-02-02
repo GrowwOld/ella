@@ -206,3 +206,127 @@ export function millionWithCommas(num: number) {
 export function getIntegerRandomNoBetweenTwoNo(min: number, max: number) { // min, max inclusive
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+
+/**
+ * This method can be used to convert the number in lakhs and crore format.
+ *
+ * @param {number | string} number - Number that you want to format for lakh or crore.
+ * @param {number} toFixed - how much decimal places you need after decimal, default is set as 2.
+ *
+ * @remarks
+ * It returns the number as it is on error ,empty string, null, undefined, NaN is passed.
+ *
+ * @example
+ *
+ * ```
+ * changeFormatToLakhCrore(103213456); // 10.32Cr
+ * changeFormatToLakhCrore('1034564'); // 10.35L
+ * changeFormatToLakhCrore('1027654',3); // 10.277L
+ * ```
+ *
+ */
+export function changeFormatToLakhCrore(num: string | number, toFixedDecimals: number = 2) {
+  try {
+    if (isEmpty(num) || isNaN(num as number)) {
+      console.error('Unable to convert number in lakhs and crores');
+
+      return num;
+    }
+
+    const sign = Math.sign(Number(num));
+    const noOfLakhs = Math.abs(+(Number(num) / 100000));
+
+    if (isNaN(noOfLakhs)) {
+      console.error('NaN error ');
+
+      return num;
+    }
+
+    let displayStr = String(num);
+
+    if (noOfLakhs >= 1 && noOfLakhs <= 99) {
+      const finalLakhs = noOfLakhs * sign;
+      const toFixDisplayVal = finalLakhs.toFixed(toFixedDecimals);
+
+      displayStr = `${toFixDisplayVal}L`;
+
+    } else if (noOfLakhs >= 100) {
+      const finalLakhs = noOfLakhs * sign;
+      const crores = +(finalLakhs / 100).toFixed(toFixedDecimals);
+
+      displayStr = `${crores}Cr`;
+    }
+
+    return displayStr;
+
+  } catch (err) {
+    console.error('Error in formatting number in lakhs and crore : ', err);
+    return num;
+  }
+}
+
+
+/**
+ * This method can be used to convert the number in lakhs and crore format.
+ *
+ * @param {number | string} number - Number that you want to format for in billion trillon Intl format.
+ * @param {number} toFixed - how much decimal places you need after decimal, default is set as 2.
+ *
+ * @remarks
+ * It returns the number as it is on error ,empty string, null, undefined, NaN is passed.
+ *
+ * @example
+ *
+ * ```
+ * convertToIntlFormat(103213456); // 10.32Cr
+ * convertToIntlFormat('1034564'); // 10.35L
+ * convertToIntlFormat('1027654',3); // 10.277L
+ * ```
+ *
+ */
+export function convertToIntlFormat(num : string | number, toFixedDecimals : number = 2) {
+  try {
+    if (isEmpty(num) || isNaN(num as number)) {
+      console.error('Unable to convert number in billion trillon Intl format');
+
+      return num;
+    }
+
+
+    const toNumber = Number(num);
+    const abbrev = [ 'K', 'M', 'B', 'T' ];
+    const numberToString = toNumber.toLocaleString('en-US');
+    const splitNumberByCommaArr = numberToString.split(',');
+
+    const splitNumberArrLength = splitNumberByCommaArr.length;
+
+    if (splitNumberArrLength <= 1) {
+      return num;
+    }
+
+    const unitPlace = splitNumberArrLength - 2 < abbrev.length ? abbrev[splitNumberArrLength - 2] : '';
+
+    if (isEmpty(unitPlace)) {
+      const finalNumber = Number(numberToString).toFixed(toFixedDecimals);
+
+      return finalNumber;
+
+    } else {
+      if (toFixedDecimals <= 0) {
+        return Number(splitNumberByCommaArr[0]) + unitPlace;
+      }
+
+      const result = `${Number(splitNumberByCommaArr[0])}.${Number(splitNumberByCommaArr[1]).toFixed(toFixedDecimals)}${unitPlace}`;
+
+      return result;
+    }
+
+
+  } catch (err) {
+    console.error('Error in formatting number in billion trillon Intl format : ', err);
+    return num;
+  }
+}
+
+convertToIntlFormat(2849537600000);
