@@ -145,7 +145,23 @@ const defaultNumberConfig = {
  *
  * @example
  * ```
- * NumberFormatter(100023) // '1,00,023.00'
+ * NumberFormatter(100023); // '1,00,023.00'
+ * NumberFormatter(100023,PRICE_CURRENCY);  // '₹1,00,023.00'
+ * NumberFormatter(100023,PRICE_CURRENCY_TO_FIXED_ZERO); // '₹1,00,023'
+ * NumberFormatter(2869610500000,CONVERT_TO_BILLION_TRILLION); // '2.87T'
+ * NumberFormatter(100023,PRICE_CURRENCY_FALLBACK_ZERO); // '₹1,00,023.00' (If anything fails then fallback used as '₹0')
+ * NumberFormatter(100023,PRICE_CURRENCY_USD); // '$100,023.00'
+ * NumberFormatter(100023,CURRENCY_CONVERT_TO_RUPEE); // '₹1,000.23' (First it will convert from paisa to rupee and then to currency)
+ * NumberFormatter(31490000000,CONVERT_TO_LAKH_CRORE); // '3149.00Cr'
+ * NumberFormatter(100023, {
+ *  ...PRICE_CURRENCY,
+ *  withSign: true
+ * }); // '+₹1,00,023.00' (It will give you sign also with the currency formatting)
+ * NumberFormatter(100023, {
+ *  ...PRICE_CURRENCY,
+ *  withSign: true,
+ *  spaceBetweenSignValue
+ * }); // '+ ₹1,00,023.00' (It will give you sign also (with space between value and sign) with the currency formatting)
  * ```
  *
  */
