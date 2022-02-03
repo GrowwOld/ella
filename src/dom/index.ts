@@ -328,6 +328,46 @@ export function smoothScrollToTop() {
 
 
 /**
+ * This function scrolls to the position of an element with an id.
+ *
+ * @param {string} elementId - id of the element to which the page needs to be scrolled to
+ * @param {number} offset - offset from top if we want to leave some space between the element top boundary
+ * and top of the scrolled window. this is and optional parameter. default value is 0
+ *
+ * @remarks
+ * If element with particular id is not present at the time when this function is called,
+ * then do nothing. A console.error will be called in such a case.
+ *
+ * @example
+ * ```
+ * smoothScrollToElementWithId('enterAmountDiv');  // scroll the div with id 'enterAmountDiv' to top of the window
+ * smoothScrollToElementWithId('enterAmountDiv', 0);  // scroll the div with id 'enterAmountDiv' to top of the window
+ * smoothScrollToElementWithId('enterAmountDiv', 100);  // scroll the div with id 'enterAmountDiv' to 100px below the top of the window
+ * * ```
+ */
+export function smoothScrollToElementWithId(elementId: string, offset: number = 0) {
+  try {
+    if (!isEmpty(window)) {
+      const element = document.getElementById(elementId);
+      const headerOffset = offset;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+
+  } catch (error) {
+    console.error('Error in scrollToElementWithId: ', error);
+  }
+}
+
+
+/**
  * In safari browser, you can input multiple decimals. This method can be used to prevent that.
  *
  * @param {React.KeyboardEvent<HTMLInputElement>} eventObject - onKeyDown event object
