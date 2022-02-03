@@ -339,14 +339,14 @@ export function convertToBillionTrillionFormat(num: string | number, toFixedDeci
  *
  *
  * @param {number} num - number entered in input element
- * @param {number} toFixedDecimal - Number of decimal places you want to fix to
+ * @param {number} toFixedDecimal - Number of decimal places you want to fix the decimal part to.
  *
  * @example
  * ```
  * toFixedWithoutRounding(1.56789,4) => 1.5678
  * ```
  */
-export function toFixedWithoutRounding(num: number, toFixedDecimal: number) {
+export function toFixedWithoutRounding(num: number | string, toFixedDecimal: number) {
   try {
 
     if (!num) {
