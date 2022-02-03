@@ -393,7 +393,7 @@ export function ignoreSecondDecimalInInput(eventObject: React.KeyboardEvent<HTML
   const str = currentValue.toString();
 
   // One decimal is already present and this key pressed is also decimal
-  if (str.indexOf('.') !== -1 && k === '.') {
+  if (str.includes('.') && k === '.') {
     eventObject.preventDefault();
   }
 }
