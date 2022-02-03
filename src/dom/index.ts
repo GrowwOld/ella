@@ -370,36 +370,19 @@ export function smoothScrollToElementWithId(elementId: string, offset: number = 
 }
 
 
-/**
- * In safari browser, you can input multiple decimals like(112.1.12.) This method can be used to prevent that.
- *
- * @param {React.KeyboardEvent<HTMLInputElement>} eventObject - onKeyDown event object
- * @param {number | string} currentValue - Current value of input field
- *
- * @remarks
- * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
- *
- * @example
- * ```
- * <input
- *   type="number"
- *   onInput={this.handleInput}
- *   value={this.state.value}
- *   onKeyDown={(eventObject) => ignoreSecondDecimalInput(eventObject, this.state.value)}
- * />
- * ```
- */
-export function ignoreSecondDecimalInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string) {
-  const k = eventObject.key;
+// REMARK - This method fails for 12.0.0 or 12.... use case in chrome, mozilla. It's because they dont add decimal in the string
+// REMARK - We can rewrite it with one more argument to work in all use cases but let's not write till someone really wants this.
+// export function ignoreSecondDecimalInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string) {
+//   const k = eventObject.key;
 
-  // Convert to string if argument currentValue is in number
-  const str = currentValue.toString();
+//   // Convert to string if argument currentValue is in number
+//   const str = currentValue.toString();
 
-  // One decimal is already present and this key pressed is also decimal
-  if (str.includes('.') && k === '.') {
-    eventObject.preventDefault();
-  }
-}
+//   // One decimal is already present and this key pressed is also decimal
+//   if (str.includes('.') && k === '.') {
+//     eventObject.preventDefault();
+//   }
+// }
 
 // REMARK - This method fails for 0.0 use case in chrome, mozilla. It's because they dont add decimal in the string
 // REMARK - We can rewrite it with one more argument to work in all use cases but let's not write till someone really wants this.
