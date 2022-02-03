@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const JsonLd = (props: Props) => {
   const schemaData = JSON.stringify(props.schemaData);
 

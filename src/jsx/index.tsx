@@ -10,7 +10,7 @@ import {
   Faq_schema,
   MetatagsData,
   Product_schema,
-  Webpage_schema,
+  Webpage_schema
 } from '../utils/types';
 
 /**
