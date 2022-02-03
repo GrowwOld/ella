@@ -5,11 +5,7 @@
 import { isEmpty } from '../general';
 
 export {
-  NumberFormatter, DAY_CHANGE_PERC_ABS, PRICE_CURRENCY_FALLBACK_ZERO,
-  PRIMARY_FALLBACK, PLAIN_NUMBER, PRICE_CURRENCY_TO_FIXED_ZERO,
-  PRICE_CURRENCY, FIXED_ZERO, CONVERT_TO_LAKH_CRORE, PRICE_CURRENCY_USD,
-  CONVERT_TO_BILLION_TRILLION, NO_COMMAS, CURRENCY_CONVERT_TO_RUPEE,
-  FALLBACK_ZERO_TO_FIXED_TWO, SIGN_SPACE_BETWEEN_SIGN_VALUE
+  NumberFormatter
 } from './NumberFormatter';
 
 /**
@@ -252,16 +248,15 @@ export function changeFormatToLakhCrore(num: string | number, toFixedDecimals: n
     }
 
     let displayStr = String(num);
+    const finalLakhs = noOfLakhs * sign;
 
     if (noOfLakhs >= 1 && noOfLakhs <= 99) {
-      const finalLakhs = noOfLakhs * sign;
       const toFixDisplayVal = finalLakhs.toFixed(toFixedDecimals);
 
       displayStr = `${toFixDisplayVal}L`;
 
     } else if (noOfLakhs >= 100) {
-      const finalLakhs = noOfLakhs * sign;
-      const crores = +(finalLakhs / 100).toFixed(toFixedDecimals);
+      const crores = (finalLakhs / 100).toFixed(toFixedDecimals);
 
       displayStr = `${crores}Cr`;
     }

@@ -3,6 +3,7 @@
     "./src/date/index.ts",
     "./src/dom/index.ts",
     "./src/general/index.ts",
+    "./src/jsx/index.tsx",
     "./src/number/index.ts",
     "./src/string/index.ts"
   ],
