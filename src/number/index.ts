@@ -169,7 +169,7 @@ export function ordinalSuffixOfNumber(num: number): string {
 /**
  * This method can be used to add commas as per million format (thousands separator).
  *
- * @param {number} num - Number that you want to be formatted with commas
+ * @param {number | string} num - Number that you want to be formatted with commas
  *
  * @remarks
  * It returns the number as it is on error
