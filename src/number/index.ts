@@ -4,6 +4,14 @@
 
 import { isEmpty } from '../general';
 
+export {
+  NumberFormatter, DAY_CHANGE_PERC_ABS, PRICE_CURRENCY_FALLBACK_ZERO,
+  PRIMARY_FALLBACK, PLAIN_NUMBER, PRICE_CURRENCY_TO_FIXED_ZERO,
+  PRICE_CURRENCY, FIXED_ZERO, CONVERT_TO_LAKH_CRORE, PRICE_CURRENCY_USD,
+  CONVERT_TO_BILLION_TRILLION, NO_COMMAS, CURRENCY_CONVERT_TO_RUPEE,
+  FALLBACK_ZERO_TO_FIXED_TWO, SIGN_SPACE_BETWEEN_SIGN_VALUE
+} from './NumberFormatter';
+
 /**
  * This method can be used to add commas as per Indian system to any valid number of type string or number.
  *
@@ -178,7 +186,7 @@ export function ordinalSuffixOfNumber(num: number): string {
  * millionWithCommas(1000001.12432432); // 1,000,001.12432432
  * ```
  */
-export function millionWithCommas(num: number) {
+export function millionWithCommas(num: number | string) {
   try {
     // return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     const parts = num.toString().split('.');
@@ -332,4 +340,38 @@ export function convertToBillionTrillionFormat(num : string | number, toFixedDec
     console.error('Error in formatting number in billion trillon Intl format : ', err);
     return num;
   }
+}
+
+
+/**
+ * This method can be used to give the sign of the number : + , - or empty if 0.
+ *
+ * @param {number | string} num - Number that you want to get sign for.
+ *
+ * @remarks
+ * It returns empty (No sign) for 0 value.
+ *
+ * @example
+ *
+ * ```
+ * getNumberSign(1000); // '+'
+ * convertToBillionTrillionFormat('1200'); // '+'
+ * convertToBillionTrillionFormat(-12430); // '-'
+ * convertToBillionTrillionFormat(0); // ''
+ * ```
+ *
+ */
+export function getNumberSign(num: string | number) {
+  const toNumber = Number(num);
+
+  const mathSign = Math.sign(toNumber);
+
+  if (mathSign === 1) {
+    return '+';
+
+  } else if (mathSign === -1) {
+    return '-';
+  }
+
+  return '';
 }
