@@ -338,7 +338,7 @@ export function convertToBillionTrillionFormat(num: string | number, toFixedDeci
  * This method fixes the decimal part but without round off the value.
  *
  *
- * @param {number} num - number entered in input element
+ * @param {number | string} num - number entered in input element
  * @param {number} toFixedDecimal - Number of decimal places you want to fix the decimal part to.
  *
  * @example
@@ -364,7 +364,7 @@ export function toFixedWithoutRounding(num: number | string, toFixedDecimal: num
     return number.slice(0, (decimalIndex + (toFixedDecimal + 1)));
 
   } catch (err) {
-    console.error('Error in round off number ', err);
+    console.error('Error in rounding off number ', err);
 
     return num;
   }
