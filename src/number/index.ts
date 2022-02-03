@@ -244,16 +244,15 @@ export function changeFormatToLakhCrore(num: string | number, toFixedDecimals: n
     }
 
     let displayStr = String(num);
+    const finalLakhs = noOfLakhs * sign;
 
     if (noOfLakhs >= 1 && noOfLakhs <= 99) {
-      const finalLakhs = noOfLakhs * sign;
       const toFixDisplayVal = finalLakhs.toFixed(toFixedDecimals);
 
       displayStr = `${toFixDisplayVal}L`;
 
     } else if (noOfLakhs >= 100) {
-      const finalLakhs = noOfLakhs * sign;
-      const crores = +(finalLakhs / 100).toFixed(toFixedDecimals);
+      const crores = (finalLakhs / 100).toFixed(toFixedDecimals);
 
       displayStr = `${crores}Cr`;
     }
