@@ -183,7 +183,7 @@ export function millionWithCommas(num: number) {
     // return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     const parts = num.toString().split('.');
 
-    return parts[ 0 ].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (parts[ 1 ] ? '.' + parts[ 1 ] : '');
+    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (parts[1] ? '.' + parts[1] : '');
 
   } catch (err) {
     console.error('Error in adding commas in millions: ', err);
@@ -286,7 +286,7 @@ export function changeFormatToLakhCrore(num: string | number, toFixedDecimals: n
  * ```
  *
  */
-export function convertToBillionTrillionFormat(num : string | number, toFixedDecimals : number = 2) {
+export function convertToBillionTrillionFormat(num: string | number, toFixedDecimals: number = 2) {
   try {
     if (isEmpty(num) || isNaN(num as number)) {
       console.error('Unable to convert number in billion trillon Intl format');
@@ -295,7 +295,7 @@ export function convertToBillionTrillionFormat(num : string | number, toFixedDec
     }
 
     const toNumber = Number(num);
-    const abbrev = [ 'K', 'M', 'B', 'T' ];
+    const abbrev = ['K', 'M', 'B', 'T'];
     const numberToString = toNumber.toLocaleString('en-US');
     const splitNumberByCommaArr = numberToString.split(',');
 
@@ -329,6 +329,43 @@ export function convertToBillionTrillionFormat(num : string | number, toFixedDec
 
   } catch (err) {
     console.error('Error in formatting number in billion trillon Intl format : ', err);
+    return num;
+  }
+}
+
+
+/**
+ * This method fixes the decimal part but without round off the value.
+ *
+ *
+ * @param {number} num - number entered in input element
+ * @param {number} toFixedDecimal - Number of decimal places you want to fix to
+ *
+ * @example
+ * ```
+ * toFixedWithoutRounding(1.56789,4) => 1.5678
+ * ```
+ */
+export function toFixedWithoutRounding(num: number, toFixedDecimal: number) {
+  try {
+
+    if (!num) {
+      return num;
+    }
+
+    let number = num.toString();
+
+    const decimalIndex = number.indexOf('.');
+
+    if (decimalIndex === -1 || toFixedDecimal < 0) {
+      return number;
+    }
+
+    return number.slice(0, (decimalIndex + (toFixedDecimal + 1)));
+
+  } catch (err) {
+    console.error('Error in round off number ', err);
+
     return num;
   }
 }
