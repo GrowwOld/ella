@@ -1,17 +1,15 @@
 import React from 'react';
 
-class JsonLd extends React.PureComponent<Props> {
-  render() {
-    const schemaData = JSON.stringify(this.props.schemaData);
+const JsonLd = (props: Props) => {
+  const schemaData = JSON.stringify(props.schemaData);
 
-    return (
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: schemaData }}
-      />
-    );
-  }
-}
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: schemaData }}
+    />
+  );
+};
 
 
 type RequiredProps = {
