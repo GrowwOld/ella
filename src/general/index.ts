@@ -264,7 +264,6 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
   };
 
   try {
-    // Since recursion, in the next recursive call, path will be an array. We have to sanitze only the first time.
     const newPathArray = String(sanitzePath(path)).split('.');
 
     for (const path of newPathArray) {
