@@ -36,6 +36,7 @@ export function getMonthAbbrByIndex(monthNumber: number): string {
 /**
  * This function converts date input coming from backend (generally in long format (ex. '2022-02-01T12:16:13'))
  * to a specified format provided in 2nd paramter
+ * It converts all types of dates accepted by dayjs
  *
  * @param {Date} longDateValue - Date input to be converted to another format. This generally comes from backend and is
  * in long format. For example '2022-02-01T12:16:13'
@@ -46,6 +47,9 @@ export function getMonthAbbrByIndex(monthNumber: number): string {
  * getDateFromLongValue('2022-02-01T12:16:13', 'DD MMM, hh:mm A');  // Output will be '01 Feb, 12:16 PM'
  * getDateFromLongValue('2022-01-28T12:54:40', 'DD MMM, hh:mm A');  // Output will be '28 Jan, 12:54 PM'
  * getDateFromLongValue('2022-01-25T12:08:12', 'DD MMM YYYY,  hh:mm A);  // Output will be '25 Jan 2022,  12:08 PM'
+ * getDateFromLongValue('2021/11/20', 'YYYY-MM-DD');  // Output will be '2021-11-20'
+ * getDateFromLongValue('21 Nov 2020', 'YYYY-MM-DD');  // Output will be '2020-11-21'
+ * getDateFromLongValue('Fri Feb 04 2022 15:24:28 GMT+0530 (India Standard Time)', 'YYYY-MM-DD');  // Output will be '2022-02-04'
  * ```
  */
 export function getDateFromLongValue(longDateValue: Date, dateFormat: string = 'DD MMM YYYY') {
@@ -103,8 +107,10 @@ export function getAgeFromDateOfBirth(birthDate: Date) {
 
 /**
  * This method is used for getting previous month with same date to the date provided through argument.
+ * Not doing with dayjs as no specific methods for this use case are there.
  *
  * @param {Date} date - Date in valid Date format
+ * @param {number} monthCount - Number of months we want to go back to
  *
  * @example
  * ```
@@ -114,13 +120,14 @@ export function getAgeFromDateOfBirth(birthDate: Date) {
  * getPreviousMonthDate('03/25/2015');  // Output will be 'Wed Feb 25 2015 00:00:00 GMT+0530 (India Standard Time)'
  * getPreviousMonthDate();  // Output will be 'Invalid date'
  * getPreviousMonthDate('03/31/2022');  // Output will be 'Thu Mar 03 2022 00:00:00 GMT+0530 (India Standard Time)'
+ * getPreviousMonthDate(new Date(), 10); // Output will be 'Sun Apr 04 2021 15:18:48 GMT+0530 (India Standard Time)'
  * ```
  */
-export function getPreviousMonthDate(date: Date) {
+export function getPreviousMonthDate(date: Date, monthCount: number = 1) {
   try {
     const newDate = new Date(date);
 
-    newDate.setMonth(newDate.getMonth() - 1);
+    newDate.setMonth(newDate.getMonth() - monthCount);
 
     return newDate;
 
@@ -133,19 +140,23 @@ export function getPreviousMonthDate(date: Date) {
 /**
  * This method is used for getting previous date to the date provided through argument. argument should come through
  * only new Date()
+ * Not doing with dayjs as no specific methods for this use case are there.
  *
  * @param {Date} date - Date as only new Date()
+ * @param {number} date - number of days we want to go back to
  *
  * @example
  * ```
  * getPreviousDayDate(new Date());  // Output will be 'Thu Feb 03 2022 03:28:49 GMT+0530 (India Standard Time)'
  * ```
  */
-export function getPreviousDayDate(date: Date) {
+export function getPreviousDayDate(date: Date, daysCount: number = 1) {
   try {
-    const newDate = new Date(date.getTime() - (1000 * 60 * 60 * 24));
+    const newDate = new Date(date);
 
-    return newDate;
+    const newFinalDate = new Date(newDate.getTime() - (1000 * 60 * 60 * 24 * daysCount));
+
+    return newFinalDate;
 
   } catch (error) {
     console.error('Error in getPreviousDayDate: ', error);
@@ -154,36 +165,12 @@ export function getPreviousDayDate(date: Date) {
 
 
 /**
- * This function returns todya's date in ISO format. Input should only be
- * new Date()
- *
- * @param {Date} date - Date as only new Date()
- *
- * @example
- * ```
- * getDateInISOFormat(new Date());  // Output will be '2022-02-04'
- * ```
- */
-export function getDateInISOFormat(date: Date) {
-  try {
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const d = ('0' + (date.getDate())).slice(-2);
-
-    return `${year}-${month}-${d}`;
-
-  } catch (error) {
-    console.error('Error in getDateInISOFormat: ', error);
-  }
-}
-
-
-/**
  * This function converts DD/MM/YYYY to YYYY-MM-DD.
  * JavaScript new Date() method accept date in YYYY-MM-DD or YYYY/MM/DD
  * format that's why we needed this method
+ * This function is needed because dayjs does not work with 'DD/MM/YYYY' type of inputs
  *
- * @param {Date} date - Input date string in DD/MM/YYYY or DD-MM-YYYY format
+ * @param {string} date - Input date string in DD/MM/YYYY or DD-MM-YYYY format
  *
  * @example
  * ```
@@ -192,7 +179,7 @@ export function getDateInISOFormat(date: Date) {
  * convertStrToValidDateFormat('03-25-2015');  - // Output will be '2015-25-03'
  * ```
  */
-export function convertStrToValidDateFormat(date: Date) {
+export function convertStrToValidDateFormat(date: string) {
   try {
     const str = date.replace(/[^0-9]/g, '');
 
@@ -223,15 +210,19 @@ export function convertStrToValidDateFormat(date: Date) {
  * @example
  * ```
  * isValidDate();  // Output is false
+ * isValidDate('1993-10-10');  // Output is true
+ * isValidDate('1993/10/10');  // Output is false
+ * isValidDate('1993/10/10', '/');  // Output is true
+ * isValidDate('10/10/1993', '/');  // Output is false
  * ```
  */
-export function isValidDate(date: Date, delimiter: string = '-') {
+export function isValidDate(dateStr: string, delimiter: string = '-') {
   try {
-    if (date) {
-      const bits = date.split(delimiter);
+    if (dateStr) {
+      const bits = dateStr.split(delimiter);
       const date = new Date(bits[ 0 ], bits[ 1 ] - 1, bits[ 2 ]);
 
-      return date && (date.getMonth() + 1) === bits[ 1 ];
+      return date && (date.getMonth() + 1) === Number(bits[ 1 ]);
 
     } else {
       return false;
@@ -338,7 +329,7 @@ export function formatDateWithBackSlash(inputDate: string) {
  * @return {boolean} result - return true or false
  * Validations :- isValidDate , Future date, formatted length = 10, age not more than 120.
 */
-export function dobValidationCheck(inputDob: Date) {
+export function dobValidationCheck(inputDob: string) {
   const formattedDOBStr = convertStrToValidDateFormat(inputDob);
 
   if (!isValidDate(formattedDOBStr)) {
@@ -367,7 +358,7 @@ export function dobValidationCheck(inputDob: Date) {
  * isAgeMinor('10/10/2020');  // Output will be true
  * ```
  * */
-export function isAgeMinor(dob: Date) {
+export function isAgeMinor(dob: string) {
   if (dob) {
     const formattedDOBStr = convertStrToValidDateFormat(dob);
     const formattedDOBDate = new Date(formattedDOBStr);
