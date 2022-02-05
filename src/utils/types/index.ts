@@ -40,3 +40,9 @@ export type Breadcrumb_schema = {
   url: string;
   name: string;
 }
+
+
+export type TabsData = {
+  searchId:string;
+  [key:string]:unknown;
+}
