@@ -1,4 +1,4 @@
-export type Article_schema = {
+export type ArticleSchema = {
   headline: string;
   datePublished: string;
   dateModified: string;
@@ -16,13 +16,13 @@ export type MetatagsData = {
 }
 
 
-export type Webpage_schema = {
+export type WebpageSchema = {
   desc: string;
   title: string;
   routeName: string;
 }
 
-export type Product_schema = {
+export type ProductSchema = {
   desc: string;
   schemeName: string;
   routeName: string;
@@ -31,18 +31,18 @@ export type Product_schema = {
   logoUrl?: string;
 }
 
-export type Faq_schema = {
+export type FaqSchema = {
   question: string;
   answer: string;
 }
 
-export type Breadcrumb_schema = {
+export type BreadcrumbSchema = {
   url: string;
   name: string;
 }
 
 
 export type TabsData = {
-  searchId:string;
-  [key:string]:unknown;
+  searchId: string;
+  [key:string]: unknown;
 }
