@@ -2,6 +2,8 @@
  * @module General
  */
 
+import { TabsData } from '../utils/types';
+
 /**
  * This method can be used to check if the variable is empty or not. Returns true if it is empty else false.
  *
@@ -89,7 +91,7 @@ export function getFilledArray(arraySize: number, value: string | number) {
  * getSelectedTabIndex(tabsArrayOfObject,'mutual-funds') // 1
  * ```
  */
-export function getSelectedTabIndex(tabs: any[], selectedTabName: string): number {
+export function getSelectedTabIndex(tabs: TabsData[], selectedTabName: string): number {
   let defaultIndex = 0;
 
   try {
