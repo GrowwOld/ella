@@ -46,3 +46,7 @@ export type TabsData = {
   searchId: string;
   [key:string]: unknown;
 }
+
+export type SingleLevelObject = {
+  [key: string ]: string | number;
+}
