@@ -370,11 +370,42 @@ export function smoothScrollToElementWithId(elementId: string, offset: number = 
 }
 
 
+// REMARK - This method fails for 12.0.0 or 12.... use case in chrome, mozilla. It's because they dont add decimal in the string
+// REMARK - We can rewrite it with one more argument to work in all use cases but let's not write till someone really wants this.
+// export function ignoreSecondDecimalInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string) {
+//   const k = eventObject.key;
+
+//   // Convert to string if argument currentValue is in number
+//   const str = currentValue.toString();
+
+//   // One decimal is already present and this key pressed is also decimal
+//   if (str.includes('.') && k === '.') {
+//     eventObject.preventDefault();
+//   }
+// }
+
+// REMARK - This method fails for 0.0 use case in chrome, mozilla. It's because they dont add decimal in the string
+// REMARK - We can rewrite it with one more argument to work in all use cases but let's not write till someone really wants this.
+// export function stopConsecutiveZeroesInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string) {
+//   if (!isEmpty(currentValue)) {
+//     const k = eventObject.key;
+
+//   // current value length 1 and char is 0 and current press char is 0 then stop
+//     const temp = currentValue.toString();
+
+//     if (temp.length === 1 && temp.charAt(0) === '0' && k === '0') {
+//       eventObject.preventDefault();
+//     }
+//   }
+// }
+
+
 /**
- * In safari browser, you can input multiple decimals. This method can be used to prevent that.
+ * This method can be used to block the input after given decimal points
  *
  * @param {React.KeyboardEvent<HTMLInputElement>} eventObject - onKeyDown event object
  * @param {number | string} currentValue - Current value of input field
+ * @param {number} toFixed - How many digits allowed after decimal. Default is 2
  *
  * @remarks
  * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
@@ -385,20 +416,103 @@ export function smoothScrollToElementWithId(elementId: string, offset: number = 
  *   type="number"
  *   onInput={this.handleInput}
  *   value={this.state.value}
- *   onKeyDown={(eventObject) => ignoreSecondDecimalInInput(eventObject, this.state.value)}
+ *   onKeyDown={(eventObject) => allowedDecimalPointInput(eventObject, this.state.value, 4)}
  * />
  * ```
  */
-export function ignoreSecondDecimalInInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string) {
+export function allowedDecimalPointInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string, toFixed:number = 2) {
+  if (isUtilKeyPressed(eventObject.key)) {
+    return; // dont do anything, it's a valid key, let it get pressed
+  }
+
+  const temp = currentValue.toString(); //Handle for number | string
+
+  // Temp length should be more than 1 minimum to make sense & should include decimal
+  if (!isEmpty(temp) && temp.length > 1 && temp.includes('.')) {
+    const digitsAfterDecimal = (temp.split('.'))[1];
+
+    if (digitsAfterDecimal.length >= toFixed) {
+      eventObject.preventDefault();
+    }
+  }
+}
+
+
+/**
+ * This method can be used to block all the other input except numbers and utility keys
+ *
+ * @param {React.KeyboardEvent<HTMLInputElement>} eventObject - onKeyDown event object
+ *
+ * @remarks
+ * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
+ *
+ * @example
+ * ```
+ * <input
+ *   type="number"
+ *   onInput={this.handleInput}
+ *   value={this.state.value}
+ *   onKeyDown={(eventObject) => allowOnlyNumberKeys(eventObject)}
+ * />
+ * ```
+ */
+export function allowOnlyNumberKeys(eventObject: React.KeyboardEvent<HTMLInputElement>) {
+  if (isUtilKeyPressed(eventObject.key)) {
+    return; // dont do anything, it's a valid key, let it get pressed
+  }
+
   const k = eventObject.key;
 
-  // Convert to string if argument currentValue is in number
-  const str = currentValue.toString();
-
-  // One decimal is already present and this key pressed is also decimal
-  if (str.includes('.') && k === '.') {
+  if (!(k >= '0' && k <= '9')) {
     eventObject.preventDefault();
   }
+}
+
+
+/**
+ * This method can be used to block all the other input except numbers, decimal and utility keys
+ *
+ * @param {React.KeyboardEvent<HTMLInputElement>} eventObject - onKeyDown event object
+ *
+ * @remarks
+ * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
+ *
+ * @example
+ * ```
+ * <input
+ *   type="number"
+ *   onInput={this.handleInput}
+ *   value={this.state.value}
+ *   onKeyDown={(eventObject) => allowNumbersAndDecimal(eventObject)}
+ * />
+ * ```
+ */
+export function allowNumbersAndDecimal(eventObject:React.KeyboardEvent<HTMLInputElement>) {
+  if (isUtilKeyPressed(eventObject.key)) {
+    return; // dont do anything, it's a valid key, let it get pressed
+  }
+
+  const k = eventObject.key;
+
+  if (!((k >= '0' && k <= '9') || (k === '.'))) {
+    eventObject.preventDefault();
+  }
+}
+
+
+/**
+ * This method returns a boolean value telling if the key pressed is utility key or not.
+ * Utility Key - ArrowLeft, ArrowRight, Backspace, Delete
+ *
+ * @param {string} keyValue - key which got pressed i.e eventObject.key
+ *
+ * @remarks
+ * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
+ */
+export function isUtilKeyPressed(keyValue:string) {
+  const isUtilsKey = [ 'ArrowLeft', 'ArrowRight', 'Backspace', 'Delete' ].includes(keyValue);
+
+  return isUtilsKey;
 }
 
 

@@ -5,12 +5,12 @@ import { Helmet } from 'react-helmet';
 import { COMMON_URLS } from '../utils/constants';
 import JsonLd from '../utils/JsonLd';
 import {
-  Article_schema,
-  Breadcrumb_schema,
-  Faq_schema,
+  ArticleSchema,
+  BreadcrumbSchema,
+  FaqSchema,
   MetatagsData,
-  Product_schema,
-  Webpage_schema
+  ProductSchema,
+  WebpageSchema
 } from '../utils/types';
 
 /**
@@ -167,7 +167,7 @@ export function getOrganizationSchema() {
 /**
  * This method can be used to insert rich snippet webpage schema in any page.
  *
- * @param {Webpage_schema} schemaObject - Schema object for web page schema
+ * @param {WebpageSchema} schemaObject - Schema object for web page schema
  * @param {string} web_host - Current domain based on environment .... like - https://groww.in
  *
  * @remarks
@@ -178,7 +178,7 @@ export function getOrganizationSchema() {
  * getWebpageSchema(schemaObject, config.host) // Use in render method
  * ```
  */
-export const getWebpageSchema = (schemaObject: Webpage_schema, web_host: string) => {
+export const getWebpageSchema = (schemaObject: WebpageSchema, web_host: string) => {
   let desc = schemaObject.desc;
 
   desc = desc.length > 315 ? desc.substring(0, 315) + ' ...' : desc;
@@ -209,7 +209,7 @@ export const getWebpageSchema = (schemaObject: Webpage_schema, web_host: string)
 /**
  * This method can be used to insert rich snippet article schema in any page.
  *
- * @param {Article_schema} schemaObject - Schema object for article schema
+ * @param {ArticleSchema} schemaObject - Schema object for article schema
  * @param {string} web_host - Current domain based on environment .... like - https://groww.in
  *
  * @remarks
@@ -220,7 +220,7 @@ export const getWebpageSchema = (schemaObject: Webpage_schema, web_host: string)
  * getArticleSchema(schemaObject, config.host); // Use in render method
  * ```
  */
-export function getArticleSchema(schemaObject: Article_schema, web_host: string) {
+export function getArticleSchema(schemaObject: ArticleSchema, web_host: string) {
 
   const language = schemaObject.inLanguage ? schemaObject.inLanguage : 'en';
   const image = schemaObject.image ? schemaObject.image : COMMON_URLS.DEFAULT_GROWW_LOGO_270;
@@ -249,7 +249,7 @@ export function getArticleSchema(schemaObject: Article_schema, web_host: string)
 /**
  * This method can be used to insert rich snippet product schema in any page.
  *
- * @param {Product_schema} schemaObject - Schema object for product schema
+ * @param {ProductSchema} schemaObject - Schema object for product schema
  * @param {string} web_host - Current domain based on environment .... like - https://groww.in
  *
  * @remarks
@@ -260,7 +260,7 @@ export function getArticleSchema(schemaObject: Article_schema, web_host: string)
  * getProductSchema(schemaObject, config.host); // Use in render method
  * ```
  */
-export function getProductSchema(schemaObject: Product_schema, web_host: string) {
+export function getProductSchema(schemaObject: ProductSchema, web_host: string) {
   let desc = schemaObject.desc;
 
   desc = desc.length > 315 ? desc.substring(0, 315) + ' ...' : desc;
@@ -300,7 +300,7 @@ export function getProductSchema(schemaObject: Product_schema, web_host: string)
 /**
  * This method can be used to insert rich snippet FAQ schema in any page.
  *
- * @param {Faq_schema[]} faqData - Schema object for FAQ schema
+ * @param {FaqSchema[]} faqData - Schema object for FAQ schema
  *
  * @remarks
  * This method should be present in the first render otherwise SEO will not happen.
@@ -310,7 +310,7 @@ export function getProductSchema(schemaObject: Product_schema, web_host: string)
  * getFaqSchema(faqData); // Use in render method
  * ```
  */
-export function getFaqSchema(faqData: Faq_schema[]) {
+export function getFaqSchema(faqData: FaqSchema[]) {
   let data = null;
   const mainEntity = [];
 
@@ -340,7 +340,7 @@ export function getFaqSchema(faqData: Faq_schema[]) {
 /**
  * This method can be used to insert rich snippet breadcrumb schema in any page.
  *
- * @param {Breadcrumb_schema[]} schemaObject - Schema object for breadcrumb schema
+ * @param {BreadcrumbSchema[]} schemaObject - Schema object for breadcrumb schema
  * @param {string} web_host - Current domain based on environment .... like - https://groww.in
  *
  * @remarks
@@ -351,7 +351,7 @@ export function getFaqSchema(faqData: Faq_schema[]) {
  * getBreadcrumbSchema(schemaData, config.host); // Use in render method
  * ```
  */
-export const getBreadcrumbSchema = (schema: Breadcrumb_schema[], web_host: string) => {
+export const getBreadcrumbSchema = (schema: BreadcrumbSchema[], web_host: string) => {
   const arr = [];
 
   for (let i = 0; i < schema.length; i++) {
