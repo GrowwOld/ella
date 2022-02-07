@@ -274,6 +274,6 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
 
   } catch (e) {
     console.error('Error while using getData', e);
-    throw e;
+    return def;
   }
 }
