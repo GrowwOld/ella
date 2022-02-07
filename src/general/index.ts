@@ -234,7 +234,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
 
 
 /**
- * This method sorts an Object with key value pairs.
+ * This method sorts an Object with key value pairs on the basis of the values. (Check examples for better understanding)
  *
  * @param {SingleLevelObject} obj - Object with key value pairs with single level hierarchy. (Read remarks)
  * @param {boolean} isDescending - Sort in descending order or not. Defaults to false. Optional argument.
