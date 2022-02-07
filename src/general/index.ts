@@ -228,3 +228,35 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
     console.error('File download failed - ', err);
   }
 }
+
+
+/**
+ * This method is used to delay a method call for a certain time period of time.
+ * If another call to the method is made, the debounceTimer will reset.
+ *
+ * @param {Function} fn - Callback function that is to be debounced
+ * @param {number} delay - Debounce delay in miliseconds
+ *
+ *
+ * @example
+ * ```
+ * const onQueryInput = (e) => {
+ *    setQuery(e.target.value);
+ * }
+ *
+ * const debouncedOnQueryInput = debounce(onQueryInput, 5000);
+ * // This will delay, onQueryInput method with 5 seconds. If onQueryInput is called again within the delay,
+ * // The timer will reset.
+ * ```
+ */
+export function debounce(fn: Function, delay: number) {
+  let debounceTimer: ReturnType<typeof setTimeout>;
+
+  return function(...args: any[]) {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+
+    debounceTimer = setTimeout(() => fn(...args), delay);
+  };
+}
