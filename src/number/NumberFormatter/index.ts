@@ -267,12 +267,18 @@ export function NumberFormatter(num: string | number, numberConfig: numberConfig
 
 
 /**
+ * This method format the number into currency format (Default is INR).
  *
  *
- * @param {number} num
- * @param {string} currency
- * @param {number} toFixedValue
- * @return {(string)}
+ * @param {number} num - number to be converted in currency format.
+ * @param {string} currency - Currency default is INR, if passed as USD, it will convert to USD format.
+ * @param {number} toFixedValue - Number of decimal places you want to fix the decimal part to.
+ *
+ * @example
+ * ```
+ * currencyFormat(1000234,'INR',2) => '₹10,00,234.00'
+ * currencyFormat(1000234,'USD',2) => '$1,000,234.00'
+ * ```
  */
 function currencyFormat(num: number, currency: string, toFixedValue: number) {
   const locales = currency === CURRENCY_NAME.USD ? 'en-US' : 'en-IN'; // default is INR check line 21.
@@ -309,10 +315,16 @@ function currencyFormat(num: number, currency: string, toFixedValue: number) {
 
 
 /**
+ * This method remove the extra spaces issue which happens in Safari Browser (Issue with Safari browser).
  *
  *
- * @param {string} currencyAmount
- * @return {string}
+ * @param {string} currencyAmount - Currency amount which has extra space between number and currency symbol.
+ *
+ * @example
+ * ```
+ * removeSpaces('₹ 10,00,234.00') => '₹10,00,234.00'
+ * currencyFormat('$ 1,000,234.00') => '$1,000,234.00'
+ * ```
  */
 function removeSpaces(currencyAmount: string) {
   try {
@@ -333,23 +345,40 @@ function removeSpaces(currencyAmount: string) {
 
 
 /**
+ * This method return a string with prepend sign at the start (sign can be '+', '-' or '').
  *
  *
- * @param {string} sign
- * @param {(number | string)} value
- * @param {boolean} spaceBetweenSignValue
- * @return {string | number}
+ * @param {string} sign - Specify the sign which you want to prepend.
+ * @param {number | string} value - Value on which you want to prepend the sign.
+ * @param {boolean} spaceBetweenSignValue - If you need space between the sign and value, put this as true.
+ *
+ * @remarks
+ * On Empty sign, it will return the passed value.
+ *
+ * @example
+ * ```
+ * returnSignValueStr('+','1,000',false) => '+1,000'
+ * returnSignValueStr('','1,000',false) => '1,000'
+ * returnSignValueStr('-',23,true) => '- 23'
+ * ```
  */
 function returnSignValueStr(sign : string, value : number | string, spaceBetweenSignValue : boolean) {
-  if (isEmpty(sign)) {
+  try {
+    if (isEmpty(sign)) {
+      return value;
+    }
+
+    if (spaceBetweenSignValue) {
+      return sign + ' ' + value;
+
+    } else {
+      return sign + value;
+    }
+
+  } catch (err) {
+    console.error(err);
+
     return value;
-  }
-
-  if (spaceBetweenSignValue) {
-    return sign + ' ' + value;
-
-  } else {
-    return sign + value;
   }
 }
 

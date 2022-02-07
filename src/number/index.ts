@@ -357,18 +357,25 @@ export function convertToBillionTrillionFormat(num: string | number, toFixedDeci
  *
  */
 export function getNumberSign(num: string | number) {
-  const toNumber = Number(num);
+  try {
+    const toNumber = Number(num);
 
-  const mathSign = Math.sign(toNumber);
+    const mathSign = Math.sign(toNumber);
 
-  if (mathSign === 1) {
-    return '+';
+    if (mathSign === 1) {
+      return '+';
 
-  } else if (mathSign === -1) {
-    return '-';
+    } else if (mathSign === -1) {
+      return '-';
+    }
+
+    return '';
+
+  } catch (err) {
+    console.error(err);
+
+    return '';
   }
-
-  return '';
 }
 
 
