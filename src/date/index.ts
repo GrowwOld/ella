@@ -44,15 +44,15 @@ export function getMonthAbbrByIndex(monthNumber: number): string {
  *
  * @example
  * ```
- * getDateFromLongValue('2022-02-01T12:16:13', 'DD MMM, hh:mm A');  // Output will be '01 Feb, 12:16 PM'
- * getDateFromLongValue('2022-01-28T12:54:40', 'DD MMM, hh:mm A');  // Output will be '28 Jan, 12:54 PM'
- * getDateFromLongValue('2022-01-25T12:08:12', 'DD MMM YYYY,  hh:mm A);  // Output will be '25 Jan 2022,  12:08 PM'
- * getDateFromLongValue('2021/11/20', 'YYYY-MM-DD');  // Output will be '2021-11-20'
- * getDateFromLongValue('21 Nov 2020', 'YYYY-MM-DD');  // Output will be '2020-11-21'
- * getDateFromLongValue('Fri Feb 04 2022 15:24:28 GMT+0530 (India Standard Time)', 'YYYY-MM-DD');  // Output will be '2022-02-04'
+ * getDateInRequiredFormat('2022-02-01T12:16:13', 'DD MMM, hh:mm A');  // Output will be '01 Feb, 12:16 PM'
+ * getDateInRequiredFormat('2022-01-28T12:54:40', 'DD MMM, hh:mm A');  // Output will be '28 Jan, 12:54 PM'
+ * getDateInRequiredFormat('2022-01-25T12:08:12', 'DD MMM YYYY,  hh:mm A);  // Output will be '25 Jan 2022,  12:08 PM'
+ * getDateInRequiredFormat('2021/11/20', 'YYYY-MM-DD');  // Output will be '2021-11-20'
+ * getDateInRequiredFormat('21 Nov 2020', 'YYYY-MM-DD');  // Output will be '2020-11-21'
+ * getDateInRequiredFormat('Fri Feb 04 2022 15:24:28 GMT+0530 (India Standard Time)', 'YYYY-MM-DD');  // Output will be '2022-02-04'
  * ```
  */
-export function getDateFromLongValue(longDateValue: Date, dateFormat: string = 'DD MMM YYYY') {
+export function getDateInRequiredFormat(longDateValue: Date, dateFormat: string = 'DD MMM YYYY') {
   try {
     if (!isEmpty(dateFormat)) {
       const str = dayjs(longDateValue).format(dateFormat);
@@ -66,7 +66,7 @@ export function getDateFromLongValue(longDateValue: Date, dateFormat: string = '
     }
 
   } catch (error) {
-    console.error('Error in getDateFromLongValue: ', error);
+    console.error('Error in getDateInRequiredFormat: ', error);
   }
 }
 
@@ -78,10 +78,10 @@ export function getDateFromLongValue(longDateValue: Date, dateFormat: string = '
  *
  * @example
  * ```
- * getAgeFromDateOfBirth(new Date());  // Output is 0
+ * getAgeFromDateOfBirth(new Date());  // Output is ''
  * getAgeFromDateOfBirth('Sun Oct 10 1993 05:30:00 GMT+0530 (India Standard Time)');  // Output is 28
  * getAgeFromDateOfBirth('1993-10-10');  // Output is 28
- * getAgeFromDateOfBirth();  // Output is NaN
+ * getAgeFromDateOfBirth();  // Output is ''
  * ```
  */
 export function getAgeFromDateOfBirth(birthDate: Date) {
@@ -97,7 +97,12 @@ export function getAgeFromDateOfBirth(birthDate: Date) {
       age--;
     }
 
-    return age;
+    if (!isEmpty(age)) {
+      return age;
+
+    } else {
+      return '';
+    }
 
   } catch (error) {
     console.error('Error im getAgeFromDateOfBirth: ', error);
@@ -120,7 +125,9 @@ export function getAgeFromDateOfBirth(birthDate: Date) {
  * getPreviousMonthDate('03/25/2015');  // Output will be 'Wed Feb 25 2015 00:00:00 GMT+0530 (India Standard Time)'
  * getPreviousMonthDate();  // Output will be 'Invalid date'
  * getPreviousMonthDate('03/31/2022');  // Output will be 'Thu Mar 03 2022 00:00:00 GMT+0530 (India Standard Time)'
- * getPreviousMonthDate(new Date(), 10); // Output will be 'Sun Apr 04 2021 15:18:48 GMT+0530 (India Standard Time)'
+ * getPreviousMonthDate(new Date(), 10); // Output will be 'Sun Apr 04 2021 15:18:48 GMT+0530 (India Standard Time)'. new Date() creates a
+ * new instance of date and returns the current date. When this function was written current date was 4th Apr so output is that. If you write
+ * it now date will be different.
  * ```
  */
 export function getPreviousMonthDate(date: Date, monthCount: number = 1) {
@@ -168,6 +175,8 @@ export function getPreviousDayDate(date: Date, daysCount: number = 1) {
  * This function converts DD/MM/YYYY to YYYY-MM-DD.
  * JavaScript new Date() method accept date in YYYY-MM-DD or YYYY/MM/DD
  * format that's why we needed this method
+ *
+ * @remarks
  * This function is needed because dayjs does not work with 'DD/MM/YYYY' type of inputs
  *
  * @param {string} date - Input date string in DD/MM/YYYY or DD-MM-YYYY format
@@ -199,7 +208,14 @@ export function convertStrToValidDateFormat(date: string) {
 
 
 /**
- * This function checks if input date is valid or not.
+ * This function checks if input date is valid or not in this format 'YYYY-MM-DD'. We can also
+ * validate dates in this format also 'YYYY/MM/DD' if we send '/' as 2nd parameter, or basically anything
+ * as delimiter(2nd paramter).
+ *
+ * @remarks
+ * One other way to check valid date is new Date(inputDate) but a limitation is leap year date in those.
+ * Example: new Date('2022-2-29'); returns 'Tue Mar 01 2022 00:00:00 GMT+0530 (India Standard Time)' although
+ * this should not be a valid date. This function returns false in such cases.
  *
  * @param {string} date - Input date in YYYY-MM-DD format
  * eg. 2021-11-22 (22nd November 2021)
@@ -214,6 +230,13 @@ export function convertStrToValidDateFormat(date: string) {
  * isValidDate('1993/10/10');  // Output is false
  * isValidDate('1993/10/10', '/');  // Output is true
  * isValidDate('10/10/1993', '/');  // Output is false
+ * isValidDate('1907-10-10');  // Output is true
+ * isValidDate('1707-10-10');  // Output is true
+ * isValidDate('1000-10-10');  // Output is true
+ * isValidDate('1-1-1');  // Output is true
+ * isValidDate('1707-10-32);  // Output is false
+ * isValidDate('2022-2-29');  // Output is false as 2022 is not a leap year
+ * isValidDate('2020-2-29');  // Output is true as 2020 was a leap year
  * ```
  */
 export function isValidDate(dateStr: string, delimiter: string = '-') {
@@ -238,6 +261,12 @@ export function isValidDate(dateStr: string, delimiter: string = '-') {
 /**
  * This function returns an array of objects which specify financial years from last supported year to offset
  * year from current financial year.
+ *
+ * @remarks
+ * This function returns a list of UI data to be returned from a start year to end year (financial year data).
+ * lastSupportedyear is the start year, and the end year is current year or if any offset is there, then end year is current year
+ * minus offset. This function helps in showing a dropdown of all available financial years to choose from.
+ * Mainly used in Reports section of the website.
  *
  * @param {number} lastSupportedYear - last year in number from which array of values needs to be returned
  * @param {number} offsetFromCurrentFinancialYear - offset from current year of the year upto which the values have to be returned
@@ -310,14 +339,21 @@ export function formatDateWithBackSlash(inputDate: string) {
     return result;
 
   } catch (error) {
-    console.log('Error in formatDateWithBackSlash: ', error);
+    console.error('Error in formatDateWithBackSlash: ', error);
+
+    return inputDate;
   }
 }
 
 
 /**
  * This method Checks whether date string is Valid Date of birth or not.
- * NOTE:- Doesn't check for Minor (Age < 18).
+ *
+ * @remarks
+ * Doesn't check for Minor (Age < 18). Checks if age is lower than 120, also if date is valid (i.e, leap year validations,
+ * no invalid month or date etc)
+ * Validations :- isValidDate(no invalid months(ex. 13), dates (ex. 32), leap year violations , Future date,
+ * formatted length = 10, age not more than 120.
  *
  * @param {string} inputDate - string entered in input element (ddmmyyyy or dd/mm/yyyy)
  *
@@ -326,8 +362,6 @@ export function formatDateWithBackSlash(inputDate: string) {
  * dobValidationCheck('10/10/2000');  // Output will be true
  * dobValidationCheck('10/10/1500');  // Output will be false
  * ```
- * @return {boolean} result - return true or false
- * Validations :- isValidDate , Future date, formatted length = 10, age not more than 120.
 */
 export function dobValidationCheck(inputDob: string) {
   const formattedDOBStr = convertStrToValidDateFormat(inputDob);
