@@ -245,9 +245,14 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
  * @example
  * ```
  * const list = { yellow: 1, blue: 10, red: 5, green: 6, pink: 8 };
+ * const listWrong = { yellow: 1, blue: [ 'I', 'am', 'blue' ], red: 5, green: { i: 'i', am: 'am', green: 'green' }, pink: 8 };
  *
  * sortObjectByValue(list, true); // { blue: 10, pink: 8, green: 6, red: 5, yellow: 1 }
  * sortObjectByValue(list); // { yellow: 1, red: 5, green: 6, pink: 8, blue: 10 }
+ *
+ * sortObjectByValue(listWrong);
+ * // console => Error in sorting object, original object returned : ErrorObject
+ * // { yellow: 1, blue: [ 'I', 'am', 'blue' ], red: 5, green: { i: 'i', am: 'am', green: 'green' }, pink: 8 }
  * ```
  */
 export function sortObjectByValue(obj:SingleLevelObject, isDescending?:boolean) {
