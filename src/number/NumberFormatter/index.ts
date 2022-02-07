@@ -5,7 +5,8 @@ import {
   convertRupeeToPaisa,
   convertToBillionTrillionFormat,
   getNumberSign,
-  millionWithCommas
+  millionWithCommas,
+  toFixedWithoutRounding
 } from '../';
 import { isEmpty } from '../../general';
 import { CURRENCY_NAME, CURRENCY_SYMBOL } from './constants';
@@ -230,7 +231,9 @@ export function NumberFormatter(num: string | number, numberConfig: numberConfig
   }
 
   if (millionCommas) {
-    answer = millionWithCommas(formatNumber.toFixed(toFixedValue));
+    const toFixedWithoutRoundNum = toFixedWithoutRounding(formatNumber, toFixedValue);
+
+    answer = millionWithCommas(toFixedWithoutRoundNum);
   }
 
   if (!isEmpty(answer)) {
@@ -242,7 +245,8 @@ export function NumberFormatter(num: string | number, numberConfig: numberConfig
   }
 
   if (addCommas) {
-    const returnValue = addingCommasToNumber(formatNumber.toFixed(toFixedValue));
+    const toFixedWithoutRoundNum = toFixedWithoutRounding(formatNumber, toFixedValue);
+    const returnValue = addingCommasToNumber(toFixedWithoutRoundNum);
 
     if (withSign) {
       return returnSignValueStr(sign, returnValue, spaceBetweenSignValue);
@@ -252,7 +256,7 @@ export function NumberFormatter(num: string | number, numberConfig: numberConfig
   }
 
 
-  const finalReturnValue = Number(formatNumber).toFixed(toFixedValue); // if you don't want to include commas even, default conversion to number(as string) will take place
+  const finalReturnValue = toFixedWithoutRounding(Number(formatNumber), toFixedValue); // if you don't want to include commas even, default conversion to number(as string) will take place
 
   if (withSign) {
     return returnSignValueStr(sign, finalReturnValue, spaceBetweenSignValue);
@@ -292,12 +296,13 @@ function currencyFormat(num: number, currency: string, toFixedValue: number) {
   } catch (err) {
     console.warn(err);
     // if global Intl object is not present, it will not fail.
+    const toFixedWithoutRoundNum = toFixedWithoutRounding(num, toFixedValue);
 
     if (currency === CURRENCY_NAME.INR) {
-      return `${CURRENCY_SYMBOL.INR}${addingCommasToNumber(num.toFixed(toFixedValue))}`;
+      return `${CURRENCY_SYMBOL.INR}${addingCommasToNumber(toFixedWithoutRoundNum)}`;
 
     } else if (currency === CURRENCY_NAME.USD) {
-      return `${CURRENCY_SYMBOL.DOLLAR}${millionWithCommas(num.toFixed(toFixedValue))}`;
+      return `${CURRENCY_SYMBOL.DOLLAR}${millionWithCommas(toFixedWithoutRoundNum)}`;
     }
   }
 }

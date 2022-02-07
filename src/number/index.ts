@@ -299,7 +299,7 @@ export function convertToBillionTrillionFormat(num: string | number, toFixedDeci
     }
 
     const toNumber = Number(num);
-    const abbrev = ['K', 'M', 'B', 'T'];
+    const abbrev = [ 'K', 'M', 'B', 'T' ];
     const numberToString = toNumber.toLocaleString('en-US');
     const splitNumberByCommaArr = numberToString.split(',');
 
