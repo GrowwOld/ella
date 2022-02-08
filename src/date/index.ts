@@ -29,7 +29,7 @@ export function getMonthAbbrByIndex(monthNumber: number): string {
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ];
 
-  return monthNames[ monthNumber - 1 ];
+  return monthNames[monthNumber - 1];
 }
 
 
@@ -247,9 +247,9 @@ export function isValidDate(dateStr: string, delimiter: string = '-') {
   try {
     if (dateStr) {
       const bits = dateStr.split(delimiter);
-      const date = new Date(Number(bits[ 0 ]), Number(bits[ 1 ]) - 1, Number(bits[ 2 ]));
+      const date = new Date(bits[0], bits[1] - 1, bits[2]);
 
-      return date && (date.getMonth() + 1) === Number(bits[ 1 ]);
+      return date && (date.getMonth() + 1) === Number(bits[1]);
 
     } else {
       return false;
@@ -312,9 +312,7 @@ export function getReportDateInput(lastSupportedYear: number, offsetFromCurrentF
  * This method inserts "/" while entering dates in input element
  *
  * @remarks
- * This function is called while user is inputting the date in an input.
- * Not using input type as date for this use case as it forces us to use default date selector, and
- * we have created a custom date selector and hence the need for this function arises.
+ * This function is called while user is inputting the date in an input
  *
  * @param {string} inputDate - string entered in input element
  *
@@ -381,7 +379,7 @@ export function dobValidationCheck(inputDob: string) {
 
   const formattedDOBDate = new Date(formattedDOBStr);
   const timeDifference = ((new Date().getTime()) - (formattedDOBDate.getTime())); //typeScript doesn't allow subtraction of Date.
-  const age = getAgeFromDateOfBirth(formattedDOBDate) || 0;
+  const age = getAgeFromDateOfBirth(formattedDOBDate);
 
   if (age > 120 || timeDifference < 0) {
     return false;
@@ -407,7 +405,7 @@ export function isAgeMinor(dob: string) {
     const formattedDOBDate = new Date(formattedDOBStr);
 
     if (isValidDate(formattedDOBStr)) {
-      const age = getAgeFromDateOfBirth(formattedDOBDate) || 0;
+      const age = getAgeFromDateOfBirth(formattedDOBDate);
 
       return age < 18;
     }
