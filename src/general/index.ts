@@ -293,9 +293,11 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
  *
  * @example
  * ```
- * const dummy =  { key1: value1, key2: value2, key3: value3 };
+ * const dummy1 = { key1: value1, key2: value2, key3: value3 };
+ * const dummy2 = { key1: 'value1', key2: 'value2', key3: [ 1, 2, 3 ], key4: { a: 1, b: 2 } }
  *
- * getObjectEntries(dummy) // [ [ key1, value1 ], [ key2, value2 ], [ key3, value3 ] ];
+ * getObjectEntries(dummy1) // [ [ key1, value1 ], [ key2, value2 ], [ key3, value3 ] ];
+ * getObjectEntries(dummy2) // [ [ key1, value1 ], [ key2, value2 ], [ key3 , [ 1, 2, 3 ] ],[ key4,{ a:1, b:2 } ] ];
  * ```
  */
 export function getObjectEntries(obj: MultiLevelObject) {
