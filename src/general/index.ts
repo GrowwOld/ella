@@ -291,7 +291,7 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
  *
  * @param {MultiLevelObject[]} searchArr - Array of objects to search within
  * @param {string} matchKey - Key of the object to be matched
- * @param {MatchValue} matchValue - Expected value to be matched
+ * @param {MatchValueType} matchValue - Expected value to be matched
  *
  * @remarks
  * <br/>
@@ -310,14 +310,21 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
  * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 6); // -1
  * ```
  */
-export function getIndexByMatchingObjectValue<MatchValue>(searchArr: MultiLevelObject[], matchKey: string, matchValue: MatchValue) {
-  for (let i = 0; i < searchArr.length; i++) {
-    const obj = searchArr[i];
+export function getIndexByMatchingObjectValue<MatchValueType>(searchArr: MultiLevelObject[], matchKey: string, matchValue: MatchValueType) {
+  try {
+    for (let i = 0; i < searchArr.length; i++) {
+      const obj = searchArr[i];
 
-    if (obj[matchKey] === matchValue) {
-      return i;
+      if (obj[matchKey] === matchValue) {
+        return i;
+      }
     }
-  }
 
-  return -1;
+    return -1;
+
+  } catch (error) {
+    console.error('Error while find index by matching object value', error);
+
+    throw error;
+  }
 }
