@@ -244,24 +244,29 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
  * ```
  *
  */
-export function getPathVariableFromUrlIndex(url: string, indexFromLast = 0) {
+export function getPathVariableFromUrlIndex(url: string, indexFromLast: number = 0) {
   try {
     if (url) {
       const keys = [...url.split('/')];
-      let searchId = keys?.[keys?.length - 1 - indexFromLast];
 
-      const queryParamIndex = searchId?.indexOf('?');
+      if (keys.length > indexFromLast) {
+        let searchId = keys?.[keys?.length - 1 - indexFromLast];
 
-      if (queryParamIndex >= 0) {
-        searchId = searchId.substring(0, queryParamIndex);
+        const queryParamIndex = searchId?.indexOf('?');
+
+        if (queryParamIndex >= 0) {
+          searchId = searchId.substring(0, queryParamIndex);
+        }
+
+        return searchId;
+      } else {
+        throw new Error('Index from last value is incorrect');
       }
-
-      return searchId;
     }
 
   } catch (error) {
     console.error('Unable to get path variable - ', error);
 
-    return null;
+    return '';
   }
 }
