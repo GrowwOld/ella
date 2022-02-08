@@ -29,7 +29,7 @@ export function getMonthAbbrByIndex(monthNumber: number): string {
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ];
 
-  return monthNames[monthNumber - 1];
+  return monthNames[ monthNumber - 1 ];
 }
 
 
@@ -247,9 +247,9 @@ export function isValidDate(dateStr: string, delimiter: string = '-') {
   try {
     if (dateStr) {
       const bits = dateStr.split(delimiter);
-      const date = new Date(bits[0], bits[1] - 1, bits[2]);
+      const date = new Date(bits[ 0 ], bits[ 1 ] - 1, bits[ 2 ]);
 
-      return date && (date.getMonth() + 1) === Number(bits[1]);
+      return date && (date.getMonth() + 1) === Number(bits[ 1 ]);
 
     } else {
       return false;
