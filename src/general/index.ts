@@ -2,7 +2,10 @@
  * @module General
  */
 
-import { TabsData } from '../utils/types';
+import {
+  SingleLevelObject,
+  TabsData,
+} from '../utils/types';
 
 /**
  * This method can be used to check if the variable is empty or not. Returns true if it is empty else false.
@@ -231,6 +234,60 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
 
 
 /**
+ * This method sorts an Object with key value pairs on the basis of the values. (Check examples for better understanding)
+ *
+ * @param {SingleLevelObject} obj - Object with key value pairs with single level hierarchy. (Read remarks)
+ * @param {boolean} isDescending - Sort in descending order or not. Defaults to false. Optional argument.
+ *
+ * @remarks
+ * Object should be of a single level. Avoid nested objects or arrays. In case of error, method returns the original object.
+ *
+ * @example
+ * ```
+ * const list = { yellow: 1, blue: 10, red: 5, green: 6, pink: 8 };
+ * const listWrong = { yellow: 1, blue: [ 'I', 'am', 'blue' ], red: 5, green: { i: 'i', am: 'am', green: 'green' }, pink: 8 };
+ *
+ * sortObjectByValue(list, true); // { blue: 10, pink: 8, green: 6, red: 5, yellow: 1 }
+ * sortObjectByValue(list); // { yellow: 1, red: 5, green: 6, pink: 8, blue: 10 }
+ *
+ * sortObjectByValue(listWrong);
+ * // console => Error in sorting object, original object returned : ErrorObject
+ * // { yellow: 1, blue: [ 'I', 'am', 'blue' ], red: 5, green: { i: 'i', am: 'am', green: 'green' }, pink: 8 }
+ * ```
+ */
+export function sortObjectByValue(obj:SingleLevelObject, isDescending?:boolean) {
+  try {
+    const sortable = [];
+
+    for (const key in obj) {
+      sortable.push([ key, obj[ key ] ]);
+    }
+
+    sortable.sort(function(a, b) {
+      if (isDescending) {
+        return (b[ 1 ] < a[ 1 ] ? -1 : (b[ 1 ] > a[ 1 ] ? 1 : 0));
+
+      } else {
+        return (a[ 1 ] < b[ 1 ] ? -1 : (a[ 1 ] > b[ 1 ] ? 1 : 0));
+      }
+    });
+
+    const orderedList:SingleLevelObject = {};
+
+    for (const idx in sortable) {
+      orderedList[ sortable[ idx ][ 0 ] ] = sortable[ idx ][ 1 ];
+    }
+
+    return orderedList;
+
+  } catch (error) {
+    console.error('Error in sorting object, original object returned', error);
+    return obj;
+  }
+}
+
+
+/*
  * Returns the value at given path from the source object. If path is not found then default value is returned.
  * This method works exactly like Lodash's getData method.
  *
