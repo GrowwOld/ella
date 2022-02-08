@@ -170,7 +170,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
     if (file) {
       // It is necessary to create a new blob object with mime-type explicitly set
       // otherwise only Chrome works like it should
-      const newBlob = new Blob([ file ], { type });
+      const newBlob = new Blob([file], { type });
 
       // For other browsers:
       // Create a link pointing to the ObjectURL containing the blob.
@@ -195,7 +195,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
       document.body.appendChild(link);
       link.click();
 
-      setTimeout(function() {
+      setTimeout(function () {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(fileUrl);
       }, 10);
@@ -226,5 +226,42 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
 
   } catch (err) {
     console.error('File download failed - ', err);
+  }
+}
+
+
+/**
+ * This method returns the search id from the url. By default it returns the last searchId from the URL.
+ * If you want you can get any searchId from URL by passing index from last value param
+ *
+ * @param {string} url - The url that is entered
+ * @param {number} indexFromLast - The searchId index from last slash in the URL. By default it is the last index.
+ *
+ * @example
+ * ```
+ * getSearchIdFromUrl('https://groww.in/mutual-funds/user/explore')       //explore
+ * getSearchIdFromUrl('https://groww.in/mutual-funds/user/explore', 2)   //mutual-funds
+ * ```
+ *
+ */
+export function getSearchIdFromUrl(url: string, indexFromLast = 0) {
+  try {
+    if (url) {
+      const keys = [...url.split('/')];
+      let searchId = keys?.[keys?.length - 1 - indexFromLast];
+
+      const queryParamIndex = searchId?.indexOf('?');
+
+      if (queryParamIndex >= 0) {
+        searchId = searchId.substring(0, queryParamIndex);
+      }
+
+      return searchId;
+    }
+
+  } catch (error) {
+    console.error('Search Id fetch error - ', error);
+
+    return null;
   }
 }
