@@ -46,3 +46,8 @@ export type TabsData = {
   searchId: string;
   [key:string]: unknown;
 }
+
+
+export type MultiLevelObject = {
+  [ key:string ]: unknown;
+};

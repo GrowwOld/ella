@@ -2,7 +2,10 @@
  * @module General
  */
 
-import { TabsData } from '../utils/types';
+import {
+  MultiLevelObject,
+  TabsData,
+} from '../utils/types';
 
 /**
  * This method can be used to check if the variable is empty or not. Returns true if it is empty else false.
@@ -279,4 +282,24 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
     console.error('Error while using getData', e);
     return def;
   }
+}
+
+
+/**
+ * This method is used to parse an object into entries. Works exactly like Object.entries.
+ * Object.entries is still not fully supported so consider this a polyfill for the same.
+ *
+ * @param {any} obj - Object to be parsed into entries. { key1: value1, key2: value2 } => [ [ key1, value1 ], [ key2, value2 ] ];
+ *
+ * @example
+ * ```
+ * const dummy =  { key1: value1, key2: value2, key3: value3 };
+ *
+ * getObjectEntries(dummy) // [ [ key1, value1 ], [ key2, value2 ], [ key3, value3 ] ];
+ * ```
+ */
+export function getObjectEntries(obj: MultiLevelObject) {
+  const keys = Object.keys(obj);
+
+  return keys.map(key => ([ key, obj[key] ]));
 }
