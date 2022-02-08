@@ -256,27 +256,27 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
  * // { yellow: 1, blue: [ 'I', 'am', 'blue' ], red: 5, green: { i: 'i', am: 'am', green: 'green' }, pink: 8 }
  * ```
  */
-export function sortObjectByValue(obj:SingleLevelObject, isDescending?:boolean) {
+export function sortObjectByValue(obj: SingleLevelObject, isDescending?: boolean) {
   try {
     const sortable = [];
 
     for (const key in obj) {
-      sortable.push([ key, obj[ key ] ]);
+      sortable.push([ key, obj[key] ]);
     }
 
     sortable.sort(function(a, b) {
       if (isDescending) {
-        return (b[ 1 ] < a[ 1 ] ? -1 : (b[ 1 ] > a[ 1 ] ? 1 : 0));
+        return (b[1] < a[1] ? -1 : (b[1] > a[1] ? 1 : 0));
 
       } else {
-        return (a[ 1 ] < b[ 1 ] ? -1 : (a[ 1 ] > b[ 1 ] ? 1 : 0));
+        return (a[1] < b[1] ? -1 : (a[1] > b[1] ? 1 : 0));
       }
     });
 
-    const orderedList:SingleLevelObject = {};
+    const orderedList: SingleLevelObject = {};
 
     for (const idx in sortable) {
-      orderedList[ sortable[ idx ][ 0 ] ] = sortable[ idx ][ 1 ];
+      orderedList[sortable[idx][0]] = sortable[idx][1];
     }
 
     return orderedList;
@@ -384,5 +384,48 @@ export function getIndexByMatchingObjectValue<MatchValueType>(searchArr: MultiLe
     console.error('Error while find index by matching object value', error);
 
     throw error;
+  }
+}
+
+
+/**
+ * This method returns the path from the url. By default it returns the last path i.e last slash part from the URL.
+ * If you want you can get any path from URL by passing index from last value param
+ *
+ * @param {string} url - The url that is entered
+ * @param {number} indexFromLast - The index from last slash in the URL. By default it is the last index.
+ *
+ * @example
+ * ```
+ * getPathVariableFromUrlIndex('https://groww.in/mutual-funds/user/explore')       //explore
+ * getPathVariableFromUrlIndex('https://groww.in/mutual-funds/user/explore', 2)   //mutual-funds
+ * ```
+ *
+ */
+export function getPathVariableFromUrlIndex(url: string, indexFromLast: number = 0) {
+  try {
+    if (url) {
+      const keys = [ ...url.split('/') ];
+
+      if (keys.length > indexFromLast) {
+        let searchId = keys?.[keys?.length - 1 - indexFromLast];
+
+        const queryParamIndex = searchId?.indexOf('?');
+
+        if (queryParamIndex >= 0) {
+          searchId = searchId.substring(0, queryParamIndex);
+        }
+
+        return searchId;
+
+      } else {
+        throw new Error('Index from last value is incorrect');
+      }
+    }
+
+  } catch (error) {
+    console.error('Unable to get path variable - ', error);
+
+    return '';
   }
 }
