@@ -363,6 +363,9 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
  * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 4); // 3
  * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 3); // 2
  * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 6); // -1
+ *
+ * getIndexByMatchingObjectValue<number>(dummy, 'address', 6); // -1
+ * getIndexByMatchingObjectValue<number>(dummy, 'address.pincode', 6); // -1
  * ```
  */
 export function getIndexByMatchingObjectValue<MatchValueType>(searchArr: MultiLevelObject[], matchKey: string, matchValue: MatchValueType) {
