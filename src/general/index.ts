@@ -289,7 +289,9 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
  * This method is used to parse an object into entries. Works exactly like Object.entries.
  * Object.entries is still not fully supported so consider this a polyfill for the same.
  *
- * @param {MultiLevelObject} obj - Object to be parsed into entries. { key1: value1, key2: value2 } => [ [ key1, value1 ], [ key2, value2 ] ];
+ * { key1: value1, key2: value2 } => [ [ key1, value1 ], [ key2, value2 ] ]
+ *
+ * @param {MultiLevelObject} obj - Object to be parsed into entries.
  *
  * @example
  * ```
