@@ -606,3 +606,60 @@ export function listenToWindowMessage(eventCallback: Function, eventIdentifier: 
     throw error;
   }
 }
+
+
+/**
+ * This method is to force a reload when page is loaded from back forward cache.
+ * The page loaded from back forward cache may contain older data that may not be
+ * relevant now. Example: theme change, authentication states etc.
+ *
+ * @remarks
+ * A problem is caused by back-forward cache in Safari. It is supposed to
+ * save complete state of page when user navigates
+ * away. When user navigates back with back button page can
+ * be loaded from cache very quickly. This is different
+ * from normal cache which only caches HTML code.
+ *
+ * When page is loaded for bfcache onload event wont be triggered.
+ * Instead you can check the persisted property of
+ * the onpageshow event. It is set to false on initial page load.
+ * When page is loaded from bfcache it is set to true.
+ *
+ * Currently not using this function in the projects. But keeping this here so
+ * that again research is not required if such issue comes.
+ *
+ * This issue was with mobile Safari browsers earlier, but now seems to be fine.
+ */
+export function disableBackForwardCache() {
+  try {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('pageshow', reloadOnBackForward as EventListener);
+    }
+
+  } catch (error) {
+    console.error('Error in disableBackForwardCache method: ', error);
+  }
+}
+
+
+/**
+ * This function triggers a reload if page is loaded through back forward cache in the browser
+ *
+ * @remarks
+ * This is only used inside disableBackForwardCache method and not exported outside.
+ * It checks a special condition which checks if the page load happened from
+ * back forward cache, if yes, it reloads the page as the page loaded from back forward cache
+ * may contain older data that may not be relevant now. Example: theme change, authentication states etc.
+ *
+ * @param event
+ */
+function reloadOnBackForward(event: PageTransitionEvent) {
+  const historyTraversal = event.persisted ||
+    (typeof window.performance !== 'undefined' &&
+      window.performance.navigation.type === 2);
+
+  if (historyTraversal) {
+    // Handle page restore.
+    window.location.reload();
+  }
+}

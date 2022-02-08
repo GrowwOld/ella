@@ -4,6 +4,7 @@
 
 import {
   MultiLevelObject,
+  SingleLevelObject,
   TabsData,
 } from '../utils/types';
 
@@ -234,6 +235,60 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
 
 
 /**
+ * This method sorts an Object with key value pairs on the basis of the values. (Check examples for better understanding)
+ *
+ * @param {SingleLevelObject} obj - Object with key value pairs with single level hierarchy. (Read remarks)
+ * @param {boolean} isDescending - Sort in descending order or not. Defaults to false. Optional argument.
+ *
+ * @remarks
+ * Object should be of a single level. Avoid nested objects or arrays. In case of error, method returns the original object.
+ *
+ * @example
+ * ```
+ * const list = { yellow: 1, blue: 10, red: 5, green: 6, pink: 8 };
+ * const listWrong = { yellow: 1, blue: [ 'I', 'am', 'blue' ], red: 5, green: { i: 'i', am: 'am', green: 'green' }, pink: 8 };
+ *
+ * sortObjectByValue(list, true); // { blue: 10, pink: 8, green: 6, red: 5, yellow: 1 }
+ * sortObjectByValue(list); // { yellow: 1, red: 5, green: 6, pink: 8, blue: 10 }
+ *
+ * sortObjectByValue(listWrong);
+ * // console => Error in sorting object, original object returned : ErrorObject
+ * // { yellow: 1, blue: [ 'I', 'am', 'blue' ], red: 5, green: { i: 'i', am: 'am', green: 'green' }, pink: 8 }
+ * ```
+ */
+export function sortObjectByValue(obj: SingleLevelObject, isDescending?: boolean) {
+  try {
+    const sortable = [];
+
+    for (const key in obj) {
+      sortable.push([ key, obj[key] ]);
+    }
+
+    sortable.sort(function(a, b) {
+      if (isDescending) {
+        return (b[1] < a[1] ? -1 : (b[1] > a[1] ? 1 : 0));
+
+      } else {
+        return (a[1] < b[1] ? -1 : (a[1] > b[1] ? 1 : 0));
+      }
+    });
+
+    const orderedList: SingleLevelObject = {};
+
+    for (const idx in sortable) {
+      orderedList[sortable[idx][0]] = sortable[idx][1];
+    }
+
+    return orderedList;
+
+  } catch (error) {
+    console.error('Error in sorting object, original object returned', error);
+    return obj;
+  }
+}
+
+
+/*
  * Returns the value at given path from the source object. If path is not found then default value is returned.
  * This method works exactly like Lodash's getData method.
  *
@@ -312,5 +367,96 @@ export function getObjectEntries(obj: MultiLevelObject) {
     console.error('There was problem while creating object entries', error);
 
     throw error;
+  }
+}
+
+
+/**
+ * This method searches for an object inside an array of objects based on the object key and expected value then returns its index.
+ * Returns -1 if key not found.
+ *
+ * @param {MultiLevelObject[]} searchArr - Array of objects to search within
+ * @param {string} matchKey - Key of the object to be matched
+ * @param {MatchValueType} matchValue - Expected value to be matched
+ *
+ * @remarks
+ * <br/>
+ * Please ensure not to send chained keys as matchKey.
+ * <br/>
+ * 'key' | 'name' => Correct
+ * <br/>
+ * 'key.name[0]' | 'address.pincode' => Incorrect
+ *
+ * @example
+ * ```
+ * const dummy = [ { rollNo: 1 }, { rollNo: 2 }, { rollNo: 3 }, { rollNo: 4 } ];
+ *
+ * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 4); // 3
+ * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 3); // 2
+ * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 6); // -1
+ *
+ * getIndexByMatchingObjectValue<number>(dummy, 'address', 6); // -1
+ * getIndexByMatchingObjectValue<number>(dummy, 'address.pincode', 6); // -1
+ * ```
+ */
+export function getIndexByMatchingObjectValue<MatchValueType>(searchArr: MultiLevelObject[], matchKey: string, matchValue: MatchValueType) {
+  try {
+    for (let i = 0; i < searchArr.length; i++) {
+      const obj = searchArr[i];
+
+      if (obj[matchKey] === matchValue) {
+        return i;
+      }
+    }
+
+    return -1;
+
+  } catch (error) {
+    console.error('Error while find index by matching object value', error);
+
+    throw error;
+  }
+}
+
+
+/**
+ * This method returns the path from the url. By default it returns the last path i.e last slash part from the URL.
+ * If you want you can get any path from URL by passing index from last value param
+ *
+ * @param {string} url - The url that is entered
+ * @param {number} indexFromLast - The index from last slash in the URL. By default it is the last index.
+ *
+ * @example
+ * ```
+ * getPathVariableFromUrlIndex('https://groww.in/mutual-funds/user/explore')       //explore
+ * getPathVariableFromUrlIndex('https://groww.in/mutual-funds/user/explore', 2)   //mutual-funds
+ * ```
+ *
+ */
+export function getPathVariableFromUrlIndex(url: string, indexFromLast: number = 0) {
+  try {
+    if (url) {
+      const keys = [ ...url.split('/') ];
+
+      if (keys.length > indexFromLast) {
+        let searchId = keys?.[keys?.length - 1 - indexFromLast];
+
+        const queryParamIndex = searchId?.indexOf('?');
+
+        if (queryParamIndex >= 0) {
+          searchId = searchId.substring(0, queryParamIndex);
+        }
+
+        return searchId;
+
+      } else {
+        throw new Error('Index from last value is incorrect');
+      }
+    }
+
+  } catch (error) {
+    console.error('Unable to get path variable - ', error);
+
+    return '';
   }
 }
