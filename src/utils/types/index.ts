@@ -47,6 +47,12 @@ export type TabsData = {
   [key:string]: unknown;
 }
 
+
+export type MultiLevelObject = {
+  [key:string]: unknown;
+}
+
+
 export type SingleLevelObject = {
   [key: string ]: string | number;
 }

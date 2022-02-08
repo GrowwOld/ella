@@ -3,6 +3,7 @@
  */
 
 import {
+  MultiLevelObject,
   SingleLevelObject,
   TabsData,
 } from '../utils/types';
@@ -173,7 +174,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
     if (file) {
       // It is necessary to create a new blob object with mime-type explicitly set
       // otherwise only Chrome works like it should
-      const newBlob = new Blob([file], { type });
+      const newBlob = new Blob([ file ], { type });
 
       // For other browsers:
       // Create a link pointing to the ObjectURL containing the blob.
@@ -198,7 +199,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
       document.body.appendChild(link);
       link.click();
 
-      setTimeout(function () {
+      setTimeout(function() {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(fileUrl);
       }, 10);
@@ -255,27 +256,27 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
  * // { yellow: 1, blue: [ 'I', 'am', 'blue' ], red: 5, green: { i: 'i', am: 'am', green: 'green' }, pink: 8 }
  * ```
  */
-export function sortObjectByValue(obj:SingleLevelObject, isDescending?:boolean) {
+export function sortObjectByValue(obj: SingleLevelObject, isDescending?: boolean) {
   try {
     const sortable = [];
 
     for (const key in obj) {
-      sortable.push([ key, obj[ key ] ]);
+      sortable.push([ key, obj[key] ]);
     }
 
     sortable.sort(function(a, b) {
       if (isDescending) {
-        return (b[ 1 ] < a[ 1 ] ? -1 : (b[ 1 ] > a[ 1 ] ? 1 : 0));
+        return (b[1] < a[1] ? -1 : (b[1] > a[1] ? 1 : 0));
 
       } else {
-        return (a[ 1 ] < b[ 1 ] ? -1 : (a[ 1 ] > b[ 1 ] ? 1 : 0));
+        return (a[1] < b[1] ? -1 : (a[1] > b[1] ? 1 : 0));
       }
     });
 
-    const orderedList:SingleLevelObject = {};
+    const orderedList: SingleLevelObject = {};
 
     for (const idx in sortable) {
-      orderedList[ sortable[ idx ][ 0 ] ] = sortable[ idx ][ 1 ];
+      orderedList[sortable[idx][0]] = sortable[idx][1];
     }
 
     return orderedList;
@@ -340,6 +341,54 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
 
 
 /**
+ * This method searches for an object inside an array of objects based on the object key and expected value then returns its index.
+ * Returns -1 if key not found.
+ *
+ * @param {MultiLevelObject[]} searchArr - Array of objects to search within
+ * @param {string} matchKey - Key of the object to be matched
+ * @param {MatchValueType} matchValue - Expected value to be matched
+ *
+ * @remarks
+ * <br/>
+ * Please ensure not to send chained keys as matchKey.
+ * <br/>
+ * 'key' | 'name' => Correct
+ * <br/>
+ * 'key.name[0]' | 'address.pincode' => Incorrect
+ *
+ * @example
+ * ```
+ * const dummy = [ { rollNo: 1 }, { rollNo: 2 }, { rollNo: 3 }, { rollNo: 4 } ];
+ *
+ * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 4); // 3
+ * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 3); // 2
+ * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 6); // -1
+ *
+ * getIndexByMatchingObjectValue<number>(dummy, 'address', 6); // -1
+ * getIndexByMatchingObjectValue<number>(dummy, 'address.pincode', 6); // -1
+ * ```
+ */
+export function getIndexByMatchingObjectValue<MatchValueType>(searchArr: MultiLevelObject[], matchKey: string, matchValue: MatchValueType) {
+  try {
+    for (let i = 0; i < searchArr.length; i++) {
+      const obj = searchArr[i];
+
+      if (obj[matchKey] === matchValue) {
+        return i;
+      }
+    }
+
+    return -1;
+
+  } catch (error) {
+    console.error('Error while find index by matching object value', error);
+
+    throw error;
+  }
+}
+
+
+/**
  * This method returns the path from the url. By default it returns the last path i.e last slash part from the URL.
  * If you want you can get any path from URL by passing index from last value param
  *
@@ -356,7 +405,7 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
 export function getPathVariableFromUrlIndex(url: string, indexFromLast: number = 0) {
   try {
     if (url) {
-      const keys = [...url.split('/')];
+      const keys = [ ...url.split('/') ];
 
       if (keys.length > indexFromLast) {
         let searchId = keys?.[keys?.length - 1 - indexFromLast];
@@ -368,6 +417,7 @@ export function getPathVariableFromUrlIndex(url: string, indexFromLast: number =
         }
 
         return searchId;
+
       } else {
         throw new Error('Index from last value is incorrect');
       }
