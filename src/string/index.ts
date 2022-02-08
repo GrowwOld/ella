@@ -403,13 +403,14 @@ export function isSameDigitsString(str: string) {
 
 /**
  * This function normalizes text to string by using latest price and last price and is used by Ticker component.
+ * This is useful in case of a negative number where it doesn't behave properly in Ticker component.
  *
  * @param {number} latestPrice - The current price of the fund/schemes
  * @param {number} lastPrice - The last price of the scheme of the fund/schemes
  *
  *  @example
  * ```
- * normalizeTickerString(118.27,116.27)
+ * <Ticker text={normalizeTickerString(116.27,114.27)} />
  * ```
  *
  */
