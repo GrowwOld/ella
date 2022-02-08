@@ -358,7 +358,7 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
  *
  * @example
  * ```
- * const dummy1 = [ { rollNo: 1 }, { rollNo: 2 }, { rollNo: 3 }, { rollNo: 4 } ];
+ * const dummy = [ { rollNo: 1 }, { rollNo: 2 }, { rollNo: 3 }, { rollNo: 4 } ];
  *
  * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 4); // 3
  * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 3); // 2
