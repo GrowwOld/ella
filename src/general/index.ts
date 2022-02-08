@@ -231,20 +231,20 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
 
 
 /**
- * This method returns the search id from the url. By default it returns the last searchId from the URL.
- * If you want you can get any searchId from URL by passing index from last value param
+ * This method returns the path from the url. By default it returns the last path i.e last slash part from the URL.
+ * If you want you can get any path from URL by passing index from last value param
  *
  * @param {string} url - The url that is entered
- * @param {number} indexFromLast - The searchId index from last slash in the URL. By default it is the last index.
+ * @param {number} indexFromLast - The index from last slash in the URL. By default it is the last index.
  *
  * @example
  * ```
- * getSearchIdFromUrl('https://groww.in/mutual-funds/user/explore')       //explore
- * getSearchIdFromUrl('https://groww.in/mutual-funds/user/explore', 2)   //mutual-funds
+ * getPathVariableFromUrlIndex('https://groww.in/mutual-funds/user/explore')       //explore
+ * getPathVariableFromUrlIndex('https://groww.in/mutual-funds/user/explore', 2)   //mutual-funds
  * ```
  *
  */
-export function getSearchIdFromUrl(url: string, indexFromLast = 0) {
+export function getPathVariableFromUrlIndex(url: string, indexFromLast = 0) {
   try {
     if (url) {
       const keys = [...url.split('/')];
@@ -260,7 +260,7 @@ export function getSearchIdFromUrl(url: string, indexFromLast = 0) {
     }
 
   } catch (error) {
-    console.error('Search Id fetch error - ', error);
+    console.error('Unable to get path variable - ', error);
 
     return null;
   }
