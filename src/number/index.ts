@@ -4,6 +4,10 @@
 
 import { isEmpty } from '../general';
 
+export {
+  NumberFormatter
+} from './NumberFormatter';
+
 /**
  * This method can be used to add commas as per Indian system to any valid number of type string or number.
  *
@@ -165,7 +169,7 @@ export function ordinalSuffixOfNumber(num: number): string {
 /**
  * This method can be used to add commas as per million format (thousands separator).
  *
- * @param {number} num - Number that you want to be formatted with commas
+ * @param {number | string} num - Number that you want to be formatted with commas
  *
  * @remarks
  * It returns the number as it is on error
@@ -178,7 +182,7 @@ export function ordinalSuffixOfNumber(num: number): string {
  * millionWithCommas(1000001.12432432); // 1,000,001.12432432
  * ```
  */
-export function millionWithCommas(num: number) {
+export function millionWithCommas(num: number | string) {
   try {
     // return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     const parts = num.toString().split('.');
@@ -295,7 +299,7 @@ export function convertToBillionTrillionFormat(num: string | number, toFixedDeci
     }
 
     const toNumber = Number(num);
-    const abbrev = ['K', 'M', 'B', 'T'];
+    const abbrev = [ 'K', 'M', 'B', 'T' ];
     const numberToString = toNumber.toLocaleString('en-US');
     const splitNumberByCommaArr = numberToString.split(',');
 
@@ -330,6 +334,47 @@ export function convertToBillionTrillionFormat(num: string | number, toFixedDeci
   } catch (err) {
     console.error('Error in formatting number in billion trillon Intl format : ', err);
     return num;
+  }
+}
+
+
+/**
+ * This method can be used to give the sign of the number : + , - or empty if 0.
+ *
+ * @param {number | string} num - Number that you want to get sign for.
+ *
+ * @remarks
+ * It returns empty (No sign) for 0 value.
+ *
+ * @example
+ *
+ * ```
+ * getNumberSign(1000); // '+'
+ * convertToBillionTrillionFormat('1200'); // '+'
+ * convertToBillionTrillionFormat(-12430); // '-'
+ * convertToBillionTrillionFormat(0); // ''
+ * ```
+ *
+ */
+export function getNumberSign(num: string | number) {
+  try {
+    const toNumber = Number(num);
+
+    const mathSign = Math.sign(toNumber);
+
+    if (mathSign === 1) {
+      return '+';
+
+    } else if (mathSign === -1) {
+      return '-';
+    }
+
+    return '';
+
+  } catch (err) {
+    console.error(err);
+
+    return '';
   }
 }
 
