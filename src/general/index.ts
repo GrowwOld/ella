@@ -173,7 +173,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
     if (file) {
       // It is necessary to create a new blob object with mime-type explicitly set
       // otherwise only Chrome works like it should
-      const newBlob = new Blob([ file ], { type });
+      const newBlob = new Blob([file], { type });
 
       // For other browsers:
       // Create a link pointing to the ObjectURL containing the blob.
@@ -198,7 +198,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
       document.body.appendChild(link);
       link.click();
 
-      setTimeout(function() {
+      setTimeout(function () {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(fileUrl);
       }, 10);
@@ -335,5 +335,47 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
   } catch (e) {
     console.error('Error while using getData', e);
     return def;
+  }
+}
+
+
+/**
+ * This method returns the path from the url. By default it returns the last path i.e last slash part from the URL.
+ * If you want you can get any path from URL by passing index from last value param
+ *
+ * @param {string} url - The url that is entered
+ * @param {number} indexFromLast - The index from last slash in the URL. By default it is the last index.
+ *
+ * @example
+ * ```
+ * getPathVariableFromUrlIndex('https://groww.in/mutual-funds/user/explore')       //explore
+ * getPathVariableFromUrlIndex('https://groww.in/mutual-funds/user/explore', 2)   //mutual-funds
+ * ```
+ *
+ */
+export function getPathVariableFromUrlIndex(url: string, indexFromLast: number = 0) {
+  try {
+    if (url) {
+      const keys = [...url.split('/')];
+
+      if (keys.length > indexFromLast) {
+        let searchId = keys?.[keys?.length - 1 - indexFromLast];
+
+        const queryParamIndex = searchId?.indexOf('?');
+
+        if (queryParamIndex >= 0) {
+          searchId = searchId.substring(0, queryParamIndex);
+        }
+
+        return searchId;
+      } else {
+        throw new Error('Index from last value is incorrect');
+      }
+    }
+
+  } catch (error) {
+    console.error('Unable to get path variable - ', error);
+
+    return '';
   }
 }
