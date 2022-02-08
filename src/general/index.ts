@@ -299,7 +299,14 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
  * ```
  */
 export function getObjectEntries(obj: MultiLevelObject) {
-  const keys = Object.keys(obj);
+  try {
+    const keys = Object.keys(obj);
 
-  return keys.map(key => ([ key, obj[key] ]));
+    return keys.map(key => ([ key, obj[key] ]));
+
+  } catch (error) {
+    console.error('There was problem while creating object entries', error);
+
+    throw error;
+  }
 }
