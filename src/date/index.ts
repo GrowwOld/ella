@@ -38,6 +38,9 @@ export function getMonthAbbrByIndex(monthNumber: number): string {
  * to a specified format provided in 2nd paramter
  * It converts all types of dates accepted by dayjs
  *
+ * @remarks
+ * Link for dayjs format method - https://day.js.org/docs/en/display/format
+ *
  * @param {Date} longDateValue - Date input to be converted to another format. This generally comes from backend and is
  * in long format. For example '2022-02-01T12:16:13'
  * @param {string} dateFormat - Format in which the date needs to be converted to.
@@ -92,8 +95,9 @@ export function getAgeFromDateOfBirth(birthDate: Date) {
 
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDifference = today.getMonth() - birthDate.getMonth();
+    const isBirthdateYetToComeInCurrentYear = monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate());
 
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+    if (isBirthdateYetToComeInCurrentYear) {
       age--;
     }
 
@@ -306,6 +310,9 @@ export function getReportDateInput(lastSupportedYear: number, offsetFromCurrentF
 
 /**
  * This method inserts "/" while entering dates in input element
+ *
+ * @remarks
+ * This function is called while user is inputting the date in an input
  *
  * @param {string} inputDate - string entered in input element
  *
