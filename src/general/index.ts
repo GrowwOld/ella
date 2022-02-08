@@ -2,7 +2,10 @@
  * @module General
  */
 
-import { TabsData } from '../utils/types';
+import {
+  MultiLevelObject,
+  TabsData,
+} from '../utils/types';
 
 /**
  * This method can be used to check if the variable is empty or not. Returns true if it is empty else false.
@@ -279,4 +282,42 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
     console.error('Error while using getData', e);
     return def;
   }
+}
+
+
+/**
+ * This method searches for an object inside an array of objects based on the object key and expected value then returns its index.
+ * Returns -1 if key not found.
+ *
+ * @param {MultiLevelObject[]} searchArr - Array of objects to search within
+ * @param {string} matchKey - Key of the object to be matched
+ * @param {MatchValue} matchValue - Expected value to be matched
+ *
+ * @remarks
+ * <br/>
+ * Please ensure not to send chained keys as matchKey.
+ * <br/>
+ * 'key' | 'name' => Correct
+ * <br/>
+ * 'key.name[0]' | 'address.pincode' => Incorrect
+ *
+ * @example
+ * ```
+ * const dummy1 = [ { rollNo: 1 }, { rollNo: 2 }, { rollNo: 3 }, { rollNo: 4 } ];
+ *
+ * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 4); // 3
+ * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 3); // 2
+ * getIndexByMatchingObjectValue<number>(dummy, 'rollNo', 6); // -1
+ * ```
+ */
+export function getIndexByMatchingObjectValue<MatchValue>(searchArr: MultiLevelObject[], matchKey: string, matchValue: MatchValue) {
+  for (let i = 0; i < searchArr.length; i++) {
+    const obj = searchArr[i];
+
+    if (obj[matchKey] === matchValue) {
+      return i;
+    }
+  }
+
+  return -1;
 }
