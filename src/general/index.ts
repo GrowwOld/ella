@@ -230,6 +230,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
 
 /**
  * Returns the value at given path from the source object. If path is not found then default value is returned.
+ * This method works exactly like Lodash's getData method.
  *
  * @param { { [key: string]: unknown } } obj - Source object
  * @param {string} path - Path to desired key inside source object
