@@ -399,3 +399,40 @@ export function isSameDigitsString(str: string) {
     return false;
   }
 }
+
+
+/**
+ * This function normalizes text to string by using latest price and last price and is used by Ticker component.
+ * This is useful in case of a negative number where it doesn't behave properly in Ticker component.
+ *
+ * @param {number} latestPrice - The current price of the fund/schemes
+ * @param {number} lastPrice - The last price of the scheme of the fund/schemes
+ *
+ *  @example
+ * ```
+ * <Ticker text={normalizeTickerString(116.27,114.27)} />
+ * ```
+ *
+ */
+export function normalizeTickerString(latestPrice: number, lastPrice: number) {
+  try {
+    // we are rounding number because we add toFixed(2) and that will be same for everyone
+    const latestPriceLength = Math.round(latestPrice).toString().length;
+    const lastPriceLength = Math.round(lastPrice).toString().length;
+
+    let i = Math.abs(lastPriceLength - latestPriceLength);
+
+    let finalNumberString = Number(latestPrice).toFixed(2) + '';
+
+    for (; i > 0; i--) {
+      finalNumberString += ' ';
+    }
+
+    return finalNumberString;
+
+  } catch (error) {
+    console.error('Error in normalizeTickerString: ', error);
+
+    return '';
+  }
+}
