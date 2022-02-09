@@ -492,7 +492,7 @@ export function getPathVariableFromUrlIndex(url: string, indexFromLast: number =
  *      return (
  *          <input
  *              {...props}
- *              onChange={debouncedQueryInput}
+ *              onChange={onQueryInput}
  *          />
  *      )
  * }
