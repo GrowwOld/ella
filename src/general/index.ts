@@ -468,7 +468,7 @@ export function getPathVariableFromUrlIndex(url: string, indexFromLast: number =
  * This method is used to forcefully delay a function and cancel all intermediate redundant calls made within the span of delay.
  * Returns a method that will debounce by expected delay when called.
  *
- * @param {GenericFunction} url - Method that needs to be debounced
+ * @param {GenericFunction} func - Method that needs to be debounced
  * @param {number} delay - Amount of delay in miliseconds
  *
  * @example
