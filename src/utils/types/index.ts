@@ -56,3 +56,9 @@ export type MultiLevelObject = {
 export type SingleLevelObject = {
   [key: string ]: string | number;
 }
+
+
+export type GenericArguments = any[]
+
+
+export type GenericFunction = (...args: GenericArguments) => any;

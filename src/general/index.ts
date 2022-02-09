@@ -3,6 +3,8 @@
  */
 
 import {
+  GenericArguments,
+  GenericFunction,
   MultiLevelObject,
   SingleLevelObject,
   TabsData,
@@ -459,4 +461,61 @@ export function getPathVariableFromUrlIndex(url: string, indexFromLast: number =
 
     return '';
   }
+}
+
+
+/**
+ * This method is used to forcefully delay a function and cancel all intermediate redundant calls made within the span of delay.
+ * Returns a method that will debounce by expected delay when called.
+ *
+ * @param {GenericFunction} url - Method that needs to be debounced
+ * @param {number} delay - Amount of delay in miliseconds
+ *
+ * @example
+ * ```
+ * export function Input() {
+ *      const [ query, setQuery ] = useState('');
+ *      const [ result, setResult ] = useState([]);
+ *
+ *      const searchQuery = async (val) => {
+ *          const resp = await searchApi(val);
+ *          setResult(resp.data);
+ *      }
+ *
+ *      const debouncedSearchQuery = debounce(searchQuery, 500);
+ *
+ *      const onQueryInput = (event) => {
+ *          setQuery(event.target.value);
+ *          debouncedSearchQuery();
+ *      }
+ *
+ *      return (
+ *          <input
+ *              {...props}
+ *              onChange={debouncedQueryInput}
+ *          />
+ *      )
+ * }
+ *
+ * // This will result in searchQuery method to be delayed by 500ms.
+ * // If the user continues to input query within span of 500ms. Then all redundant calls will cancelled.
+ *
+ * // Without debounce => 'abcde' => 5 calls individually for a, ab, abc, abcd, abcde
+ * // With debounce => 'abcde' => 1 call for abcde
+ * ```
+ *
+ */
+export function debounce(func: GenericFunction, delay: number = 200) {
+  let timeout: ReturnType<typeof setTimeout>;
+
+  return function(...args: GenericArguments) {
+
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+
+      func(...args);
+
+    }, delay);
+  };
 }
