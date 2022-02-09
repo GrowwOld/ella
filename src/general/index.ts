@@ -341,6 +341,37 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
 
 
 /**
+ * This method is used to parse an object into entries. Works exactly like Object.entries.
+ * Object.entries is still not fully supported so consider this a polyfill for the same.
+ *
+ * { key1: value1, key2: value2 } => [ [ key1, value1 ], [ key2, value2 ] ]
+ *
+ * @param {MultiLevelObject} obj - Object to be parsed into entries.
+ *
+ * @example
+ * ```
+ * const dummy1 = { key1: value1, key2: value2, key3: value3 };
+ * const dummy2 = { key1: 'value1', key2: 'value2', key3: [ 1, 2, 3 ], key4: { a: 1, b: 2 } }
+ *
+ * getObjectEntries(dummy1) // [ [ key1, value1 ], [ key2, value2 ], [ key3, value3 ] ];
+ * getObjectEntries(dummy2) // [ [ key1, value1 ], [ key2, value2 ], [ key3 , [ 1, 2, 3 ] ],[ key4,{ a:1, b:2 } ] ];
+ * ```
+ */
+export function getObjectEntries(obj: MultiLevelObject) {
+  try {
+    const keys = Object.keys(obj);
+
+    return keys.map(key => ([ key, obj[key] ]));
+
+  } catch (error) {
+    console.error('There was problem while creating object entries', error);
+
+    throw error;
+  }
+}
+
+
+/**
  * This method searches for an object inside an array of objects based on the object key and expected value then returns its index.
  * Returns -1 if key not found.
  *
