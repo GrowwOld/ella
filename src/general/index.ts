@@ -546,15 +546,18 @@ export function uniqBy(arr: GenericFunction, iteratee: GenericFunction) {
 
     const cb = typeof iteratee === 'function' ? iteratee : (o: GenericFunction) => o[iteratee];
 
-    const pickedObjects = arr.filter(item => item).reduce((map, item) => {
-      const key = cb(item);
+    const pickedObjects = arr
+      .filter(item => item)
+      .reduce((map, item) => {
+        const key = cb(item);
 
-      if (!key) {
-        return map;
-      }
+        if (!key) {
+          return map;
+        }
 
-      return map.has(key) ? map : map.set(key, item);
-    }, new Map()).values();
+        return map.has(key) ? map : map.set(key, item);
+      }, new Map())
+      .values();
 
     return [...pickedObjects];
 
