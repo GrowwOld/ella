@@ -557,10 +557,10 @@ export function remove<T>(array: T[], predicate: (elem: T, index: number, list: 
       if (predicate(array[counter], counter, array)) {
 
         idsToRemove.push(counter - idsToRemove.length);
-
         removedValues.push(array[counter]);
 
       }
+
     }
 
     idsToRemove.forEach(id => array.splice(id, 1));
