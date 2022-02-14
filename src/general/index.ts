@@ -519,3 +519,45 @@ export function debounce(func: GenericFunction, delay: number = 200) {
     }, delay);
   };
 }
+
+
+/**
+ * Returns new object with copied all properties without the ones specified.
+ *
+ * @param {MultiLevelObject} object - source object
+ * @param {string[]} props - properties to omit
+ *
+ * @example
+ *
+ * omit({ name: 'Jack', age: 69, title: 'Mr' }, ['age', 'title']);
+ * // { name: 'Jack' }
+ *
+ * @returns {MultiLevelObject} - new object without given properties
+ */
+export function omit(object: MultiLevelObject | null, props: string[]): MultiLevelObject | null {
+
+  try {
+    // if empty, or not type of object, return empty object
+    if (isEmpty(object) || (typeof object !== 'object')) {
+      return {};
+    }
+
+    const useProps = props.map(String); // TypeCasting in string
+
+    const result = {};
+
+    for (const key in object) {
+
+      if (!useProps.includes(key)) {
+        (result as MultiLevelObject)[key] = object[key];
+      }
+
+    }
+
+    return result;
+
+  } catch (e) {
+    console.error(e);
+    return object;
+  }
+}
