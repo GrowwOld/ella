@@ -519,3 +519,58 @@ export function debounce(func: GenericFunction, delay: number = 200) {
     }, delay);
   };
 }
+
+
+/**
+ * Removes values from array using function as predicate. Returns removed values.
+ *
+ * @param {Array} array
+ * @param {function} predicate
+ *
+ * @returns {Array}
+ *
+ * @example
+ * ```
+ * const arr = [ 1, 2, 3, 4, 5, 6 ];
+ *
+ * const freshArr = remove(arr, (elem) => {
+ *    return !!(elem % 2)
+ * })
+ *
+ * // Predicate returned true for every odd value and false for every even value.
+ * // For the ones predicate returned true, were deleted from the array. Removed values were returned.
+ *
+ * // arr = [ 2, 4, 6 ];
+ * // freshArr = [ 1, 3, 5 ];
+ * ```
+ *
+ */
+export function remove<T>(array: T[], predicate: (elem: T, index: number, list: T[]) => boolean): T[] {
+  try {
+    const len = array.length;
+
+    const idsToRemove = [];
+    const removedValues = [];
+
+    for (let counter = 0; counter < len; counter++) {
+
+      if (predicate(array[counter], counter, array)) {
+
+        idsToRemove.push(counter - idsToRemove.length);
+
+        removedValues.push(array[counter]);
+
+      }
+    }
+
+    idsToRemove.forEach(id => array.splice(id, 1));
+
+    return removedValues;
+
+  } catch (e) {
+
+    console.error(e);
+
+    throw e;
+  }
+}
