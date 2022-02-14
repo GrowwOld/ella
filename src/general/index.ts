@@ -533,9 +533,9 @@ export function debounce(func: GenericFunction, delay: number = 200) {
  *
  * @example
  * ```
- * const a = [ 12, undefined, { id: 1, name: 'bob' }, null,  { id: 1, name: 'bill' }, null, undefined ];
+ * const arr = [ 12, undefined, { id: 1, name: 'bob' }, null,  { id: 1, name: 'bill' }, null, undefined ];
  *
- * uniqBy(a, 'name');   // [ { id: 1, name: 'bob' }, { id: 1, name: 'bill' }]
+ * uniqBy(arr, 'name');   // [ { id: 1, name: 'bob' }, { id: 1, name: 'bill' }]
  * ```
  */
 export function uniqBy(arr: GenericFunction, iteratee: GenericFunction) {
