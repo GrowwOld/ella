@@ -2,6 +2,9 @@
  * @module General
  */
 
+import cloneDeep from 'lodash.clonedeep';
+import isEqual from 'lodash.isequal';
+
 import {
   GenericArguments,
   GenericFunction,
@@ -176,7 +179,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
     if (file) {
       // It is necessary to create a new blob object with mime-type explicitly set
       // otherwise only Chrome works like it should
-      const newBlob = new Blob([file], { type });
+      const newBlob = new Blob([ file ], { type });
 
       // For other browsers:
       // Create a link pointing to the ObjectURL containing the blob.
@@ -201,7 +204,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
       document.body.appendChild(link);
       link.click();
 
-      setTimeout(function () {
+      setTimeout(function() {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(fileUrl);
       }, 10);
@@ -263,10 +266,10 @@ export function sortObjectByValue(obj: SingleLevelObject, isDescending?: boolean
     const sortable = [];
 
     for (const key in obj) {
-      sortable.push([key, obj[key]]);
+      sortable.push([ key, obj[key] ]);
     }
 
-    sortable.sort(function (a, b) {
+    sortable.sort(function(a, b) {
       if (isDescending) {
         return (b[1] < a[1] ? -1 : (b[1] > a[1] ? 1 : 0));
 
@@ -363,7 +366,7 @@ export function getObjectEntries(obj: MultiLevelObject) {
   try {
     const keys = Object.keys(obj);
 
-    return keys.map(key => ([key, obj[key]]));
+    return keys.map(key => ([ key, obj[key] ]));
 
   } catch (error) {
     console.error('There was problem while creating object entries', error);
@@ -438,7 +441,7 @@ export function getIndexByMatchingObjectValue<MatchValueType>(searchArr: MultiLe
 export function getPathVariableFromUrlIndex(url: string, indexFromLast: number = 0) {
   try {
     if (url) {
-      const keys = [...url.split('/')];
+      const keys = [ ...url.split('/') ];
 
       if (keys.length > indexFromLast) {
         let searchId = keys?.[keys?.length - 1 - indexFromLast];
@@ -508,7 +511,7 @@ export function getPathVariableFromUrlIndex(url: string, indexFromLast: number =
 export function debounce(func: GenericFunction, delay: number = 200) {
   let timeout: ReturnType<typeof setTimeout>;
 
-  return function (...args: GenericArguments) {
+  return function(...args: GenericArguments) {
 
     clearTimeout(timeout);
 
@@ -559,11 +562,13 @@ export function uniqBy(arr: GenericFunction, iteratee: GenericFunction) {
       }, new Map())
       .values();
 
-    return [...pickedObjects];
+    return [ ...pickedObjects ];
 
   } catch (error) {
     console.error(error);
 
     throw error;
   }
-};
+}
+
+export { cloneDeep, isEqual };
