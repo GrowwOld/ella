@@ -574,3 +574,53 @@ export function remove<T>(array: T[], predicate: (elem: T, index: number, list: 
     throw e;
   }
 }
+
+
+/**
+ * This method is like `uniq` except that it accepts `iteratee` which is
+ * invoked for each element in `array` to generate the criterion by which
+ * uniqueness is computed. The order of result values is determined by the
+ * order they occur in the array. The iteratee is invoked with one argument:
+ * (value).
+ *
+ * @param arr The array to inspect
+ * @param iteratee The iteratee invoked per element.
+ *
+ * @example
+ * ```
+ * const arr = [ 12, undefined, { id: 1, name: 'bob' }, null,  { id: 1, name: 'bill' }, null, undefined ];
+ *
+ * uniqBy(arr, 'name');   // [ { id: 1, name: 'bob' }, { id: 1, name: 'bill' }]
+ * ```
+ */
+export function uniqBy(arr: GenericFunction, iteratee: GenericFunction) {
+  try {
+    if (!Array.isArray(arr)) {
+      return [];
+    }
+
+    const cb = typeof iteratee === 'function' ? iteratee : (o: GenericFunction) => o[iteratee];
+
+    const pickedObjects = arr
+      .filter(item => item)
+      .reduce((map, item) => {
+        const key = cb(item);
+
+        if (!key) {
+          return map;
+        }
+
+        return map.has(key) ? map : map.set(key, item);
+      }, new Map())
+      .values();
+
+    return [ ...pickedObjects ];
+
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+}
+
+;
