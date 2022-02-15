@@ -1,3 +1,23 @@
+/* Start of GENERIC TYPES - These types are not use case specific. Please refer to these first before creating new types. */
+
+export type MultiLevelObject = {
+  [ key:string ]: unknown;
+}
+
+
+export type SingleLevelObject = {
+  [ key: string ]: string | number;
+}
+
+
+export type GenericArguments = any[]
+
+
+export type GenericFunction = (...args: GenericArguments) => any;
+
+/* End of GENERIC TYPES */
+
+
 export type ArticleSchema = {
   headline: string;
   datePublished: string;
@@ -45,20 +65,4 @@ export type BreadcrumbSchema = {
 export type TabsData = {
   searchId: string;
   [key:string]: unknown;
-}
-
-
-export type MultiLevelObject = {
-  [key:string]: unknown;
-}
-
-
-export type SingleLevelObject = {
-  [key: string ]: string | number;
-}
-
-
-export type GenericArguments = any[]
-
-
-export type GenericFunction = (...args: GenericArguments) => any;
+};
