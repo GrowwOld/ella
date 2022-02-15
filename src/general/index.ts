@@ -2,6 +2,9 @@
  * @module General
  */
 
+import cloneDeep from 'lodash.clonedeep';
+import isEqual from 'lodash.isequal';
+
 import {
   GenericArguments,
   GenericFunction,
@@ -664,3 +667,5 @@ export function omit(object: MultiLevelObject | null, props: string[]): MultiLev
     return object;
   }
 }
+
+export { cloneDeep, isEqual };
