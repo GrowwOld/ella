@@ -176,7 +176,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
     if (file) {
       // It is necessary to create a new blob object with mime-type explicitly set
       // otherwise only Chrome works like it should
-      const newBlob = new Blob([file], { type });
+      const newBlob = new Blob([ file ], { type });
 
       // For other browsers:
       // Create a link pointing to the ObjectURL containing the blob.
@@ -201,7 +201,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
       document.body.appendChild(link);
       link.click();
 
-      setTimeout(function () {
+      setTimeout(function() {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(fileUrl);
       }, 10);
@@ -263,10 +263,10 @@ export function sortObjectByValue(obj: SingleLevelObject, isDescending?: boolean
     const sortable = [];
 
     for (const key in obj) {
-      sortable.push([key, obj[key]]);
+      sortable.push([ key, obj[key] ]);
     }
 
-    sortable.sort(function (a, b) {
+    sortable.sort(function(a, b) {
       if (isDescending) {
         return (b[1] < a[1] ? -1 : (b[1] > a[1] ? 1 : 0));
 
@@ -363,7 +363,7 @@ export function getObjectEntries(obj: MultiLevelObject) {
   try {
     const keys = Object.keys(obj);
 
-    return keys.map(key => ([key, obj[key]]));
+    return keys.map(key => ([ key, obj[key] ]));
 
   } catch (error) {
     console.error('There was problem while creating object entries', error);
@@ -438,7 +438,7 @@ export function getIndexByMatchingObjectValue<MatchValueType>(searchArr: MultiLe
 export function getPathVariableFromUrlIndex(url: string, indexFromLast: number = 0) {
   try {
     if (url) {
-      const keys = [...url.split('/')];
+      const keys = [ ...url.split('/') ];
 
       if (keys.length > indexFromLast) {
         let searchId = keys?.[keys?.length - 1 - indexFromLast];
@@ -508,7 +508,7 @@ export function getPathVariableFromUrlIndex(url: string, indexFromLast: number =
 export function debounce(func: GenericFunction, delay: number = 200) {
   let timeout: ReturnType<typeof setTimeout>;
 
-  return function (...args: GenericArguments) {
+  return function(...args: GenericArguments) {
 
     clearTimeout(timeout);
 
@@ -518,6 +518,48 @@ export function debounce(func: GenericFunction, delay: number = 200) {
 
     }, delay);
   };
+}
+
+
+/**
+ * Returns new object with copied all properties without the ones specified.
+ *
+ * @param {MultiLevelObject} object - source object
+ * @param {string[]} props - properties to omit
+ *
+ * @example
+ *
+ * omit({ name: 'Jack', age: 69, title: 'Mr' }, ['age', 'title']);
+ * // { name: 'Jack' }
+ *
+ * @returns {MultiLevelObject} - new object without given properties
+ */
+export function omit(object: MultiLevelObject | null, props: string[]): MultiLevelObject | null {
+
+  try {
+    // if empty, or not type of object, return empty object
+    if (isEmpty(object) || (typeof object !== 'object')) {
+      return {};
+    }
+
+    const useProps = props.map(String); // TypeCasting in string
+
+    const result = {};
+
+    for (const key in object) {
+
+      if (!useProps.includes(key)) {
+        (result as MultiLevelObject)[key] = object[key];
+      }
+
+    }
+
+    return result;
+
+  } catch (e) {
+    console.error(e);
+    return object;
+  }
 }
 
 
@@ -559,11 +601,13 @@ export function uniqBy(arr: GenericFunction, iteratee: GenericFunction) {
       }, new Map())
       .values();
 
-    return [...pickedObjects];
+    return [ ...pickedObjects ];
 
   } catch (error) {
     console.error(error);
 
     throw error;
   }
-};
+}
+
+;
