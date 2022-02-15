@@ -1,4 +1,30 @@
-export function isValidEmail(emailId:string) {
+/**
+ * @module String
+ */
+
+import { isEmpty } from '../general';
+
+/**
+ * This method can be used to validate email id given in string.
+ * Special characters allowed before @ are -+._
+ *
+ * @param {emailId} str - String that you want to validate as email
+ *
+ * @example
+ * ```
+ * isValidEmail('johndoe@gmail.com'); // Output is an array
+ * isValidEmail('johndoe@gmail'); // Output is null
+ * isValidEmail('john-doe@gmail.com'); // Output is an array
+ * isValidEmail('john+doe@gmail.com'); // Output is an array
+ * isValidEmail('john.doe@gmail.com'); // Output is an array
+ * isValidEmail('john.doe@mail.in'); // Output is an array
+ * isValidEmail('john_doe@mail.in'); // Output is an array
+ *
+ * @returns boolean if input string matches the email vaildation regex
+ *
+ * @category String Based Method
+ */
+export function isValidEmail(emailId: string) {
   const mailformat = /^\w+([\+\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
 
   return emailId.match(mailformat);
@@ -14,10 +40,8 @@ export function isValidEmail(emailId:string) {
  * ```
  * convertHtmlToText('<p>Hello <b>World</b></p>') // Hello World
  * ```
- *
- * @category String Based Method
  */
-export function convertHtmlToText(htmlString:string) {
+export function convertHtmlToText(htmlString: string) {
   if (htmlString != null) {
     //-- remove BR tags and replace them with empty string
     htmlString = htmlString.replace(/<br>/gi, ' ');
@@ -81,14 +105,8 @@ export function convertHtmlToText(htmlString:string) {
  *
  * @remarks
  * Valid name - Only alphanumeric with space allowed (no other special chars) and min char should be 2
- *
- * @category String Based Method
  */
-export function isValidName(name:string):boolean {
-  /*
-    This method check name string should contain only alphabets with space, no special
-    character and numbers are allowed and minimum length should be 2 character.
-  */
+export function isValidName(name: string): boolean {
   if (name) {
     name = name.trim();
     const nameFormat = /^[a-zA-Z ]*$/;
@@ -112,12 +130,10 @@ export function isValidName(name:string):boolean {
  * convertToSentenceCase('My NAME Is kHan'); // My name is khan
  * convertToSentenceCase('My NAME Is kHan. i am not a terrorist. Understood?'); // My name is khan. I am not a terrorist. Understood?
  * ```
- *
- * @category String Based Method
  */
-export function convertToSentenceCase(str:string) {
+export function convertToSentenceCase(str: string) {
   try {
-    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) { return c.toUpperCase(); });
+    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function (c) { return c.toUpperCase(); });
 
     return newString;
 
@@ -140,12 +156,10 @@ export function convertToSentenceCase(str:string) {
  * capitalizeFirstLetter('My NAME Is kHan'); // My NAME Is KHan
  * capitalizeFirstLetter('My NAME Is kHan. i am not a terrorist. Understood?'); // My NAME Is KHan. I Am Not A Terrorist. Understood?
  * ```
- *
- * @category String Based Method
  */
-export function capitalizeFirstLetter(str:string) {
+export function capitalizeFirstLetter(str: string) {
   try {
-    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
+    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
 
   } catch (e) {
     console.error('capitalize letter', e);
@@ -166,14 +180,259 @@ export function capitalizeFirstLetter(str:string) {
  * toTitleCase('My NAME Is kHan'); // My Name Is Khan
  * toTitleCase('My NAME Is kHan. i am not a terrorist. Understood?'); // My Name Is Khan. I Am Not A Terrorist. Understood?
  * ```
- *
- * @category String Based Method
  */
-export function toTitleCase(str:string) {
+export function toTitleCase(str: string) {
   try {
-    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
+    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
 
   } catch (e) {
     console.error('title case error', e);
+  }
+}
+
+
+/**
+ * This function masks an input string from the index specified to the number of characters specified to be masked
+ *
+ * @param {string} inputString - Input string to be masked
+ * @param {number} maskStartIndex - Index in the input string from which masking needs to be started
+ * @param {number} maskCharactersCount - Count of number of charaters to be masked in input string
+ *
+ * @example
+ * ```
+ * maskInputString("maskInputString", 7, 12);  // Output is 'maskInpXXXXXXXX'
+ * maskInputString("maskInputString", 0, 12);  // Output is 'XXXXXXXXXXXXing'
+ * maskInputString("maskInputString", 0, 10);  // Output is 'XXXXXXXXXXtring'
+ * maskInputString("maskInputString", 0, 9);  // Output is 'XXXXXXXXXString'
+ * maskInputString("maskInputString", 2, 9);  // Output is 'maXXXXXXXXXring'
+ * maskInputString("maskInputString", 6, 8);  // Output is 'maskInXXXXXXXXg'
+ * maskInputString("maskInputString", 6, 13);  // Output is 'maskInXXXXXXXXX'
+ * maskInputString("maskInputString", 6, 16);  // Output is 'XXXXXXXXXXXXXXX' as maskCharactersCount is greater than length of inputString
+ * maskInputString("maskInputString", 13, 1);  // Output is 'maskInputStriXg'
+ * maskInputString("maskInputString", 16, 13);  // Output is 'maskInputString' as maskStartIndex is greater than length of inputString
+ * maskInputString("maskInputString", 16);  // Output is ''
+ * maskInputString("maskInputString", 2);  // Output is ''
+ * maskInputString("maskInputString", undefined, 3);  // Output is ''
+ * maskInputString();  // Output is ''
+ * maskInputString("maskInputString", -1, 2);  // Output is ''
+ * maskInputString("maskInputString", 1, -2);  // Output is ''
+ * ```
+ */
+export function maskInputString(inputString: string, maskStartIndex: number, maskCharactersCount: number) {
+  if (!isEmpty(inputString)) {
+    const inputLength = inputString.length;
+
+    if ((maskStartIndex >= 0) && (maskCharactersCount >= 0) && (maskCharactersCount <= inputLength)) {
+      const stringBeforeMask = inputString.slice(0, maskStartIndex);
+      const maskedString = new Array(maskCharactersCount + 1).join('X');
+      const stringAfterMask = inputString.slice(stringBeforeMask.length + maskedString.length, inputLength);
+
+      return (stringBeforeMask + maskedString + stringAfterMask).substr(0, inputLength);
+
+    } else {
+      if (maskStartIndex > inputLength && (maskCharactersCount >= 0)) {
+        return inputString;
+
+      } else if ((maskCharactersCount > inputLength) && !isEmpty(maskStartIndex)) {
+        return new Array(inputLength + 1).join('X');
+      }
+
+      return '';
+    }
+  }
+
+  return inputString;
+}
+
+
+/**
+ * This function truncates an input string from the index specified to the number of characters specified to be truncated
+ *
+ * @param {string} inputString - Input string to be truncated
+ * @param {string} truncateStartIndex - Index from which truncation of the string to be started
+ * @param {number} truncateCharactersCount - Number of characters which should be trucated from the truncateStartIndex
+ *
+ * @example
+ * ```
+ * truncateInputString('truncateInputString') // Output will be 'InputString'
+ * truncateInputString('truncateInputString', 0, 8) // Output will be 'InputString'
+ * truncateInputString('truncateInputString', 4, 9) // Output will be 'trunString'
+ * truncateInputString('truncateInputString', 20, 9) // Output will be 'truncateInputString', as start index is larger than length of inputString
+ * truncateInputString('truncateInputString', 10, 20) // Output will be '', aslength of characters to be truncated is large than length of inputString
+ * truncateInputString('truncateInputString', 0, 0) // Output will be 'truncateInputString'
+ * truncateInputString('truncateInputString', 10, -1)  // Output will be ''
+ * truncateInputString('truncateInputString', -1, 10)  // Output will be ''
+ * truncateInputString('truncateInputString', -1, -1)  // Output will be ''
+ * ```
+ */
+export function truncateInputString(inputString: string, truncateStartIndex: number = 0, truncateCharactersCount: number = 8) {
+  if (!isEmpty(inputString)) {
+    const inputLength = inputString.length;
+
+    if ((truncateStartIndex >= 0) && (truncateCharactersCount >= 0) && (truncateCharactersCount <= inputLength)) {
+      const stringBeforeTruncate = inputString.slice(0, truncateStartIndex);
+      const truncatedString = '';
+      const stringAfterTruncate = inputString.slice(stringBeforeTruncate.length + truncateCharactersCount, inputLength);
+
+      return (stringBeforeTruncate + truncatedString + stringAfterTruncate).substr(0, inputLength);
+
+    } else {
+      if (truncateStartIndex > inputLength && (truncateCharactersCount >= 0)) {
+        return inputString;
+
+      } else if ((truncateCharactersCount > inputLength) && !isEmpty(truncateStartIndex)) {
+        return '';
+      }
+
+      return '';
+    }
+  }
+
+  return '';
+}
+
+
+/**
+ * This method is used to check if the given string check for characters from a-z, A-Z, 0-9.
+ *
+ * @param str - String that you want to check for the above characters
+ *
+ * @example
+ * ```
+ * isAlphanumericString('aaAa123')  // true
+ * isAlphanumericString('aaAa_98-') // false
+ * ```
+ */
+export function isAlphanumericString(str: string) {
+  const regexForAlphaNumericString = /^[a-z0-9]+$/i;
+
+  return regexForAlphaNumericString.test(str);
+}
+
+;
+
+
+/**
+ * This method checks for all characters to be number between 0-9 and pincode length to be 6
+ *
+ * @param {string | number} pincode - string or number entered in input element
+ *
+ * @example
+ *```
+ * isValidPincode('123456')  // true
+ * isValidPincode('1234aa')  // false
+ * isValidPincode(110018)    // true
+ * isValidPincode('12345')   // false
+ * ```
+ */
+export function isValidPincode(pincode: string | number) {
+  //This regex checks for all characters to be number between 0-9
+  const regexForOnlyNumbers = /^\d+$/;
+
+  //converting number to string to support handling in case input is number
+  const convertPincodeToString = pincode.toString();
+
+  return regexForOnlyNumbers.test(convertPincodeToString) && convertPincodeToString.length === 6;
+}
+
+;
+
+
+/**
+ * The sequential number would always be a subset to "0123456789".
+ * For instance, 1234, 4567, 2345, etc are all subset of "0123456789".
+ * To validate, this function uses 'indexOf' method present on String Object.
+ *
+ * @param {string | number} digitsPattern - string or number entered in input element
+ *
+ * @example
+ *```
+ * isSequentialDigitsPattern('1234')   //true
+ * isSequentialDigitsPattern('1235')   //false
+ * isSequentialDigitsPattern('9876')   //true
+ * ```
+ */
+export function isSequentialDigitsPattern(digitsPattern: string | number) {
+  try {
+    const sequentialNumbers = '01234567890';
+    //If reverse sequence is also needed to be checked
+    const reverseSequentialNumbers = '09876543210';
+
+    //Returns false, if the number is in sequence
+    return !((sequentialNumbers.indexOf(digitsPattern.toString()) === -1) &&
+      (reverseSequentialNumbers.indexOf(digitsPattern.toString()) === -1));
+
+  } catch (error) {
+    console.error('Error in isSequentialDigitsPattern: ', error);
+
+    return false;
+  }
+}
+
+
+/**
+ * This function checks if a string has all digits as the same digit
+ *
+ * @param {string} str - string entered in input element
+ *
+ * @example
+ * ```
+ * isSameDigitsString('1111')  //true
+ * isSameDigitsString('2222')  //true
+ * isSameDigitsString('1212')  //false
+ * ```
+ *
+ */
+export function isSameDigitsString(str: string) {
+  try {
+
+    if (isEmpty(str)) {
+      return false;
+    }
+
+    // checks if every digit in string is same as first character
+    return str.split('').every(char => char === str[0]);
+
+  } catch (error) {
+    console.error('Error in isSameDigitsString: ', error);
+
+    return false;
+  }
+}
+
+
+/**
+ * This function normalizes text to string by using latest price and last price and is used by Ticker component.
+ * This is useful in case of a negative number where it doesn't behave properly in Ticker component.
+ *
+ * @param {number} latestPrice - The current price of the fund/schemes
+ * @param {number} lastPrice - The last price of the scheme of the fund/schemes
+ *
+ *  @example
+ * ```
+ * <Ticker text={normalizeTickerString(116.27,114.27)} />
+ * ```
+ *
+ */
+export function normalizeTickerString(latestPrice: number, lastPrice: number) {
+  try {
+    // we are rounding number because we add toFixed(2) and that will be same for everyone
+    const latestPriceLength = Math.round(latestPrice).toString().length;
+    const lastPriceLength = Math.round(lastPrice).toString().length;
+
+    let i = Math.abs(lastPriceLength - latestPriceLength);
+
+    let finalNumberString = Number(latestPrice).toFixed(2) + '';
+
+    for (; i > 0; i--) {
+      finalNumberString += ' ';
+    }
+
+    return finalNumberString;
+
+  } catch (error) {
+    console.error('Error in normalizeTickerString: ', error);
+
+    return '';
   }
 }

@@ -1,4 +1,8 @@
-import { isEmpty } from "../general";
+/**
+ * @module DOM
+ */
+
+import { isEmpty } from '../general';
 
 /**
  * This method can be used to listen any custom event.
@@ -13,10 +17,8 @@ import { isEmpty } from "../general";
  * ```
  * listenToCustomEvent(CUSTOM_EVENTS.file_loaded, this.xyz)
  * ```
- *
- * @category DOM Based Method
  */
-export function listenToCustomEvent(eventName:string, callback:Function) {
+export function listenToCustomEvent(eventName: string, callback: Function) {
   try {
     if (!isEmpty(document)) {
       document.documentElement.addEventListener(eventName, callback as EventListener);
@@ -42,10 +44,8 @@ export function listenToCustomEvent(eventName:string, callback:Function) {
  * dispatchCustomEvent(CUSTOM_EVENTS.file_loaded)
  * dispatchCustomEvent(CUSTOM_EVENTS.file_loaded, {user: 'Ella'})
  * ```
- *
- * @category DOM Based Method
  */
-export function dispatchCustomEvent(eventName: string, eventDetails:object = {}) {
+export function dispatchCustomEvent(eventName: string, eventDetails: object = {}) {
   if (!isEmpty(document)) {
     const temp = document.documentElement;
 
@@ -67,10 +67,8 @@ export function dispatchCustomEvent(eventName: string, eventDetails:object = {})
  * ```
  * unlistenToCustomEvent(CUSTOM_EVENTS.file_loaded, this.xyz)
  * ```
- *
- * @category DOM Based Method
  */
-export function unlistenToCustomEvent(eventName:string, methodToUnlisten:Function) {
+export function unlistenToCustomEvent(eventName: string, methodToUnlisten: Function) {
   try {
     if (!isEmpty(document)) {
       document.documentElement.removeEventListener(eventName, methodToUnlisten as EventListener);
@@ -89,8 +87,6 @@ export function unlistenToCustomEvent(eventName:string, methodToUnlisten:Functio
  * ```
  * scrollPageToTop();
  * ```
- *
- * @category DOM Based Method
  */
 export function scrollPageToTop() {
   if (!isEmpty(window)) {
@@ -112,17 +108,15 @@ export function scrollPageToTop() {
  * ```
  * blockSpecialChars(event, ['@', '%'])
  * ```
- *
- * @category DOM Based Method
  */
-export function blockSpecialChars(eventObject:React.KeyboardEvent<HTMLInputElement>, allowedArr:string[]) {
+export function blockSpecialChars(eventObject: React.KeyboardEvent<HTMLInputElement>, allowedArr: string[]) {
   const k = eventObject.key;
 
   if ((k >= 'a' && k <= 'z') || (k >= 'A' && k <= 'Z') || k === 'Backspace' || k === ' ' || (k >= '0' && k <= '9') || k === '.' || k === ',') {
-      // do nothing
+    // do nothing
   } else {
     if (allowedArr.includes(k)) {
-        // do nothing
+      // do nothing
     } else {
       eventObject.preventDefault();
     }
@@ -139,10 +133,8 @@ export function blockSpecialChars(eventObject:React.KeyboardEvent<HTMLInputEleme
  * ```
  * copyToClipboard("URN: 2303232923");
  * ```
- *
- * @category DOM Based Method
  */
-export function copyToClipboard(str:string) {
+export function copyToClipboard(str: string) {
   /**
    * This function is used to copy anything to the clipboard
    */
@@ -167,10 +159,8 @@ export function copyToClipboard(str:string) {
  * performanceMark('ComponentMounted');
  * performanceMeasure('ComponentWillMount','ComponentMounted')
  * ```
- *
- * @category DOM Based Method
  */
-export function performanceMark(name:string) {
+export function performanceMark(name: string) {
   if (window?.performance?.mark) {
     window.performance.mark(name);
   }
@@ -189,10 +179,8 @@ export function performanceMark(name:string) {
  * performanceMark('ComponentMounted');
  * console.log("Component mounted in ms - "performanceMeasure('ComponentWillMount','ComponentMounted'));
  * ```
- *
- * @category DOM Based Method
  */
-export function performanceMeasure(markStart:string, markEnd:string) {
+export function performanceMeasure(markStart: string, markEnd: string) {
   if (window?.performance?.measure) {
     return window.performance.measure('', markStart, markEnd).duration;
   }
@@ -211,10 +199,8 @@ export function performanceMeasure(markStart:string, markEnd:string) {
  * ```
  * const url = `/abc/xyz/${encodeURL(searchId)}`;
  * ```
- *
- * @category DOM Based Method
  */
-export function encodeURLParams(queryParam:string) {
+export function encodeURLParams(queryParam: string) {
   let decodedURL = '';
 
   try {
@@ -238,10 +224,8 @@ export function encodeURLParams(queryParam:string) {
  * ```
  * console.log('Browser Name - ',getBrowserName());
  * ```
- *
- * @category DOM Based Method
  */
-export function getBrowserName():string {
+export function getBrowserName(): string {
   if (!isEmpty(window) && !isEmpty(navigator)) {
     if ((navigator.userAgent.indexOf('Opera') || navigator.userAgent.indexOf('OPR')) !== -1) {
       return 'Opera';
@@ -258,7 +242,7 @@ export function getBrowserName():string {
     } else if (navigator.userAgent.indexOf('Firefox') !== -1) {
       return 'Firefox';
 
-  // Double exclaimation is used to cast a value to boolean
+      // Double exclaimation is used to cast a value to boolean
     } else if ((navigator.userAgent.indexOf('MSIE') !== -1) || (!!document.DOCUMENT_NODE)) { //IF IE > 10
       return 'IE';
 
@@ -282,8 +266,6 @@ export function getBrowserName():string {
  * ```
  * console.log('Browser Name - ',getOSName());
  * ```
- *
- * @category DOM Based Method
  */
 export function getOSName() {
   if (!isEmpty(window) && !isEmpty(navigator)) {
@@ -315,4 +297,369 @@ export function getOSName() {
   }
 
   return '';
+}
+
+
+/**
+ * This function scrolls the page to the top.
+ * If window.scroll is available and works perfectly, this function uses the smooth scroll behaviour of window
+ * and scrolls with ease in animation. Else, It directly scrolls to top without animation in case of error with
+ * window.scroll.
+ *
+ * @example
+ * ```
+ * smoothScrollToTop();  // The page is scrolled to the top. With animation if window object is present,
+ * without animation if window object is not present.
+ * ```
+ */
+export function smoothScrollToTop() {
+  if (!isEmpty(window)) {
+    try {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth'
+      });
+
+    } catch (err) {
+      window.scrollTo(0, 0);
+    }
+  }
+}
+
+
+/**
+ * This function scrolls to the position of an element with an id.
+ *
+ * @param {string} elementId - id of the element to which the page needs to be scrolled to
+ * @param {number} offset - offset from top if we want to leave some space between the element top boundary
+ * and top of the scrolled window. this is and optional parameter. default value is 0
+ *
+ * @remarks
+ * If element with particular id is not present at the time when this function is called,
+ * then do nothing. A console.error will be called in such a case.
+ *
+ * @example
+ * ```
+ * smoothScrollToElementWithId('enterAmountDiv');  // scroll the div with id 'enterAmountDiv' to top of the window
+ * smoothScrollToElementWithId('enterAmountDiv', 0);  // scroll the div with id 'enterAmountDiv' to top of the window
+ * smoothScrollToElementWithId('enterAmountDiv', 100);  // scroll the div with id 'enterAmountDiv' to 100px below the top of the window
+ * * ```
+ */
+export function smoothScrollToElementWithId(elementId: string, offset: number = 0) {
+  try {
+    if (!isEmpty(window)) {
+      const element = document.getElementById(elementId);
+
+      if (element) {
+        const headerOffset = offset;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+  } catch (error) {
+    console.error('Error in scrollToElementWithId: ', error);
+  }
+}
+
+
+// REMARK - This method fails for 12.0.0 or 12.... use case in chrome, mozilla. It's because they dont add decimal in the string
+// REMARK - We can rewrite it with one more argument to work in all use cases but let's not write till someone really wants this.
+// export function ignoreSecondDecimalInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string) {
+//   const k = eventObject.key;
+
+//   // Convert to string if argument currentValue is in number
+//   const str = currentValue.toString();
+
+//   // One decimal is already present and this key pressed is also decimal
+//   if (str.includes('.') && k === '.') {
+//     eventObject.preventDefault();
+//   }
+// }
+
+// REMARK - This method fails for 0.0 use case in chrome, mozilla. It's because they dont add decimal in the string
+// REMARK - We can rewrite it with one more argument to work in all use cases but let's not write till someone really wants this.
+// export function stopConsecutiveZeroesInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string) {
+//   if (!isEmpty(currentValue)) {
+//     const k = eventObject.key;
+
+//   // current value length 1 and char is 0 and current press char is 0 then stop
+//     const temp = currentValue.toString();
+
+//     if (temp.length === 1 && temp.charAt(0) === '0' && k === '0') {
+//       eventObject.preventDefault();
+//     }
+//   }
+// }
+
+
+/**
+ * This method can be used to block the input after given decimal points
+ *
+ * @param {React.KeyboardEvent<HTMLInputElement>} eventObject - onKeyDown event object
+ * @param {number | string} currentValue - Current value of input field
+ * @param {number} toFixed - How many digits allowed after decimal. Default is 2
+ *
+ * @remarks
+ * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
+ *
+ * @example
+ * ```
+ * <input
+ *   type="number"
+ *   onInput={this.handleInput}
+ *   value={this.state.value}
+ *   onKeyDown={(eventObject) => allowedDecimalPointInput(eventObject, this.state.value, 4)}
+ * />
+ * ```
+ */
+export function allowedDecimalPointInput(eventObject: React.KeyboardEvent<HTMLInputElement>, currentValue: number | string, toFixed:number = 2) {
+  if (isUtilKeyPressed(eventObject.key)) {
+    return; // dont do anything, it's a valid key, let it get pressed
+  }
+
+  const temp = currentValue.toString(); //Handle for number | string
+
+  // Temp length should be more than 1 minimum to make sense & should include decimal
+  if (!isEmpty(temp) && temp.length > 1 && temp.includes('.')) {
+    const digitsAfterDecimal = (temp.split('.'))[1];
+
+    if (digitsAfterDecimal.length >= toFixed) {
+      eventObject.preventDefault();
+    }
+  }
+}
+
+
+/**
+ * This method can be used to block all the other input except numbers and utility keys
+ *
+ * @param {React.KeyboardEvent<HTMLInputElement>} eventObject - onKeyDown event object
+ *
+ * @remarks
+ * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
+ *
+ * @example
+ * ```
+ * <input
+ *   type="number"
+ *   onInput={this.handleInput}
+ *   value={this.state.value}
+ *   onKeyDown={(eventObject) => allowOnlyNumberKeys(eventObject)}
+ * />
+ * ```
+ */
+export function allowOnlyNumberKeys(eventObject: React.KeyboardEvent<HTMLInputElement>) {
+  if (isUtilKeyPressed(eventObject.key)) {
+    return; // dont do anything, it's a valid key, let it get pressed
+  }
+
+  const k = eventObject.key;
+
+  if (!(k >= '0' && k <= '9')) {
+    eventObject.preventDefault();
+  }
+}
+
+
+/**
+ * This method can be used to block all the other input except numbers, decimal and utility keys
+ *
+ * @param {React.KeyboardEvent<HTMLInputElement>} eventObject - onKeyDown event object
+ *
+ * @remarks
+ * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
+ *
+ * @example
+ * ```
+ * <input
+ *   type="number"
+ *   onInput={this.handleInput}
+ *   value={this.state.value}
+ *   onKeyDown={(eventObject) => allowNumbersAndDecimal(eventObject)}
+ * />
+ * ```
+ */
+export function allowNumbersAndDecimal(eventObject:React.KeyboardEvent<HTMLInputElement>) {
+  if (isUtilKeyPressed(eventObject.key)) {
+    return; // dont do anything, it's a valid key, let it get pressed
+  }
+
+  const k = eventObject.key;
+
+  if (!((k >= '0' && k <= '9') || (k === '.'))) {
+    eventObject.preventDefault();
+  }
+}
+
+
+/**
+ * This method returns a boolean value telling if the key pressed is utility key or not.
+ * Utility Key - ArrowLeft, ArrowRight, Backspace, Delete
+ *
+ * @param {string} keyValue - key which got pressed i.e eventObject.key
+ *
+ * @remarks
+ * It's strongly recommended to use this method on onKeyDown event to prevent the key from registering
+ */
+export function isUtilKeyPressed(keyValue:string) {
+  const isUtilsKey = [ 'ArrowLeft', 'ArrowRight', 'Backspace', 'Delete' ].includes(keyValue);
+
+  return isUtilsKey;
+}
+
+
+/**
+ * This method is used to push a message along with some data to a window instance. Useful in scenarios like iFrames, Webviews or Window Modals.
+ * Must be used in conjuction with listenToWindowMessage method above.
+ *
+ * @param {Window} targetWindow - Target window that needs to listen to the message. Defaults to current window.
+ * @param {string} action - Action type
+ * @param {Object} params - POJO - Any payload to be passed along with the action
+ * @param {string} eventIdentifier - Unique identifier for your event. Defaults to CUSTOM_MESSAGE
+ *
+ * @example
+ * ```
+ * const newWindow = window.open("https://groww.in/random-route", "_blank");
+ *
+ * postWindowMessage(newWindow, 'CHANGE_THEME', { theme: 'dark' }, 'MY_EVENT');
+ * ```
+ *
+ * @category DOM Based Method
+ */
+export function postWindowMessage(targetWindow: Window = window, action: string = 'WINDOW_ACTION', params: Object = {}, eventIdentifier: string = 'CUSTOM_MESSAGE') {
+  try {
+
+    if (isEmpty(window)) {
+      throw new Error('window is undefined');
+    }
+
+    const message: {
+      action: string;
+      params: Object;
+      identifier: string;
+    } = {
+      action,
+      params,
+      identifier: eventIdentifier
+    };
+
+    targetWindow.postMessage(message, window?.location?.origin ?? '*');
+
+  } catch (error) {
+    console.error('Error while window.postMessage', error);
+    throw error;
+  }
+}
+
+/**
+ * This method is used to listen to the message event and receive data across windows. Must be used in conjuction with postWindowMessage method above.
+ *
+ * @param {Function} eventCallback - Method to execute when message is received.
+ * @param {string} eventIdentifier - Unique event identifier which is used while posting message using postWindowMessage method
+ *
+ *
+ * @example
+ * ```
+ * listenToWindowMessage((messageData) => {
+ *    console.log(messageData);
+ * }, 'MY_EVENT')
+ * ```
+ *
+ * @category DOM Based Method
+ */
+export function listenToWindowMessage(eventCallback: Function, eventIdentifier: string = 'CUSTOM_MESSAGE') {
+  try {
+
+    if (isEmpty(window)) {
+      throw new Error('window is undefined');
+    }
+
+    window.addEventListener('message', (event) => {
+
+      const isOriginBreach = event.origin !== window.location.origin;
+
+      if (isOriginBreach) {
+        throw new Error('Origin breach');
+      }
+
+      const isEventIdentified = event.data?.identifier === eventIdentifier;
+
+      if (isEventIdentified) {
+        // debouncing if type field doesn't exist or is unequal to CUSTOM_MESSAGE.
+        // Other libraries leverage message listener as well.
+        // If we don't add this condition, the listener will call every time a new message is received
+        eventCallback(event.data);
+      }
+
+    });
+
+  } catch (error) {
+    console.error('Error while setting up message listener', error);
+    throw error;
+  }
+}
+
+
+/**
+ * This method is to force a reload when page is loaded from back forward cache.
+ * The page loaded from back forward cache may contain older data that may not be
+ * relevant now. Example: theme change, authentication states etc.
+ *
+ * @remarks
+ * A problem is caused by back-forward cache in Safari. It is supposed to
+ * save complete state of page when user navigates
+ * away. When user navigates back with back button page can
+ * be loaded from cache very quickly. This is different
+ * from normal cache which only caches HTML code.
+ *
+ * When page is loaded for bfcache onload event wont be triggered.
+ * Instead you can check the persisted property of
+ * the onpageshow event. It is set to false on initial page load.
+ * When page is loaded from bfcache it is set to true.
+ *
+ * Currently not using this function in the projects. But keeping this here so
+ * that again research is not required if such issue comes.
+ *
+ * This issue was with mobile Safari browsers earlier, but now seems to be fine.
+ */
+export function disableBackForwardCache() {
+  try {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('pageshow', reloadOnBackForward as EventListener);
+    }
+
+  } catch (error) {
+    console.error('Error in disableBackForwardCache method: ', error);
+  }
+}
+
+
+/**
+ * This function triggers a reload if page is loaded through back forward cache in the browser
+ *
+ * @remarks
+ * This is only used inside disableBackForwardCache method and not exported outside.
+ * It checks a special condition which checks if the page load happened from
+ * back forward cache, if yes, it reloads the page as the page loaded from back forward cache
+ * may contain older data that may not be relevant now. Example: theme change, authentication states etc.
+ *
+ * @param event
+ */
+function reloadOnBackForward(event: PageTransitionEvent) {
+  const historyTraversal = event.persisted ||
+    (typeof window.performance !== 'undefined' &&
+      window.performance.navigation.type === 2);
+
+  if (historyTraversal) {
+    // Handle page restore.
+    window.location.reload();
+  }
 }
