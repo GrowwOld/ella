@@ -522,48 +522,6 @@ export function debounce(func: GenericFunction, delay: number = 200) {
 
 
 /**
- * Returns new object with copied all properties without the ones specified.
- *
- * @param {MultiLevelObject} object - source object
- * @param {string[]} props - properties to omit
- *
- * @example
- *
- * omit({ name: 'Jack', age: 69, title: 'Mr' }, ['age', 'title']);
- * // { name: 'Jack' }
- *
- * @returns {MultiLevelObject} - new object without given properties
- */
-export function omit(object: MultiLevelObject | null, props: string[]): MultiLevelObject | null {
-
-  try {
-    // if empty, or not type of object, return empty object
-    if (isEmpty(object) || (typeof object !== 'object')) {
-      return {};
-    }
-
-    const useProps = props.map(String); // TypeCasting in string
-
-    const result = {};
-
-    for (const key in object) {
-
-      if (!useProps.includes(key)) {
-        (result as MultiLevelObject)[key] = object[key];
-      }
-
-    }
-
-    return result;
-
-  } catch (e) {
-    console.error(e);
-    return object;
-  }
-}
-
-
-/**
  * This method is like `uniq` except that it accepts `iteratee` which is
  * invoked for each element in `array` to generate the criterion by which
  * uniqueness is computed. The order of result values is determined by the
@@ -610,4 +568,99 @@ export function uniqBy(arr: GenericFunction, iteratee: GenericFunction) {
   }
 }
 
-;
+
+/**
+ * Removes values from array using function as predicate. Returns removed values.
+ *
+ * @param {Array} array
+ * @param {function} predicate
+ *
+ * @returns {Array}
+ *
+ * @example
+ * ```
+ * const arr = [ 1, 2, 3, 4, 5, 6 ];
+ *
+ * const freshArr = remove(arr, (elem) => {
+ *    return !!(elem % 2)
+ * })
+ *
+ * // Predicate returned true for every odd value and false for every even value.
+ * // For the ones predicate returned true, were deleted from the array. Removed values were returned.
+ *
+ * // arr = [ 2, 4, 6 ];
+ * // freshArr = [ 1, 3, 5 ];
+ * ```
+ *
+ */
+export function remove<T>(array: T[], predicate: (elem: T, index: number, list: T[]) => boolean): T[] {
+  try {
+    const len = array.length;
+
+    const idsToRemove = [];
+    const removedValues = [];
+
+    for (let counter = 0; counter < len; counter++) {
+
+      if (predicate(array[counter], counter, array)) {
+
+        idsToRemove.push(counter - idsToRemove.length);
+        removedValues.push(array[counter]);
+
+      }
+
+    }
+
+    idsToRemove.forEach(id => array.splice(id, 1));
+
+    return removedValues;
+
+  } catch (e) {
+
+    console.error(e);
+
+    throw e;
+  }
+}
+
+
+/**
+ * Returns new object with copied all properties without the ones specified.
+ *
+ * @param {MultiLevelObject} object - source object
+ * @param {string[]} props - properties to omit
+ *
+ * @example
+ *
+ * omit({ name: 'Jack', age: 69, title: 'Mr' }, ['age', 'title']);
+ * // { name: 'Jack' }
+ *
+ * @returns {MultiLevelObject} - new object without given properties
+ */
+export function omit(object: MultiLevelObject | null, props: string[]): MultiLevelObject | null {
+
+  try {
+    // if empty, or not type of object, return empty object
+    if (isEmpty(object) || (typeof object !== 'object')) {
+      return {};
+    }
+
+    const useProps = props.map(String); // TypeCasting in string
+
+    const result = {};
+
+    for (const key in object) {
+
+      if (!useProps.includes(key)) {
+        (result as MultiLevelObject)[key] = object[key];
+      }
+
+    }
+
+    return result;
+
+  } catch (e) {
+    console.error(e);
+    return object;
+  }
+}
