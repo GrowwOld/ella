@@ -176,7 +176,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
     if (file) {
       // It is necessary to create a new blob object with mime-type explicitly set
       // otherwise only Chrome works like it should
-      const newBlob = new Blob([ file ], { type });
+      const newBlob = new Blob([file], { type });
 
       // For other browsers:
       // Create a link pointing to the ObjectURL containing the blob.
@@ -201,7 +201,7 @@ export function downloadFile(downloadConfig: { file: File | null; type: string; 
       document.body.appendChild(link);
       link.click();
 
-      setTimeout(function() {
+      setTimeout(function () {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(fileUrl);
       }, 10);
@@ -263,10 +263,10 @@ export function sortObjectByValue(obj: SingleLevelObject, isDescending?: boolean
     const sortable = [];
 
     for (const key in obj) {
-      sortable.push([ key, obj[key] ]);
+      sortable.push([key, obj[key]]);
     }
 
-    sortable.sort(function(a, b) {
+    sortable.sort(function (a, b) {
       if (isDescending) {
         return (b[1] < a[1] ? -1 : (b[1] > a[1] ? 1 : 0));
 
@@ -363,7 +363,7 @@ export function getObjectEntries(obj: MultiLevelObject) {
   try {
     const keys = Object.keys(obj);
 
-    return keys.map(key => ([ key, obj[key] ]));
+    return keys.map(key => ([key, obj[key]]));
 
   } catch (error) {
     console.error('There was problem while creating object entries', error);
@@ -438,7 +438,7 @@ export function getIndexByMatchingObjectValue<MatchValueType>(searchArr: MultiLe
 export function getPathVariableFromUrlIndex(url: string, indexFromLast: number = 0) {
   try {
     if (url) {
-      const keys = [ ...url.split('/') ];
+      const keys = [...url.split('/')];
 
       if (keys.length > indexFromLast) {
         let searchId = keys?.[keys?.length - 1 - indexFromLast];
@@ -508,7 +508,7 @@ export function getPathVariableFromUrlIndex(url: string, indexFromLast: number =
 export function debounce(func: GenericFunction, delay: number = 200) {
   let timeout: ReturnType<typeof setTimeout>;
 
-  return function(...args: GenericArguments) {
+  return function (...args: GenericArguments) {
 
     clearTimeout(timeout);
 
@@ -519,3 +519,51 @@ export function debounce(func: GenericFunction, delay: number = 200) {
     }, delay);
   };
 }
+
+
+/**
+ * This method is like `uniq` except that it accepts `iteratee` which is
+ * invoked for each element in `array` to generate the criterion by which
+ * uniqueness is computed. The order of result values is determined by the
+ * order they occur in the array. The iteratee is invoked with one argument:
+ * (value).
+ *
+ * @param arr The array to inspect
+ * @param iteratee The iteratee invoked per element.
+ *
+ * @example
+ * ```
+ * const arr = [ 12, undefined, { id: 1, name: 'bob' }, null,  { id: 1, name: 'bill' }, null, undefined ];
+ *
+ * uniqBy(arr, 'name');   // [ { id: 1, name: 'bob' }, { id: 1, name: 'bill' }]
+ * ```
+ */
+export function uniqBy(arr: GenericFunction, iteratee: GenericFunction) {
+  try {
+    if (!Array.isArray(arr)) {
+      return [];
+    }
+
+    const cb = typeof iteratee === 'function' ? iteratee : (o: GenericFunction) => o[iteratee];
+
+    const pickedObjects = arr
+      .filter(item => item)
+      .reduce((map, item) => {
+        const key = cb(item);
+
+        if (!key) {
+          return map;
+        }
+
+        return map.has(key) ? map : map.set(key, item);
+      }, new Map())
+      .values();
+
+    return [...pickedObjects];
+
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+};
