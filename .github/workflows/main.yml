@@ -15,6 +15,12 @@ jobs:
       - run: git config --global user.name "github-bot"
       - run: npm install
       - run: npm run build
+
+      - name: Deploy the documents
+        run: |
+        git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        npm run push-doc -- -u "github-actions-bot <support+actions@github.com>"
+
       - run: npm publish --access public --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
