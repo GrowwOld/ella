@@ -16,7 +16,7 @@ jobs:
       - run: npm install
       - run: npm run build
 
-      - name: Deploy the documents
+      - name: Deploy the documents on github pages
         run: |
         git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
         npm run push-doc -- -u "github-actions-bot <support+actions@github.com>"
