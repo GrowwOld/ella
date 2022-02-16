@@ -10,7 +10,7 @@ import {
   GenericFunction,
   MultiLevelObject,
   SingleLevelObject,
-  TabsData,
+  TabsData
 } from '../utils/types';
 
 /**
