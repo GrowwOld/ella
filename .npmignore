@@ -6,7 +6,6 @@
 .vscode
 
 # npm
-node_modules
 package-lock.json
 
 # dev
@@ -17,6 +16,7 @@ tsconfig.json
 
 #doc
 CONTRIBUTING.md
+docs
 
 #other
 .github
