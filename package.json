@@ -12,9 +12,10 @@
   "scripts": {
     "clean": "rimraf dist && rimraf docs",
     "generate-doc": "node_modules/.bin/typedoc",
+    "push-doc": "gh-pages -d docs",
     "prebuild": "npm run clean",
     "build": "tsup --env.NODE_ENV production",
-    "postbuild": "npm run generate-doc",
+    "postbuild": "npm run generate-doc && npm run push-doc",
     "pushTags": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag -a v$PACKAGE_VERSION -m \"@groww-tech/icon-store-v$PACKAGE_VERSION\" && git push --tags"
   },
   "keywords": [
@@ -54,6 +55,7 @@
     "eslint": "^7.22.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-react": "^7.23.1",
+    "gh-pages": "^3.2.3",
     "react": "^16.12.0",
     "rimraf": "^3.0.2",
     "tsup": "^5.11.11",
