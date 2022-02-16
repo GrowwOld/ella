@@ -18,8 +18,8 @@ jobs:
 
       - name: Deploy the documents on github pages
         run: |
-        git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-        npm run push-doc -- -u "github-actions-bot <support+actions@github.com>"
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          npm run push-doc -- -u "github-actions-bot <support+actions@github.com>"
 
       - run: npm publish --access public --ignore-scripts
         env:
