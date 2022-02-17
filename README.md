@@ -4,7 +4,7 @@ Ella is a utility-belt library for JavaScript that provides general purpose meth
 
 ### Installation
 
-```console
+```
 npm i @groww-tech/ella
 ```
 
