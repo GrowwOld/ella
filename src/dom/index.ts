@@ -531,8 +531,6 @@ export function isUtilKeyPressed(keyValue:string) {
  *
  * postWindowMessage(newWindow, 'CHANGE_THEME', { theme: 'dark' }, 'MY_EVENT');
  * ```
- *
- * @category DOM Based Method
  */
 export function postWindowMessage(targetWindow: Window = window, action: string = 'WINDOW_ACTION', params: Object = {}, eventIdentifier: string = 'CUSTOM_MESSAGE') {
   try {
@@ -572,8 +570,6 @@ export function postWindowMessage(targetWindow: Window = window, action: string 
  *    console.log(messageData);
  * }, 'MY_EVENT')
  * ```
- *
- * @category DOM Based Method
  */
 export function listenToWindowMessage(eventCallback: Function, eventIdentifier: string = 'CUSTOM_MESSAGE') {
   try {

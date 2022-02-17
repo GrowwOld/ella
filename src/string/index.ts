@@ -21,8 +21,6 @@ import { isEmpty } from '../general';
  * isValidEmail('john_doe@mail.in'); // Output is an array
  *
  * @returns boolean if input string matches the email vaildation regex
- *
- * @category String Based Method
  */
 export function isValidEmail(emailId: string) {
   const mailformat = /^\w+([\+\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/;
@@ -133,7 +131,7 @@ export function isValidName(name: string): boolean {
  */
 export function convertToSentenceCase(str: string) {
   try {
-    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function (c) { return c.toUpperCase(); });
+    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) { return c.toUpperCase(); });
 
     return newString;
 
@@ -159,7 +157,7 @@ export function convertToSentenceCase(str: string) {
  */
 export function capitalizeFirstLetter(str: string) {
   try {
-    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
+    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1); });
 
   } catch (e) {
     console.error('capitalize letter', e);
@@ -183,7 +181,7 @@ export function capitalizeFirstLetter(str: string) {
  */
 export function toTitleCase(str: string) {
   try {
-    return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
+    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase(); });
 
   } catch (e) {
     console.error('title case error', e);
