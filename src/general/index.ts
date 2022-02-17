@@ -163,7 +163,6 @@ export function getSelectedTabIndex(tabs: TabsData[], selectedTabName: string): 
  * }) // *Downloads file of type PDF on the client's machine named MyFile.pdf*
  * ```
  *
- * @category General Method
  */
 export function downloadFile(downloadConfig: { file: File | null; type: string; fileName: string; downloadMethod: string; fileExtension: string; fileUrl: string | null }) {
 
