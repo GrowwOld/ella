@@ -2,8 +2,8 @@
  * @module General
  */
 
-import cloneDeep from 'lodash.clonedeep';
-import isEqual from 'lodash.isequal';
+export { default as cloneDeep } from 'lodash.clonedeep';
+export { default as isEqual } from 'lodash.isequal';
 
 import {
   GenericArguments,
@@ -666,5 +666,3 @@ export function omit(object: MultiLevelObject | null, props: string[]): MultiLev
     return object;
   }
 }
-
-export { cloneDeep, isEqual };
