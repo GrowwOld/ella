@@ -8,6 +8,7 @@ export default defineConfig({
   format: [ 'cjs', 'esm' ],
   legacyOutput: true,
   minify: true,
+  keepNames: false,
   skipNodeModulesBundle: true,
   dts: true,
   tsconfig: './tsconfig.json'
