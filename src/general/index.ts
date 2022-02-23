@@ -313,7 +313,7 @@ export function sortObjectByValue(obj: SingleLevelObject, isDescending?: boolean
  * getData(obj, 'a.b.[2]', null) // 23
  * ```
  */
-export function getData(obj: { [key: string]: unknown }, path: string, def: null | unknown = null): { [key: string]: unknown } | null | unknown {
+export function getData(obj: any, path: string, def: null | unknown = null): any {
 
   const sanitzePath = (currPath: string) => {
 
@@ -332,10 +332,10 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
     const newPathArray = String(sanitzePath(path)).split('.');
 
     for (const path of newPathArray) {
-      obj = obj[path] as { [key: string]: unknown };
+      obj = obj[path] as any;
     }
 
-    return obj ? obj : def;
+    return typeof obj === 'undefined' ? def : obj;
 
   } catch (e) {
     console.error('Error while using getData', e);
