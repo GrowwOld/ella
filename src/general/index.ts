@@ -2,16 +2,16 @@
  * @module General
  */
 
-export { default as cloneDeep } from 'lodash.clonedeep';
-export { default as isEqual } from 'lodash.isequal';
-
 import {
   GenericArguments,
   GenericFunction,
   MultiLevelObject,
   SingleLevelObject,
-  TabsData
+  TabsData,
 } from '../utils/types';
+
+export { default as cloneDeep } from 'lodash.clonedeep';
+export { default as isEqual } from 'lodash.isequal';
 
 /**
  * This method can be used to check if the variable is empty or not. Returns true if it is empty else false.
@@ -361,7 +361,7 @@ export function getData(obj: any, path: string, def: null | unknown = null): any
  * getObjectEntries(dummy2) // [ [ key1, value1 ], [ key2, value2 ], [ key3 , [ 1, 2, 3 ] ],[ key4,{ a:1, b:2 } ] ];
  * ```
  */
-export function getObjectEntries(obj: MultiLevelObject) {
+export function getObjectEntries(obj: any) {
   try {
     const keys = Object.keys(obj);
 
