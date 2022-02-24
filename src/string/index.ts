@@ -436,3 +436,28 @@ export function normalizeTickerString(latestPrice: number, lastPrice: number) {
     return '';
   }
 }
+
+
+/**
+ * This function returns Start Case string for a camel case string
+ * @param {string} str - Input string in camelCase
+ *
+ * @example
+ * ```
+ * convertToStartCase('retailAndInvestors') // 'Retail And Investors'
+ * convertToStartCase('foreignInstitutions') // 'Foreign Institutions'
+ * convertToStartCase('Blackrock Inc.'); // 'Blackrock Inc.'
+ * convertToStartCase('FMR, LLC'); //  F M R,  L L C
+ */
+export function convertToStartCase(str : string) {
+  try {
+    const result = str.replace(/([A-Z])/g, ' $1');
+    const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+
+    return finalResult;
+
+  } catch (e) {
+    console.error('Error in converting string, original string returned', e);
+    return str;
+  }
+}
