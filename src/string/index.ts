@@ -195,6 +195,7 @@ export function toTitleCase(str: string) {
  * @param {string} inputString - Input string to be masked
  * @param {number} maskStartIndex - Index in the input string from which masking needs to be started
  * @param {number} maskCharactersCount - Count of number of charaters to be masked in input string
+ * @param {number} maskCaracter - Charatcer with which string needs to be masked with
  *
  * @example
  * ```
