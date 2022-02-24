@@ -204,6 +204,7 @@ export function toTitleCase(str: string) {
  * maskInputString("maskInputString", 0, 9);  // Output is 'XXXXXXXXXString'
  * maskInputString("maskInputString", 2, 9);  // Output is 'maXXXXXXXXXring'
  * maskInputString("maskInputString", 6, 8);  // Output is 'maskInXXXXXXXXg'
+ * maskInputString("maskInputString", 6, 8, '*');  // Output is 'maskIn********g'
  * maskInputString("maskInputString", 6, 13);  // Output is 'maskInXXXXXXXXX'
  * maskInputString("maskInputString", 6, 16);  // Output is 'XXXXXXXXXXXXXXX' as maskCharactersCount is greater than length of inputString
  * maskInputString("maskInputString", 13, 1);  // Output is 'maskInputStriXg'
@@ -216,7 +217,7 @@ export function toTitleCase(str: string) {
  * maskInputString("maskInputString", 1, -2);  // Output is ''
  * ```
  */
-export function maskInputString(inputString: string, maskStartIndex: number, maskCharactersCount: number) {
+export function maskInputString(inputString: string, maskStartIndex: number, maskCharactersCount: number, maskCharacter: string = 'X') {
   if (!isEmpty(inputString)) {
     const inputLength = inputString.length;
 
@@ -232,7 +233,7 @@ export function maskInputString(inputString: string, maskStartIndex: number, mas
         return inputString;
 
       } else if ((maskCharactersCount > inputLength) && !isEmpty(maskStartIndex)) {
-        return new Array(inputLength + 1).join('X');
+        return new Array(inputLength + 1).join(maskCharacter);
       }
 
       return '';
