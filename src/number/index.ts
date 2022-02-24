@@ -350,9 +350,9 @@ export function convertToBillionTrillionFormat(num: string | number, toFixedDeci
  *
  * ```
  * getNumberSign(1000); // '+'
- * convertToBillionTrillionFormat('1200'); // '+'
- * convertToBillionTrillionFormat(-12430); // '-'
- * convertToBillionTrillionFormat(0); // ''
+ * getNumberSign('1200'); // '+'
+ * getNumberSign(-12430); // '-'
+ * getNumberSign(0); // ''
  * ```
  *
  */
