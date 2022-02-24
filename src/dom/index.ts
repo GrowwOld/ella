@@ -532,7 +532,7 @@ export function isUtilKeyPressed(keyValue:string) {
  * postWindowMessage(newWindow, 'CHANGE_THEME', { theme: 'dark' }, 'MY_EVENT');
  * ```
  */
-export function postWindowMessage(action: string = 'WINDOW_ACTION', params: Object = {}, eventIdentifier: string = 'CUSTOM_MESSAGE', targetWindow: Window = window) {
+export function postWindowMessage(action: string = 'WINDOW_ACTION', params: Object = {}, eventIdentifier: string = 'CUSTOM_MESSAGE', targetWindow?: Window | undefined) {
   try {
 
     if (isEmpty(window)) {
@@ -549,7 +549,9 @@ export function postWindowMessage(action: string = 'WINDOW_ACTION', params: Obje
       identifier: eventIdentifier
     };
 
-    targetWindow.postMessage(message, window?.location?.origin ?? '*');
+    const windowObj = isEmpty(targetWindow) ? window : targetWindow;
+
+    windowObj?.postMessage(message, window?.location?.origin ?? '*');
 
   } catch (error) {
     console.error('Error while window.postMessage', error);
