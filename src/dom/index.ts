@@ -532,7 +532,7 @@ export function isUtilKeyPressed(keyValue:string) {
  * postWindowMessage(newWindow, 'CHANGE_THEME', { theme: 'dark' }, 'MY_EVENT');
  * ```
  */
-export function postWindowMessage(targetWindow: Window = window, action: string = 'WINDOW_ACTION', params: Object = {}, eventIdentifier: string = 'CUSTOM_MESSAGE') {
+export function postWindowMessage(action: string = 'WINDOW_ACTION', params: Object = {}, eventIdentifier: string = 'CUSTOM_MESSAGE', targetWindow: Window = window) {
   try {
 
     if (isEmpty(window)) {
