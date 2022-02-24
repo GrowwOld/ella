@@ -123,17 +123,18 @@ export function isValidName(name: string): boolean {
  *
  * @example
  * ```
- * convertToSentenceCase('Enter investment amount'); // Enter investment amount
- * convertToSentenceCase('Enter SIP amount'); // Enter sip amount
- * convertToSentenceCase('My NAME Is kHan'); // My name is khan
- * convertToSentenceCase('My NAME Is kHan. i am not a terrorist. Understood?'); // My name is khan. I am not a terrorist. Understood?
+ * convertToSentenceCase('retailAndOthers'); // Retail And Others
+ * convertToSentenceCase('foreignInstitutions'); // Foreign Institutions
+ * convertToSentenceCase('Blackrock Inc.'); // Blackrock Inc.
+ * convertToSentenceCase('FMR, LLC'); //  F M R,  L L C
  * ```
  */
-export function convertToSentenceCase(str: string) {
+export function convertToSentenceCase(str : string) {
   try {
-    const newString = str.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) { return c.toUpperCase(); });
+    const result = str.replace(/([A-Z])/g, ' $1');
+    const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
 
-    return newString;
+    return finalResult;
 
   } catch (e) {
     console.error('Error in converting string, original string returned ', e);
