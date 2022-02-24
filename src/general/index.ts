@@ -2,9 +2,6 @@
  * @module General
  */
 
-export { default as cloneDeep } from 'lodash.clonedeep';
-export { default as isEqual } from 'lodash.isequal';
-
 import {
   GenericArguments,
   GenericFunction,
@@ -12,6 +9,9 @@ import {
   SingleLevelObject,
   TabsData
 } from '../utils/types';
+
+export { default as cloneDeep } from 'lodash.clonedeep';
+export { default as isEqual } from 'lodash.isequal';
 
 /**
  * This method can be used to check if the variable is empty or not. Returns true if it is empty else false.
@@ -313,7 +313,7 @@ export function sortObjectByValue(obj: SingleLevelObject, isDescending?: boolean
  * getData(obj, 'a.b.[2]', null) // 23
  * ```
  */
-export function getData(obj: { [key: string]: unknown }, path: string, def: null | unknown = null): { [key: string]: unknown } | null | unknown {
+export function getData(obj: any, path: string, def: null | unknown = null): any {
 
   const sanitzePath = (currPath: string) => {
 
@@ -332,10 +332,10 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
     const newPathArray = String(sanitzePath(path)).split('.');
 
     for (const path of newPathArray) {
-      obj = obj[path] as { [key: string]: unknown };
+      obj = obj[path] as any;
     }
 
-    return obj ? obj : def;
+    return typeof obj === 'undefined' ? def : obj;
 
   } catch (e) {
     console.error('Error while using getData', e);
@@ -361,7 +361,7 @@ export function getData(obj: { [key: string]: unknown }, path: string, def: null
  * getObjectEntries(dummy2) // [ [ key1, value1 ], [ key2, value2 ], [ key3 , [ 1, 2, 3 ] ],[ key4,{ a:1, b:2 } ] ];
  * ```
  */
-export function getObjectEntries(obj: MultiLevelObject) {
+export function getObjectEntries(obj: any) {
   try {
     const keys = Object.keys(obj);
 
@@ -439,23 +439,18 @@ export function getIndexByMatchingObjectValue<MatchValueType>(searchArr: MultiLe
  */
 export function getPathVariableFromUrlIndex(url: string, indexFromLast: number = 0) {
   try {
-    if (url) {
-      const keys = [ ...url.split('/') ];
+    const keys = [ ...url.split('/') ];
 
-      if (keys.length > indexFromLast) {
-        let searchId = keys?.[keys?.length - 1 - indexFromLast];
+    if (keys.length > indexFromLast) {
+      let searchId = keys?.[keys?.length - 1 - indexFromLast];
 
-        const queryParamIndex = searchId?.indexOf('?');
+      const queryParamIndex = searchId?.indexOf('?');
 
-        if (queryParamIndex >= 0) {
-          searchId = searchId.substring(0, queryParamIndex);
-        }
-
-        return searchId;
-
-      } else {
-        throw new Error('Index from last value is incorrect');
+      if (queryParamIndex >= 0) {
+        searchId = searchId.substring(0, queryParamIndex);
       }
+
+      return searchId;
     }
 
   } catch (error) {
