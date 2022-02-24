@@ -7,7 +7,7 @@ import {
   GenericFunction,
   MultiLevelObject,
   SingleLevelObject,
-  TabsData,
+  TabsData
 } from '../utils/types';
 
 export { default as cloneDeep } from 'lodash.clonedeep';
@@ -439,23 +439,18 @@ export function getIndexByMatchingObjectValue<MatchValueType>(searchArr: MultiLe
  */
 export function getPathVariableFromUrlIndex(url: string, indexFromLast: number = 0) {
   try {
-    if (url) {
-      const keys = [ ...url.split('/') ];
+    const keys = [ ...url.split('/') ];
 
-      if (keys.length > indexFromLast) {
-        let searchId = keys?.[keys?.length - 1 - indexFromLast];
+    if (keys.length > indexFromLast) {
+      let searchId = keys?.[keys?.length - 1 - indexFromLast];
 
-        const queryParamIndex = searchId?.indexOf('?');
+      const queryParamIndex = searchId?.indexOf('?');
 
-        if (queryParamIndex >= 0) {
-          searchId = searchId.substring(0, queryParamIndex);
-        }
-
-        return searchId;
-
-      } else {
-        throw new Error('Index from last value is incorrect');
+      if (queryParamIndex >= 0) {
+        searchId = searchId.substring(0, queryParamIndex);
       }
+
+      return searchId;
     }
 
   } catch (error) {
