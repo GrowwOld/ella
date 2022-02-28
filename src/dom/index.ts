@@ -698,6 +698,6 @@ export function dataURIToBlob(dataURI: string) {
     return new Blob([ ia ], { type: mimeString });
 
   } catch (error) {
-    return new Blob;
+    return new Blob();
   }
 }
