@@ -665,11 +665,12 @@ function reloadOnBackForward(event: PageTransitionEvent) {
 
 /**
  * Converts base64/URLEncoded data component to raw binary data held in a string and returns the raw binary string
- * https://stackoverflow.com/questions/12168909/blob-from-dataurl
+ *
  * @param {string} dataURI base64/URLEncoded data component
  *
  * @remarks
  * This method is only used is places where we are using canvas to get an esign.
+ * stackoverflow thread for context: https://stackoverflow.com/questions/12168909/blob-from-dataurl
  *
  * @returns {Blob} raw binary data blob
  */
